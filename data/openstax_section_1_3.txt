@@ -1,0 +1,59 @@
+OpenStax Principles of Data Science — Section 1.3 Study Text
+
+Source: Ault, Shaun V.; Liao, Soohyun Nam; and Musolino, Larry. Principles of Data Science, section 1.3, “Data and Datasets.” OpenStax, 2025.
+Section URL: https://openstax.org/books/principles-data-science/pages/1-3-data-and-datasets
+License noted by the source: CC BY-NC-SA.
+
+About this file
+
+This is a concise, instructor-prepared paraphrase of the assigned section, not a verbatim copy. It is bundled so the baseline notebook can run without web access. Before submitting academic work, compare it with the assigned OpenStax section and replace it with an instructor-approved local export if required.
+
+Data and the growth of data science
+
+Data science extracts information and insight from data to support decisions and innovation in areas such as business, health care, and entertainment. Its modern growth accelerated as digital data, computing capacity, and technology expanded. The rise of large, complex datasets created demand for more advanced analysis, making data science important across many industries. People have recorded data for a very long time; digital scale and modern tools are what changed rapidly.
+
+Data, datum, and information
+
+Datum is the singular form and refers to one given value, observation, or point of reference. Data is the plural term for multiple observations. Data is not limited to numbers. Text, symbols, descriptions, images, and other material can count as data when they can be analyzed to produce information or higher-level insight.
+
+For example, a course-evaluation table can contain semester, instructor, class size, and rating. A single rating does not by itself decide whether a student should enroll. Looking across the observations and their attributes can produce information useful for that decision. Likewise, several days of temperatures and yes-or-no jacket choices are observations; analyzing them may inform whether to wear a jacket today.
+
+Quantitative, qualitative, numeric, and categorical data
+
+Quantitative data expresses quantities, generally with numbers, and can be studied statistically. Examples include height, weight, temperature, heart rate, and sales. Qualitative data describes nonnumeric characteristics or subjective material. Descriptions, interviews, open-ended responses, photographs, and social-media posts are examples.
+
+Numeric data represents measurable quantities. Continuous numeric values may be selected from an infinite set of possible values, while discrete values follow a precision or restriction that leaves a finite set in the relevant context. Context can affect this classification.
+
+Categorical data chooses values from a finite set of labels or symbols and need not measure an amount. Nominal categories do not have an inherent order. Ordinal categories do have an ordering. Instructor identifiers are nominal; recommendation ratings ranging from low to high are ordinal.
+
+Jacket example
+
+In the jacket dataset, temperature is numeric because it is a thermometer measurement with units. It is continuous because a temperature reading can take any real-number value within the measurement context, giving an effectively infinite set of possible values. “Needed a Jacket?” is categorical because its values come from the finite labels Yes and No. It is nominal because those labels have no natural ranking.
+
+Datasets, entities, and attributes
+
+A dataset is a collection of observations or data entities organized so they can be analyzed and interpreted. In a tabular dataset, a row commonly represents a unique entity, item, entry, or instance. A column represents an attribute, feature, variable, or characteristic shared by the entities. An entity is therefore the thing or observation being described; an attribute is one property used to describe it.
+
+A course-evaluation dataset might have one row for each semester offering and columns for semester, instructor, class size, and rating. The values differ by entity, while each entity follows the same set of attributes.
+
+Structured and unstructured data
+
+A structured dataset uses a predefined, consistent organization. Its entities have the same attributes, fields and relationships are clearly defined, and values can usually fit into rows and columns. A jacket table with Date, Temperature, and Needed a Jacket is structured because each daily item has those same three attributes and every value fits a table cell.
+
+An unstructured dataset lacks a fixed schema or predefined data model. Its contents do not fit neatly into consistent rows and columns. Common forms include free-form text, images, video, and audio. Examples discussed in the section include product reviews on Amazon, posts on Twitter, public Instagram images, short TikTok videos, and free-form web-search phrases.
+
+Structured data is often easier to analyze because its consistent fields and tabular organization let tools compare the same attributes across records. Organizations may process unstructured material into a structured dataset to make systematic analysis possible. For example, free-form searches could be reduced to a short keyword field plus a timestamp, giving every record the same two attributes. That transformation can lose nuance, so the processing choice should match the analysis goal.
+
+Structured dataset formats
+
+The section introduces three common plain-text formats for structured datasets: comma-separated values (CSV), JavaScript Object Notation (JSON), and Extensible Markup Language (XML).
+
+CSV is a simple, flat representation suited to tabular data. Each item is stored on one line, and commas separate its attribute values. Spreadsheet programs can show the file as a table. CSV is simple, but metadata is difficult to include and special characters can complicate parsing.
+
+JSON represents information through keys and values, objects, and arrays. Keys can name attributes, while their paired values store the corresponding observations. JSON is compatible with many programming languages, is relatively easy to parse, and is well suited to exchanging data between a user and a server. Compared with CSV’s flat rows and comma-separated fields, JSON can express nested object and array structure. The section notes that JSON is less convenient for comments and metadata.
+
+XML uses named opening and closing tags to represent items and their attributes. Its tagged structure is verbose, but it supports metadata and hierarchical structures. XML can also accompany image datasets as annotation files.
+
+Section boundaries
+
+This section explains definitions and examples for data, data types, datasets, structure, entities, attributes, CSV, JSON, and XML. It does not explain how cosine similarity is calculated. It also does not explain how transformer neural networks generate embeddings. Those topics require material outside this section.

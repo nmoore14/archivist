@@ -1,0 +1,6 @@
+{
+  "python_rss_before_bytes": 247087104,
+  "python_rss_after_bytes": 247365632,
+  "python_rss_increase_bytes": 278528,
+  "note": "Python process RSS only; excludes much of the separate Ollama runtime and is not precise system-wide model memory."
+}
