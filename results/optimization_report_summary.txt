@@ -1,0 +1,5 @@
+A total of 6 RAG configurations were evaluated using the same 15-question test set. The baseline configuration used a chunk size of 1000, overlap of 200, and top-k of 3.
+
+By the Archivist project-specific configuration selection score, the highest-performing configuration was top_k_1, using chunk size 1000, overlap 200, and top-k 1. Its correctness was 96.7%, average groundedness was 0.97, and retrieval hit rate was 100.0%. Relative to baseline, correctness changed by +3.3 percentage points and mean response time changed by -0.81 seconds (-42.9%).
+
+These quality scores are an AI-assisted draft pending human verification. No statistical significance is claimed. The dataset and question set were small, so this is an initial optimization study rather than a general benchmark, and findings may not generalize to other documents or domains.

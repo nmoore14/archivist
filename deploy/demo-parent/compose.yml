@@ -1,0 +1,26 @@
+services:
+  demo:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: archivist-demo-parent
+    privileged: true
+    environment:
+      DOCKER_TLS_CERTDIR: ""
+      ARCHIVIST_DEFAULT_MODEL: ${ARCHIVIST_DEFAULT_MODEL:-gemma3:1b}
+      ARCHIVIST_EMBED_MODEL: ${ARCHIVIST_EMBED_MODEL:-nomic-embed-text}
+    ports:
+      - "0.0.0.0:8080:8080"
+    volumes:
+      - ../..:/workspace:ro
+      - demo-docker-data:/var/lib/docker
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "--silent", "http://127.0.0.1:8080/"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 30s
+
+volumes:
+  demo-docker-data:

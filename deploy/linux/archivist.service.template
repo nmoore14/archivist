@@ -1,0 +1,17 @@
+[Unit]
+Description=Archivist local AI workspace
+Requires=docker.service
+After=docker.service network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+WorkingDirectory=__PROJECT_DIR__
+EnvironmentFile=/etc/archivist/archivist.env
+ExecStart=__DOCKER_BIN__ compose -p archivist -f deploy/linux/compose.yml up -d
+ExecStop=__DOCKER_BIN__ compose -p archivist -f deploy/linux/compose.yml down
+TimeoutStartSec=0
+
+[Install]
+WantedBy=multi-user.target

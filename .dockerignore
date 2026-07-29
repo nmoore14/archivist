@@ -1,0 +1,13 @@
+.git
+.agents
+.codex
+.env
+.env.*
+*.ipynb
+baseline_report_template.md
+codex_prompt.md
+data
+deploy
+docs
+results
+*.zip

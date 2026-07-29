@@ -1,0 +1,58 @@
+{
+  "utc_timestamp": "2026-07-25T15:07:15.032659+00:00",
+  "python_version": "3.12.11 (main, Aug 18 2025, 19:02:39) [Clang 20.1.4 ]",
+  "platform": "macOS-26.5.2-arm64-arm-64bit",
+  "chat_model": "qwen3:0.6b",
+  "embedding_model": "nomic-embed-text:latest",
+  "ollama_host": "http://localhost:11434",
+  "temperature": 0.0,
+  "source_file_name": "data/openstax_section_1_3.txt",
+  "source_file_sha256": "f522d6200ddf51b16460036e385c6691f1f6e4f5caf07da9f1f7eba611d5a8e0",
+  "question_count": 15,
+  "experiment_count": 6,
+  "experiments": [
+    {
+      "experiment_id": "baseline",
+      "chunk_size": 1000,
+      "chunk_overlap": 200,
+      "top_k": 3,
+      "prompt_version": "strict"
+    },
+    {
+      "experiment_id": "smaller_chunks",
+      "chunk_size": 600,
+      "chunk_overlap": 100,
+      "top_k": 3,
+      "prompt_version": "strict"
+    },
+    {
+      "experiment_id": "medium_chunks",
+      "chunk_size": 800,
+      "chunk_overlap": 150,
+      "top_k": 3,
+      "prompt_version": "strict"
+    },
+    {
+      "experiment_id": "larger_chunks",
+      "chunk_size": 1400,
+      "chunk_overlap": 250,
+      "top_k": 3,
+      "prompt_version": "strict"
+    },
+    {
+      "experiment_id": "top_k_1",
+      "chunk_size": 1000,
+      "chunk_overlap": 200,
+      "top_k": 1,
+      "prompt_version": "strict"
+    },
+    {
+      "experiment_id": "top_k_5",
+      "chunk_size": 1000,
+      "chunk_overlap": 200,
+      "top_k": 5,
+      "prompt_version": "strict"
+    }
+  ],
+  "notebook_version": "1.0.0"
+}

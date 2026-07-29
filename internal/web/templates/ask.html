@@ -1,0 +1,41 @@
+{{define "ask.html"}}{{template "app-start" .}}
+<header class="ask-header">
+  <div>
+    <span class="eyebrow">Question desk</span>
+    <h1>Ask Archivist</h1>
+    <p>Choose the course whose materials you want to search.</p>
+  </div>
+  <div class="ask-orbit" aria-hidden="true"><span>?</span></div>
+</header>
+<div class="content ask-page">
+  {{if .Workspaces}}
+  <section class="ask-course-list" aria-label="Courses available to ask">
+    {{range .Workspaces}}
+    <a class="ask-course" href="/workspaces/{{.ID}}/chat">
+      <div class="ask-course-mark"><span>{{printf "%.2s" .Code}}</span></div>
+      <div class="ask-course-copy">
+        <span class="course-code">{{.Code}}</span>
+        <h2>{{.Name}}</h2>
+        <p>{{if .Description}}{{.Description}}{{else}}Ask questions using this course’s trusted materials.{{end}}</p>
+      </div>
+      <div class="ask-course-meta">
+        <span>{{.DocCount}} {{if eq .DocCount 1}}source{{else}}sources{{end}}</span>
+        <strong>Open chat <b aria-hidden="true">→</b></strong>
+      </div>
+    </a>
+    {{end}}
+  </section>
+  {{else}}
+  <section class="empty ask-empty">
+    <div class="empty-mark">?</div>
+    <h2>No courses are ready to ask yet.</h2>
+    {{if eq .User.Role "admin"}}
+    <p>Create a workspace and add course material to open its question desk.</p>
+    <a class="button primary" href="/workspaces/new">Create a workspace</a>
+    {{else}}
+    <p>An administrator needs to assign you to a published course first.</p>
+    {{end}}
+  </section>
+  {{end}}
+</div>
+{{template "app-end" .}}{{end}}

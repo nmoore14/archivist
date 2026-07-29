@@ -1,0 +1,54 @@
+services:
+  archivist:
+    build:
+      context: ../..
+      dockerfile: Dockerfile
+    environment:
+      ARCHIVIST_DB_PATH: /data/archivist.db
+      ARCHIVIST_STORAGE_PATH: /data/storage
+      ARCHIVIST_UPLOAD_PATH: /data/uploads
+      OLLAMA_BASE_URL: http://ollama:11434
+      ARCHIVIST_DEFAULT_MODEL: ${ARCHIVIST_DEFAULT_MODEL:-gemma3:1b}
+      ARCHIVIST_EMBED_MODEL: ${ARCHIVIST_EMBED_MODEL:-nomic-embed-text}
+      ARCHIVIST_HTTP_ADDR: :8080
+    volumes:
+      - archivist-data:/data
+    depends_on:
+      ollama:
+        condition: service_healthy
+    networks:
+      backend:
+        ipv4_address: ${ARCHIVIST_APP_IP:-172.30.0.10}
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "timeout 2 bash -c '</dev/tcp/127.0.0.1/8080'"]
+      interval: 10s
+      timeout: 3s
+      retries: 12
+      start_period: 10s
+
+  ollama:
+    image: ollama/ollama:latest
+    volumes:
+      - ollama-data:/root/.ollama
+    networks:
+      backend:
+        ipv4_address: ${ARCHIVIST_OLLAMA_IP:-172.30.0.11}
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "ollama", "list"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 10s
+
+networks:
+  backend:
+    internal: true
+    ipam:
+      config:
+        - subnet: ${ARCHIVIST_BACKEND_SUBNET:-172.30.0.0/24}
+
+volumes:
+  archivist-data:
+  ollama-data:

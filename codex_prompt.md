@@ -36,7 +36,7 @@ The app should support this workflow:
   Default Local Model Requirements
   Archivist must be able to run in a low-resource Docker setup.
   Use these defaults:
-  Default chat model: qwen2.5:1.5b
+  Default chat model: gemma3:1b
   Default embedding model: nomic-embed-text
   Ollama base URL: http://ollama:11434
   The model should be configurable through environment variables.
@@ -218,7 +218,7 @@ ARCHIVIST_DB_PATH=/data/archivist.db
 ARCHIVIST_STORAGE_PATH=/data/storage
 ARCHIVIST_UPLOAD_PATH=/data/uploads
 OLLAMA_BASE_URL=http://ollama:11434
-ARCHIVIST_DEFAULT_MODEL=qwen2.5:1.5b
+ARCHIVIST_DEFAULT_MODEL=gemma3:1b
 ARCHIVIST_EMBED_MODEL=nomic-embed-text
 ARCHIVIST_HTTP_ADDR=:8080
 Docker Requirements
@@ -263,7 +263,7 @@ The interface should include:
 8. Future roadmap
    Include commands:
    docker compose up --build
-   docker compose exec ollama ollama pull qwen2.5:1.5b
+   docker compose exec ollama ollama pull gemma3:1b
    docker compose exec ollama ollama pull nomic-embed-text
    Capstone Documentation
    Create docs/capstone-notes.md with:

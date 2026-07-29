@@ -1,0 +1,33 @@
+services:
+  archivist:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      ARCHIVIST_DB_PATH: /data/archivist.db
+      ARCHIVIST_STORAGE_PATH: /data/storage
+      ARCHIVIST_UPLOAD_PATH: /data/uploads
+      OLLAMA_BASE_URL: http://ollama:11434
+      ARCHIVIST_DEFAULT_MODEL: ${ARCHIVIST_DEFAULT_MODEL:-gemma3:1b}
+      ARCHIVIST_EMBED_MODEL: ${ARCHIVIST_EMBED_MODEL:-nomic-embed-text}
+      ARCHIVIST_HTTP_ADDR: :8080
+    volumes:
+      - archivist-data:/data
+    depends_on:
+      ollama:
+        condition: service_started
+    restart: unless-stopped
+
+  ollama:
+    image: ollama/ollama:latest
+    volumes:
+      - ollama-data:/root/.ollama
+    restart: unless-stopped
+
+volumes:
+  archivist-data:
+  ollama-data:
+
+networks:
+  default:
+    internal: true
