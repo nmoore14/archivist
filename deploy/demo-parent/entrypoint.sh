@@ -7,6 +7,25 @@ BOOTSTRAP_CONTAINER="archivist-demo-model-bootstrap"
 CHAT_MODEL="${ARCHIVIST_DEFAULT_MODEL:-gemma3:1b}"
 EMBED_MODEL="${ARCHIVIST_EMBED_MODEL:-nomic-embed-text}"
 DOCKER_LOG="/var/log/archivist-demo-dockerd.log"
+DOCKERD_PID=""
+NGINX_PID=""
+
+shutdown() {
+  local exit_code=$?
+  trap - EXIT TERM INT
+
+  if [[ -n "$NGINX_PID" ]]; then
+    kill -TERM "$NGINX_PID" >/dev/null 2>&1 || true
+    wait "$NGINX_PID" 2>/dev/null || true
+  fi
+
+  if [[ -n "$DOCKERD_PID" ]]; then
+    kill -TERM "$DOCKERD_PID" >/dev/null 2>&1 || true
+    wait "$DOCKERD_PID" 2>/dev/null || true
+  fi
+
+  exit "$exit_code"
+}
 
 cleanup_bootstrap() {
   docker rm -f "$BOOTSTRAP_CONTAINER" >/dev/null 2>&1 || true
@@ -14,6 +33,8 @@ cleanup_bootstrap() {
 
 echo "Starting the nested Docker daemon..."
 dockerd-entrypoint.sh dockerd --host=unix:///var/run/docker.sock >"$DOCKER_LOG" 2>&1 &
+DOCKERD_PID=$!
+trap shutdown EXIT TERM INT
 
 for _ in {1..60}; do
   if docker info >/dev/null 2>&1; then
@@ -70,4 +91,6 @@ fi
 touch /run/archivist-demo-egress-locked
 
 echo "Demo ready on port 8080. New parent and child outbound traffic is blocked."
-exec nginx -g "daemon off;"
+nginx -g "daemon off;" &
+NGINX_PID=$!
+wait "$NGINX_PID"

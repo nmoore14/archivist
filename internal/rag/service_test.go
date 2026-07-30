@@ -1,9 +1,29 @@
 package rag
 
 import (
+	"context"
 	"strings"
 	"testing"
 )
+
+func TestAnswerRejectsWebURLsBeforeCallingLocalModels(t *testing.T) {
+	service := Service{}
+	for _, question := range []string{
+		"Summarize https://example.com/private",
+		"What does www.example.com say?",
+	} {
+		answer, sources, err := service.Answer(context.Background(), 1, question)
+		if err != nil {
+			t.Fatalf("URL rejection returned an error: %v", err)
+		}
+		if !strings.Contains(answer, "cannot open or retrieve web addresses") {
+			t.Fatalf("unexpected URL rejection: %q", answer)
+		}
+		if len(sources) != 0 {
+			t.Fatalf("URL rejection should not return sources: %v", sources)
+		}
+	}
+}
 
 func TestEnforceLocalAnswerRemovesGeneratedReferencesAndURLs(t *testing.T) {
 	answer := `Use the indexed chapter's explanation.

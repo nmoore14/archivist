@@ -233,6 +233,12 @@ func (s *Server) workspaceRoutes(w http.ResponseWriter, r *http.Request) {
 		action = parts[1]
 	}
 	switch action {
+	case "":
+		http.Redirect(w, r, fmt.Sprintf("/workspaces/%d/chat", id), http.StatusSeeOther)
+	case "overview":
+		docs, _ := s.App.Store.Documents(id)
+		users, _ := s.App.Store.Users()
+		s.render(w, "workspace.html", View{Title: ws.Name, User: u, Workspace: ws, Documents: docs, Users: users})
 	case "documents":
 		s.documents(w, r, u, ws, parts)
 	case "index":
@@ -245,7 +251,7 @@ func (s *Server) workspaceRoutes(w http.ResponseWriter, r *http.Request) {
 		if r.Method == http.MethodPost && u.Role == "admin" {
 			uid, _ := strconv.ParseInt(r.FormValue("user_id"), 10, 64)
 			_ = s.App.Store.AddMember(id, uid)
-			http.Redirect(w, r, fmt.Sprintf("/workspaces/%d", id), 303)
+			http.Redirect(w, r, fmt.Sprintf("/workspaces/%d/overview", id), 303)
 		}
 	case "reindex":
 		if r.Method == http.MethodPost && u.Role == "admin" {
@@ -256,9 +262,7 @@ func (s *Server) workspaceRoutes(w http.ResponseWriter, r *http.Request) {
 			http.Redirect(w, r, fmt.Sprintf("/workspaces/%d/documents", id), 303)
 		}
 	default:
-		docs, _ := s.App.Store.Documents(id)
-		users, _ := s.App.Store.Users()
-		s.render(w, "workspace.html", View{Title: ws.Name, User: u, Workspace: ws, Documents: docs, Users: users})
+		http.NotFound(w, r)
 	}
 }
 

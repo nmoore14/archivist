@@ -162,3 +162,60 @@ func TestAskPagePromotesAvailableCourseChats(t *testing.T) {
 		}
 	}
 }
+
+func TestCourseRootRedirectsToChatAndOverviewRemainsAvailable(t *testing.T) {
+	store, err := storage.Open(filepath.Join(t.TempDir(), "archivist.db"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer store.DB.Close()
+	if err := store.CreateUser("Admin", "admin@default-chat.test", "hash", "admin"); err != nil {
+		t.Fatal(err)
+	}
+	admin, _ := store.UserByEmail("admin@default-chat.test")
+	if err := store.CreateWorkspace("Mathematics", "MATH1", "", true, admin.ID); err != nil {
+		t.Fatal(err)
+	}
+	if err := store.CreateSession("default-chat-token", admin.ID, time.Now().Add(time.Hour)); err != nil {
+		t.Fatal(err)
+	}
+	handler := New(app.New(store)).Handler()
+
+	rootRequest := httptest.NewRequest(http.MethodGet, "/workspaces/1", nil)
+	rootRequest.AddCookie(&http.Cookie{Name: "archivist_session", Value: "default-chat-token"})
+	rootResponse := httptest.NewRecorder()
+	handler.ServeHTTP(rootResponse, rootRequest)
+	if rootResponse.Code != http.StatusSeeOther || rootResponse.Header().Get("Location") != "/workspaces/1/chat" {
+		t.Fatalf("course root: status=%d location=%q", rootResponse.Code, rootResponse.Header().Get("Location"))
+	}
+
+	overviewRequest := httptest.NewRequest(http.MethodGet, "/workspaces/1/overview", nil)
+	overviewRequest.AddCookie(&http.Cookie{Name: "archivist_session", Value: "default-chat-token"})
+	overviewResponse := httptest.NewRecorder()
+	handler.ServeHTTP(overviewResponse, overviewRequest)
+	if overviewResponse.Code != http.StatusOK || !strings.Contains(overviewResponse.Body.String(), "Recent sources") {
+		t.Fatalf("overview should remain available, status=%d", overviewResponse.Code)
+	}
+
+	chatRequest := httptest.NewRequest(http.MethodGet, "/workspaces/1/chat", nil)
+	chatRequest.AddCookie(&http.Cookie{Name: "archivist_session", Value: "default-chat-token"})
+	chatResponse := httptest.NewRecorder()
+	handler.ServeHTTP(chatResponse, chatRequest)
+	chatBody := chatResponse.Body.String()
+	if chatResponse.Code != http.StatusOK {
+		t.Fatalf("chat should be available, status=%d", chatResponse.Code)
+	}
+	for _, coursePage := range []string{
+		`href="/workspaces/1/overview"`,
+		`href="/workspaces/1/documents"`,
+		`href="/workspaces/1/index"`,
+		`href="/workspaces/1/chat"`,
+	} {
+		if !strings.Contains(chatBody, coursePage) {
+			t.Errorf("chat page missing course tab %s", coursePage)
+		}
+	}
+	if strings.Index(chatBody, `href="/workspaces/1/chat"`) > strings.Index(chatBody, `href="/workspaces/1/overview"`) {
+		t.Error("Ask Archivist tab should appear before Overview")
+	}
+}

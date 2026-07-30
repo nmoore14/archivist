@@ -5,8 +5,10 @@ services:
       dockerfile: Dockerfile
     container_name: archivist-demo-parent
     privileged: true
+    init: true
     environment:
       DOCKER_TLS_CERTDIR: ""
+      TINI_SUBREAPER: "1"
       ARCHIVIST_DEFAULT_MODEL: ${ARCHIVIST_DEFAULT_MODEL:-gemma3:1b}
       ARCHIVIST_EMBED_MODEL: ${ARCHIVIST_EMBED_MODEL:-nomic-embed-text}
     ports:

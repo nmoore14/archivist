@@ -17,6 +17,7 @@ var (
 	generatedReferenceHeading = regexp.MustCompile(`(?im)^\s{0,3}(?:#{1,6}\s*)?(?:source references?|references|bibliography|sources)\s*:?\s*$`)
 	markdownWebLink           = regexp.MustCompile(`\[([^\]]+)\]\(https?://[^)]+\)`)
 	bareWebURL                = regexp.MustCompile(`https?://[^\s<>)]+`)
+	questionWebURL            = regexp.MustCompile(`(?i)\b(?:https?://|www\.)[^\s<>()]+`)
 )
 
 type Service struct {
@@ -42,6 +43,9 @@ func cosine(a, b []float64) float64 {
 	return dot / (math.Sqrt(aa) * math.Sqrt(bb))
 }
 func (s *Service) Answer(ctx context.Context, workspaceID int64, question string) (string, []string, error) {
+	if questionWebURL.MatchString(question) {
+		return "Archivist cannot open or retrieve web addresses. Please ask a question about content already stored in this course library.", nil, nil
+	}
 	qv, err := s.Ollama.GenerateEmbedding(ctx, s.EmbedModel, question)
 	if err != nil {
 		return "", nil, fmt.Errorf("local model unavailable: %w", err)
