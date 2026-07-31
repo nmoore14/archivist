@@ -43,7 +43,9 @@ type View struct {
 	Documents     []storage.Document
 	Users         []storage.User
 	Messages      []storage.Message
+	Note          storage.Note
 	IndexStats    storage.IndexStats
+	ActiveTab     string
 	Error, Notice string
 }
 
@@ -238,13 +240,15 @@ func (s *Server) workspaceRoutes(w http.ResponseWriter, r *http.Request) {
 	case "overview":
 		docs, _ := s.App.Store.Documents(id)
 		users, _ := s.App.Store.Users()
-		s.render(w, "workspace.html", View{Title: ws.Name, User: u, Workspace: ws, Documents: docs, Users: users})
+		s.render(w, "workspace.html", View{Title: ws.Name, User: u, Workspace: ws, Documents: docs, Users: users, ActiveTab: "overview"})
 	case "documents":
 		s.documents(w, r, u, ws, parts)
 	case "index":
 		s.courseIndex(w, r, u, ws)
 	case "chat":
 		s.chat(w, r, u, ws)
+	case "notes":
+		s.notes(w, r, u, ws, parts)
 	case "source":
 		s.source(w, r, ws)
 	case "members":
@@ -266,6 +270,54 @@ func (s *Server) workspaceRoutes(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func (s *Server) notes(w http.ResponseWriter, r *http.Request, u storage.User, ws storage.Workspace, parts []string) {
+	if len(parts) > 2 && parts[2] == "add" {
+		if r.Method != http.MethodPost {
+			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+			return
+		}
+		messageID, err := strconv.ParseInt(r.FormValue("message_id"), 10, 64)
+		if err != nil || s.App.Store.AddMessageToNote(ws.ID, u.ID, messageID) != nil {
+			http.Error(w, "That Archivist response could not be added to your note.", http.StatusUnprocessableEntity)
+			return
+		}
+		if r.Header.Get("HX-Request") == "true" {
+			w.Header().Set("Content-Type", "text/html; charset=utf-8")
+			_, _ = w.Write([]byte(`<span class="message-action-saved" role="status">Added to note</span>`))
+			return
+		}
+		http.Redirect(w, r, fmt.Sprintf("/workspaces/%d/notes?added=1", ws.ID), http.StatusSeeOther)
+		return
+	}
+	if r.Method == http.MethodPost {
+		title := strings.TrimSpace(r.FormValue("title"))
+		content := strings.TrimSpace(r.FormValue("content"))
+		if len(title) > 120 || len(content) > 1<<20 {
+			note, _ := s.App.Store.Note(ws.ID, u.ID)
+			s.render(w, "notes.html", View{Title: ws.Name + " notes", User: u, Workspace: ws, Note: note, ActiveTab: "notes", Error: "Keep the title under 120 characters and the note under 1 MB."})
+			return
+		}
+		if err := s.App.Store.SaveNote(ws.ID, u.ID, title, content); err != nil {
+			http.Error(w, "Your note could not be saved.", http.StatusInternalServerError)
+			return
+		}
+		http.Redirect(w, r, fmt.Sprintf("/workspaces/%d/notes?saved=1", ws.ID), http.StatusSeeOther)
+		return
+	}
+	note, err := s.App.Store.Note(ws.ID, u.ID)
+	if err != nil {
+		http.Error(w, "Your note could not be loaded.", http.StatusInternalServerError)
+		return
+	}
+	notice := ""
+	if r.URL.Query().Get("saved") == "1" {
+		notice = "Your note is saved."
+	} else if r.URL.Query().Get("added") == "1" {
+		notice = "Archivist’s response was added to your note."
+	}
+	s.render(w, "notes.html", View{Title: ws.Name + " notes", User: u, Workspace: ws, Note: note, ActiveTab: "notes", Notice: notice})
+}
+
 func (s *Server) courseIndex(w http.ResponseWriter, r *http.Request, u storage.User, ws storage.Workspace) {
 	if u.Role != "admin" {
 		http.Error(w, "Forbidden", http.StatusForbidden)
@@ -276,13 +328,13 @@ func (s *Server) courseIndex(w http.ResponseWriter, r *http.Request, u storage.U
 		profile := r.FormValue("index_profile")
 		if err := s.App.Store.UpdateIndexSettings(ws.ID, profile, retrievalCount); err != nil {
 			documents, stats, _ := s.App.Store.IndexOverview(ws.ID)
-			s.render(w, "index.html", View{Title: ws.Name + " index", User: u, Workspace: ws, Documents: documents, IndexStats: stats, Error: err.Error()})
+			s.render(w, "index.html", View{Title: ws.Name + " index", User: u, Workspace: ws, Documents: documents, IndexStats: stats, ActiveTab: "index", Error: err.Error()})
 			return
 		}
 		ws, _ = s.App.Store.Workspace(ws.ID, u)
 		if err := s.App.Docs.ReindexWorkspace(r.Context(), ws.ID); err != nil {
 			documents, stats, _ := s.App.Store.IndexOverview(ws.ID)
-			s.render(w, "index.html", View{Title: ws.Name + " index", User: u, Workspace: ws, Documents: documents, IndexStats: stats, Error: "Settings were saved, but the index could not be rebuilt. Confirm the local model is running, then try again."})
+			s.render(w, "index.html", View{Title: ws.Name + " index", User: u, Workspace: ws, Documents: documents, IndexStats: stats, ActiveTab: "index", Error: "Settings were saved, but the index could not be rebuilt. Confirm the local model is running, then try again."})
 			return
 		}
 		http.Redirect(w, r, fmt.Sprintf("/workspaces/%d/index?saved=1", ws.ID), http.StatusSeeOther)
@@ -297,7 +349,7 @@ func (s *Server) courseIndex(w http.ResponseWriter, r *http.Request, u storage.U
 	if r.URL.Query().Get("saved") == "1" {
 		notice = "Index settings saved and course content rebuilt."
 	}
-	s.render(w, "index.html", View{Title: ws.Name + " index", User: u, Workspace: ws, Documents: documents, IndexStats: stats, Notice: notice})
+	s.render(w, "index.html", View{Title: ws.Name + " index", User: u, Workspace: ws, Documents: documents, IndexStats: stats, ActiveTab: "index", Notice: notice})
 }
 
 func (s *Server) source(w http.ResponseWriter, r *http.Request, ws storage.Workspace) {
@@ -377,7 +429,7 @@ func (s *Server) documents(w http.ResponseWriter, r *http.Request, u storage.Use
 		return
 	}
 	docs, _ := s.App.Store.Documents(ws.ID)
-	s.render(w, "documents.html", View{Title: "Course library", User: u, Workspace: ws, Documents: docs})
+	s.render(w, "documents.html", View{Title: "Course library", User: u, Workspace: ws, Documents: docs, ActiveTab: "documents"})
 }
 func (s *Server) renderDocuments(w http.ResponseWriter, ws storage.Workspace) {
 	docs, _ := s.App.Store.Documents(ws.ID)
@@ -401,7 +453,7 @@ func (s *Server) chat(w http.ResponseWriter, r *http.Request, u storage.User, ws
 		return
 	}
 	msgs, _ := s.App.Store.Messages(ws.ID, u.ID)
-	s.render(w, "chat.html", View{Title: ws.Name + " chat", User: u, Workspace: ws, Messages: msgs})
+	s.render(w, "chat.html", View{Title: ws.Name + " chat", User: u, Workspace: ws, Messages: msgs, ActiveTab: "chat"})
 }
 func (s *Server) users(w http.ResponseWriter, r *http.Request) {
 	u, _ := s.current(r)

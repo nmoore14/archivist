@@ -17,6 +17,15 @@ The capstone investigates whether guided workflows can reduce the technical barr
 
 Docker is the only required host dependency.
 
+For a guided menu covering Linux installation, the portable demo, build-only,
+and offline verification, run:
+
+```sh
+make setup
+```
+
+The same common operations are available individually through `make help`.
+
 ```sh
 docker compose up --build
 ```

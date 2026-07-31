@@ -1,6 +1,7 @@
 package web
 
 import (
+	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"os"
@@ -217,5 +218,101 @@ func TestCourseRootRedirectsToChatAndOverviewRemainsAvailable(t *testing.T) {
 	}
 	if strings.Index(chatBody, `href="/workspaces/1/chat"`) > strings.Index(chatBody, `href="/workspaces/1/overview"`) {
 		t.Error("Ask Archivist tab should appear before Overview")
+	}
+
+	for path, activeLink := range map[string]string{
+		"/workspaces/1/chat":      `href="/workspaces/1/chat" class="active" aria-current="page"`,
+		"/workspaces/1/notes":     `href="/workspaces/1/notes" class="active" aria-current="page"`,
+		"/workspaces/1/overview":  `href="/workspaces/1/overview" class="active" aria-current="page"`,
+		"/workspaces/1/documents": `href="/workspaces/1/documents" class="active" aria-current="page"`,
+		"/workspaces/1/index":     `href="/workspaces/1/index" class="active" aria-current="page"`,
+	} {
+		request := httptest.NewRequest(http.MethodGet, path, nil)
+		request.AddCookie(&http.Cookie{Name: "archivist_session", Value: "default-chat-token"})
+		response := httptest.NewRecorder()
+		handler.ServeHTTP(response, request)
+		if response.Code != http.StatusOK || !strings.Contains(response.Body.String(), activeLink) {
+			t.Errorf("%s should mark its own tab active: status=%d", path, response.Code)
+		}
+		if strings.Count(response.Body.String(), `aria-current="page"`) != 1 {
+			t.Errorf("%s should have exactly one active course tab", path)
+		}
+	}
+}
+
+func TestStudentCanAddArchivistResponseToPrivateCourseNote(t *testing.T) {
+	store, err := storage.Open(filepath.Join(t.TempDir(), "archivist.db"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer store.DB.Close()
+	if err := store.CreateUser("Admin", "admin@web-notes.test", "hash", "admin"); err != nil {
+		t.Fatal(err)
+	}
+	if err := store.CreateUser("Student", "student@web-notes.test", "hash", "student"); err != nil {
+		t.Fatal(err)
+	}
+	admin, _ := store.UserByEmail("admin@web-notes.test")
+	student, _ := store.UserByEmail("student@web-notes.test")
+	if err := store.CreateWorkspace("Biology", "BIO1", "", true, admin.ID); err != nil {
+		t.Fatal(err)
+	}
+	if err := store.AddMember(1, student.ID); err != nil {
+		t.Fatal(err)
+	}
+	if err := store.CreateSession("student-notes-token", student.ID, time.Now().Add(time.Hour)); err != nil {
+		t.Fatal(err)
+	}
+	if err := store.SaveMessage(1, student.ID, "assistant", "Cells divide through mitosis.", storage.EncodeSources([]string{"cells.pdf, page 4"})); err != nil {
+		t.Fatal(err)
+	}
+	messages, _ := store.Messages(1, student.ID)
+	handler := New(app.New(store)).Handler()
+
+	chatRequest := httptest.NewRequest(http.MethodGet, "/workspaces/1/chat", nil)
+	chatRequest.AddCookie(&http.Cookie{Name: "archivist_session", Value: "student-notes-token"})
+	chatResponse := httptest.NewRecorder()
+	handler.ServeHTTP(chatResponse, chatRequest)
+	for _, expected := range []string{`href="/workspaces/1/notes"`, "Copy", "Add to note"} {
+		if !strings.Contains(chatResponse.Body.String(), expected) {
+			t.Fatalf("chat response missing %q", expected)
+		}
+	}
+
+	form := strings.NewReader(fmt.Sprintf("message_id=%d", messages[0].ID))
+	addRequest := httptest.NewRequest(http.MethodPost, "/workspaces/1/notes/add", form)
+	addRequest.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+	addRequest.Header.Set("HX-Request", "true")
+	addRequest.AddCookie(&http.Cookie{Name: "archivist_session", Value: "student-notes-token"})
+	addResponse := httptest.NewRecorder()
+	handler.ServeHTTP(addResponse, addRequest)
+	if addResponse.Code != http.StatusOK || !strings.Contains(addResponse.Body.String(), "Added to note") {
+		t.Fatalf("add-to-note response: status=%d body=%q", addResponse.Code, addResponse.Body.String())
+	}
+
+	noteRequest := httptest.NewRequest(http.MethodGet, "/workspaces/1/notes", nil)
+	noteRequest.AddCookie(&http.Cookie{Name: "archivist_session", Value: "student-notes-token"})
+	noteResponse := httptest.NewRecorder()
+	handler.ServeHTTP(noteResponse, noteRequest)
+	for _, expected := range []string{"Course notes", "Cells divide through mitosis.", "cells.pdf, page 4", "Only you can see this note"} {
+		if !strings.Contains(noteResponse.Body.String(), expected) {
+			t.Fatalf("notes page missing %q", expected)
+		}
+	}
+}
+
+func TestApplicationStylesheetIncludesInteractiveUIRules(t *testing.T) {
+	stylesheet, err := os.ReadFile(filepath.Join("..", "..", "web", "static", "css", "app.css"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	css := string(stylesheet)
+	if strings.Contains(css, "var(--serif;") {
+		t.Fatal("malformed font variable would prevent later interface rules from loading")
+	}
+	for _, selector := range []string{".source-drawer{", ".message-actions{", ".note-folio{"} {
+		if !strings.Contains(css, selector) {
+			t.Fatalf("stylesheet missing interactive UI rule %q", selector)
+		}
 	}
 }

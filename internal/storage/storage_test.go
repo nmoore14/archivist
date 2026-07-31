@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"path/filepath"
 	"reflect"
+	"strings"
 	"testing"
 
 	_ "github.com/mattn/go-sqlite3"
@@ -175,5 +176,60 @@ func TestSourcesRoundTripAndLegacyDecode(t *testing.T) {
 	legacyWant := []SourceRef{{Name: "Chapter1.pdf", Page: 6}, {Name: "Chapter1.pdf", Page: 3}}
 	if got := DecodeSources(legacy); !reflect.DeepEqual(got, legacyWant) {
 		t.Fatalf("legacy decode mismatch: got %#v want %#v", got, legacyWant)
+	}
+}
+
+func TestCourseNotesArePrivateAndCanIncludeArchivistResponses(t *testing.T) {
+	store, err := Open(filepath.Join(t.TempDir(), "archivist.db"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer store.DB.Close()
+
+	if err := store.CreateUser("Admin", "admin@notes.test", "hash", "admin"); err != nil {
+		t.Fatal(err)
+	}
+	if err := store.CreateUser("Student", "student@notes.test", "hash", "student"); err != nil {
+		t.Fatal(err)
+	}
+	admin, _ := store.UserByEmail("admin@notes.test")
+	student, _ := store.UserByEmail("student@notes.test")
+	if err := store.CreateWorkspace("Biology", "BIO1", "", true, admin.ID); err != nil {
+		t.Fatal(err)
+	}
+	workspaces, _ := store.Workspaces(admin)
+	workspaceID := workspaces[0].ID
+
+	if err := store.SaveNote(workspaceID, student.ID, "Cell review", "My opening idea"); err != nil {
+		t.Fatal(err)
+	}
+	if err := store.SaveMessage(workspaceID, student.ID, "assistant", "Mitosis has four main phases.", EncodeSources([]string{"cells.pdf, page 8"})); err != nil {
+		t.Fatal(err)
+	}
+	messages, _ := store.Messages(workspaceID, student.ID)
+	if err := store.AddMessageToNote(workspaceID, student.ID, messages[0].ID); err != nil {
+		t.Fatal(err)
+	}
+
+	note, err := store.Note(workspaceID, student.ID)
+	if err != nil {
+		t.Fatal(err)
+	}
+	for _, expected := range []string{"Cell review", "My opening idea", "Mitosis has four main phases.", "cells.pdf, page 8"} {
+		if !strings.Contains(note.Title+"\n"+note.Content, expected) {
+			t.Fatalf("note missing %q: %#v", expected, note)
+		}
+	}
+	adminNote, err := store.Note(workspaceID, admin.ID)
+	if err != nil || adminNote.Content != "" {
+		t.Fatalf("student note leaked to admin: %#v %v", adminNote, err)
+	}
+
+	if err := store.SaveMessage(workspaceID, student.ID, "user", "Can I add my own question?", ""); err != nil {
+		t.Fatal(err)
+	}
+	messages, _ = store.Messages(workspaceID, student.ID)
+	if err := store.AddMessageToNote(workspaceID, student.ID, messages[1].ID); err == nil {
+		t.Fatal("user-authored chat messages must not be accepted as Archivist responses")
 	}
 }

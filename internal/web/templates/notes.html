@@ -1,0 +1,27 @@
+{{define "notes.html"}}{{template "app-start" .}}
+<header class="workspace-hero notes-hero">
+  <div><span class="course-code">{{.Workspace.Code}}</span><h1>Course notes</h1><p>A private working page for your ideas and useful Archivist answers.</p></div>
+  <span class="tag">Only you can see this note</span>
+</header>
+{{template "workspace-tabs" .}}
+<div class="content notes-page">
+  {{if .Notice}}<div class="alert success">{{.Notice}}</div>{{end}}
+  {{if .Error}}<div class="alert error">{{.Error}}</div>{{end}}
+  <form class="note-folio" method="post" action="/workspaces/{{.Workspace.ID}}/notes">
+    <header>
+      <div>
+        <span class="eyebrow">Working folio</span>
+        <label for="note-title">What are you working on?</label>
+      </div>
+      {{if .Note.Content}}<small>Last saved {{.Note.UpdatedAt.Format "Jan 2 at 3:04 PM"}}</small>{{else}}<small>Start here, or add an answer from chat.</small>{{end}}
+    </header>
+    <input id="note-title" name="title" maxlength="120" value="{{.Note.Title}}" placeholder="Example: Midterm review — classification models">
+    <label class="note-body-label" for="note-content">Your note</label>
+    <textarea id="note-content" name="content" rows="24" placeholder="Capture questions, connect ideas, and outline what you want to review next. Archivist answers you add from chat will appear here.">{{.Note.Content}}</textarea>
+    <footer>
+      <span>Markdown formatting is supported in saved excerpts.</span>
+      <div><a class="button ghost" href="/workspaces/{{.Workspace.ID}}/chat">Return to chat</a><button class="button primary">Save note</button></div>
+    </footer>
+  </form>
+</div>
+{{template "app-end" .}}{{end}}

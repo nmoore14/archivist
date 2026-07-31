@@ -6,6 +6,19 @@ installation, Archivist and Ollama run on an internal Docker network without a
 default outbound route. Nginx runs on the host and exposes Archivist only to the
 configured LAN.
 
+## Guided setup
+
+From the project directory, start the plain-language setup menu:
+
+```sh
+make setup
+```
+
+It can install all Linux prerequisites, install only Archivist when the
+prerequisites already exist, start the portable demo, build without installing,
+or verify an existing deployment. It also explains the model and local-network
+choices before making changes.
+
 ## One-command Ubuntu/Debian setup
 
 On a clean Ubuntu or Debian server, the bootstrap installs Docker Engine, the

@@ -84,6 +84,12 @@ type DocumentFile struct {
 	Name, Path, MIMEType string
 }
 
+type Note struct {
+	Title     string
+	Content   string
+	UpdatedAt time.Time
+}
+
 func Open(path string) (*Store, error) {
 	db, err := sql.Open("sqlite3", path+"?_foreign_keys=on&_busy_timeout=5000")
 	if err != nil {
@@ -144,6 +150,16 @@ func (s *Store) migrate() error {
 		workspace_id INTEGER NOT NULL REFERENCES workspaces(id) ON DELETE CASCADE,
 		user_id INTEGER REFERENCES users(id), role TEXT NOT NULL, content TEXT NOT NULL,
 		sources TEXT, created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+	);
+	CREATE TABLE IF NOT EXISTS course_notes (
+		id INTEGER PRIMARY KEY,
+		workspace_id INTEGER NOT NULL REFERENCES workspaces(id) ON DELETE CASCADE,
+		user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+		title TEXT NOT NULL DEFAULT '',
+		content TEXT NOT NULL DEFAULT '',
+		created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		UNIQUE(workspace_id,user_id)
 	);
 	CREATE TABLE IF NOT EXISTS jobs (
 		id INTEGER PRIMARY KEY, workspace_id INTEGER REFERENCES workspaces(id) ON DELETE CASCADE,
@@ -400,6 +416,7 @@ func (s *Store) SaveMessage(workspaceID, userID int64, role, content, sources st
 }
 
 type Message struct {
+	ID            int64
 	Role, Content string
 	Sources       []SourceRef
 	CreatedAt     time.Time
@@ -448,7 +465,7 @@ func DecodeSources(raw string) []SourceRef {
 }
 
 func (s *Store) Messages(workspaceID, userID int64) ([]Message, error) {
-	rows, err := s.DB.Query(`SELECT role,content,COALESCE(sources,''),created_at
+	rows, err := s.DB.Query(`SELECT id,role,content,COALESCE(sources,''),created_at
 		FROM chat_messages
 		WHERE workspace_id=? AND user_id=?
 		ORDER BY created_at,id`, workspaceID, userID)
@@ -460,13 +477,67 @@ func (s *Store) Messages(workspaceID, userID int64) ([]Message, error) {
 	for rows.Next() {
 		var m Message
 		var sources string
-		if err := rows.Scan(&m.Role, &m.Content, &sources, &m.CreatedAt); err != nil {
+		if err := rows.Scan(&m.ID, &m.Role, &m.Content, &sources, &m.CreatedAt); err != nil {
 			return nil, err
 		}
 		m.Sources = DecodeSources(sources)
 		out = append(out, m)
 	}
 	return out, rows.Err()
+}
+
+func (s *Store) Note(workspaceID, userID int64) (Note, error) {
+	var note Note
+	err := s.DB.QueryRow(`SELECT title,content,updated_at FROM course_notes
+		WHERE workspace_id=? AND user_id=?`, workspaceID, userID).
+		Scan(&note.Title, &note.Content, &note.UpdatedAt)
+	if err == sql.ErrNoRows {
+		return Note{}, nil
+	}
+	return note, err
+}
+
+func (s *Store) SaveNote(workspaceID, userID int64, title, content string) error {
+	_, err := s.DB.Exec(`INSERT INTO course_notes(workspace_id,user_id,title,content)
+		VALUES(?,?,?,?)
+		ON CONFLICT(workspace_id,user_id) DO UPDATE SET
+			title=excluded.title,content=excluded.content,updated_at=CURRENT_TIMESTAMP`,
+		workspaceID, userID, title, content)
+	return err
+}
+
+func (s *Store) AddMessageToNote(workspaceID, userID, messageID int64) error {
+	var content, rawSources string
+	var createdAt time.Time
+	err := s.DB.QueryRow(`SELECT content,COALESCE(sources,''),created_at FROM chat_messages
+		WHERE id=? AND workspace_id=? AND user_id=? AND role='assistant'`,
+		messageID, workspaceID, userID).Scan(&content, &rawSources, &createdAt)
+	if err != nil {
+		return err
+	}
+	note, err := s.Note(workspaceID, userID)
+	if err != nil {
+		return err
+	}
+	var excerpt strings.Builder
+	if strings.TrimSpace(note.Content) != "" {
+		excerpt.WriteString(strings.TrimRight(note.Content, "\n"))
+		excerpt.WriteString("\n\n")
+	}
+	fmt.Fprintf(&excerpt, "## From Archivist · %s\n\n%s", createdAt.Format("Jan 2, 2006"), strings.TrimSpace(content))
+	if sources := DecodeSources(rawSources); len(sources) > 0 {
+		excerpt.WriteString("\n\nSources: ")
+		for index, source := range sources {
+			if index > 0 {
+				excerpt.WriteString("; ")
+			}
+			excerpt.WriteString(source.Name)
+			if source.Page > 0 {
+				fmt.Fprintf(&excerpt, ", page %d", source.Page)
+			}
+		}
+	}
+	return s.SaveNote(workspaceID, userID, note.Title, excerpt.String())
 }
 
 func ParseID(s string) (int64, error) { var id int64; _, err := fmt.Sscan(s, &id); return id, err }

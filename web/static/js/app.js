@@ -169,7 +169,38 @@ function openSourceDrawer(citation) {
   sourceDrawer.querySelector(".drawer-close")?.focus();
 }
 
+async function copyMessage(button) {
+  const text = button.closest(".message")?.querySelector(".message-content")?.innerText.trim();
+  if (!text) return;
+  try {
+    if (navigator.clipboard?.writeText) {
+      await navigator.clipboard.writeText(text);
+    } else {
+      const helper = document.createElement("textarea");
+      helper.value = text;
+      helper.setAttribute("readonly", "");
+      helper.style.position = "fixed";
+      helper.style.opacity = "0";
+      document.body.append(helper);
+      helper.select();
+      document.execCommand("copy");
+      helper.remove();
+    }
+    button.textContent = "Copied";
+  } catch {
+    button.textContent = "Copy failed";
+  }
+  setTimeout(() => {
+    button.textContent = "Copy";
+  }, 1800);
+}
+
 document.addEventListener("click", (event) => {
+  const copyButton = event.target.closest("[data-copy-message]");
+  if (copyButton) {
+    copyMessage(copyButton);
+    return;
+  }
   const citation = event.target.closest(".source-citation");
   if (citation) {
     openSourceDrawer(citation);
