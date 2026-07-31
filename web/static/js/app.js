@@ -152,6 +152,7 @@ function closeSourceDrawer() {
   document.body.classList.remove("source-drawer-open");
   sourceDrawer.setAttribute("aria-hidden", "true");
   sourceFrame.removeAttribute("src");
+  sourceFrame.setAttribute("sandbox", "");
   sourceReturnFocus?.focus();
 }
 
@@ -160,9 +161,17 @@ function openSourceDrawer(citation) {
   sourceReturnFocus = citation;
   const page = Number(citation.dataset.sourcePage || 0);
   const url = citation.dataset.sourceUrl;
-  sourceTitle.textContent = citation.dataset.sourceName || "Course source";
+  const sourceName = citation.dataset.sourceName || "Course source";
+  sourceTitle.textContent = sourceName;
   sourceLocation.textContent = page ? `Cited location · page ${page}` : "Original document";
   sourceOpenNew.href = url;
+  // Browser PDF viewers cannot initialize inside a fully sandboxed iframe.
+  // Other source types remain sandboxed because HTML uploads are untrusted.
+  if (/\.pdf$/i.test(sourceName)) {
+    sourceFrame.removeAttribute("sandbox");
+  } else {
+    sourceFrame.setAttribute("sandbox", "");
+  }
   sourceFrame.src = url;
   document.body.classList.add("source-drawer-open");
   sourceDrawer.setAttribute("aria-hidden", "false");

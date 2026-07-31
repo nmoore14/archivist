@@ -134,6 +134,36 @@ func TestExtractTextNormalizesWhitespace(t *testing.T) {
 	}
 }
 
+func TestExtractHTMLIndexesOnlyReadableContent(t *testing.T) {
+	path := filepath.Join(t.TempDir(), "lesson.html")
+	source := `<!doctype html>
+		<html><head><title>Course &amp; outline</title>
+		<style>.answer { display: none }</style>
+		<script>fetch("https://example.com");</script></head>
+		<body><!-- private editing comment --><main>
+		<h1>Support vector machines</h1>
+		<p>An SVM finds a separating boundary between labeled examples.</p>
+		</main></body></html>`
+	if err := os.WriteFile(path, []byte(source), 0o600); err != nil {
+		t.Fatal(err)
+	}
+	chunks, err := extract(path)
+	if err != nil {
+		t.Fatal(err)
+	}
+	content := chunks[0].Content
+	for _, expected := range []string{"Course & outline", "Support vector machines", "separating boundary"} {
+		if !strings.Contains(content, expected) {
+			t.Fatalf("HTML extraction missing %q: %q", expected, content)
+		}
+	}
+	for _, excluded := range []string{"display: none", "fetch(", "private editing comment", "<h1>"} {
+		if strings.Contains(content, excluded) {
+			t.Fatalf("HTML extraction retained %q: %q", excluded, content)
+		}
+	}
+}
+
 func TestExtractPDFRejectsInvalidFile(t *testing.T) {
 	path := filepath.Join(t.TempDir(), "broken.pdf")
 	if err := os.WriteFile(path, []byte("not a pdf"), 0o600); err != nil {

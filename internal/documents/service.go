@@ -5,10 +5,12 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
+	"html"
 	"io"
 	"mime/multipart"
 	"os"
 	"path/filepath"
+	"regexp"
 	"strings"
 
 	"archivist/internal/models"
@@ -33,6 +35,12 @@ type indexedChunk struct {
 
 const CurrentIndexVersion = 2
 
+var (
+	htmlIgnoredContent = regexp.MustCompile(`(?is)<(?:script|style|noscript|svg)\b[^>]*>.*?</(?:script|style|noscript|svg)\s*>`)
+	htmlComments       = regexp.MustCompile(`(?s)<!--.*?-->`)
+	htmlTags           = regexp.MustCompile(`(?s)<[^>]*>`)
+)
+
 func (s *Service) Ingest(ctx context.Context, workspaceID int64, file multipart.File, header *multipart.FileHeader) error {
 	documentID, err := s.QueueUpload(workspaceID, file, header)
 	if err != nil {
@@ -43,8 +51,8 @@ func (s *Service) Ingest(ctx context.Context, workspaceID int64, file multipart.
 
 func (s *Service) QueueUpload(workspaceID int64, file multipart.File, header *multipart.FileHeader) (int64, error) {
 	ext := strings.ToLower(filepath.Ext(header.Filename))
-	if ext != ".txt" && ext != ".md" && ext != ".pdf" {
-		return 0, fmt.Errorf("%s: supported file types are .txt, .md, and .pdf", filepath.Base(header.Filename))
+	if ext != ".txt" && ext != ".md" && ext != ".html" && ext != ".htm" && ext != ".pdf" {
+		return 0, fmt.Errorf("%s: supported file types are .txt, .md, .html, .htm, and .pdf", filepath.Base(header.Filename))
 	}
 	dir := filepath.Join(s.UploadPath, fmt.Sprint(workspaceID))
 	if err := os.MkdirAll(dir, 0755); err != nil {
@@ -206,14 +214,26 @@ func extract(path string) ([]extractedChunk, error) {
 }
 
 func extractConfigured(path string, size, overlap int) ([]extractedChunk, error) {
-	if strings.EqualFold(filepath.Ext(path), ".pdf") {
+	extension := strings.ToLower(filepath.Ext(path))
+	if extension == ".pdf" {
 		return extractPDFConfigured(path, size, overlap)
 	}
 	data, err := os.ReadFile(path)
 	if err != nil {
 		return nil, err
 	}
-	return chunksForTextConfigured(string(data), nil, size, overlap)
+	text := string(data)
+	if extension == ".html" || extension == ".htm" {
+		text = extractHTMLText(text)
+	}
+	return chunksForTextConfigured(text, nil, size, overlap)
+}
+
+func extractHTMLText(source string) string {
+	source = htmlIgnoredContent.ReplaceAllString(source, " ")
+	source = htmlComments.ReplaceAllString(source, " ")
+	source = htmlTags.ReplaceAllString(source, " ")
+	return html.UnescapeString(source)
 }
 
 func extractPDF(path string) ([]extractedChunk, error) {

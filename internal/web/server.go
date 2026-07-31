@@ -67,11 +67,62 @@ func New(a *app.App) *Server {
 }
 
 func markdownHTML(source string) template.HTML {
+	source, math := preserveMarkdownMath(source)
 	var rendered bytes.Buffer
 	if err := markdown.Convert([]byte(source), &rendered); err != nil {
 		return template.HTML(template.HTMLEscapeString(source))
 	}
-	return template.HTML(rendered.String())
+	result := rendered.String()
+	for placeholder, expression := range math {
+		result = strings.ReplaceAll(result, placeholder, template.HTMLEscapeString(expression))
+	}
+	return template.HTML(result)
+}
+
+func preserveMarkdownMath(source string) (string, map[string]string) {
+	preserved := make(map[string]string)
+	originalSource := source
+	placeholderNumber := 0
+	delimiters := []struct {
+		open, close string
+	}{
+		{`$$`, `$$`},
+		{`\[`, `\]`},
+		{`\(`, `\)`},
+		{`$`, `$`},
+	}
+
+	for _, delimiter := range delimiters {
+		var output strings.Builder
+		for {
+			start := strings.Index(source, delimiter.open)
+			if start < 0 {
+				output.WriteString(source)
+				break
+			}
+			endOffset := strings.Index(source[start+len(delimiter.open):], delimiter.close)
+			if endOffset < 0 {
+				output.WriteString(source)
+				break
+			}
+			end := start + len(delimiter.open) + endOffset + len(delimiter.close)
+			expression := source[start:end]
+			placeholder := ""
+			for {
+				placeholder = fmt.Sprintf("ARCHIVISTMATHPLACEHOLDER%dX", placeholderNumber)
+				placeholderNumber++
+				if !strings.Contains(originalSource, placeholder) {
+					break
+				}
+			}
+			preserved[placeholder] = expression
+			output.WriteString(source[:start])
+			output.WriteString(placeholder)
+			source = source[end:]
+		}
+		source = output.String()
+	}
+	return source, preserved
 }
 
 func formatCount(value int) string {
@@ -370,6 +421,10 @@ func (s *Server) source(w http.ResponseWriter, r *http.Request, ws storage.Works
 	contentType := file.MIMEType
 	if contentType == "" || contentType == "application/octet-stream" {
 		contentType = mime.TypeByExtension(strings.ToLower(filepath.Ext(file.Name)))
+	}
+	if extension := strings.ToLower(filepath.Ext(file.Name)); extension == ".html" || extension == ".htm" {
+		contentType = "text/html; charset=utf-8"
+		w.Header().Set("Content-Security-Policy", "sandbox; default-src 'none'; style-src 'unsafe-inline'; img-src data:")
 	}
 	if contentType != "" {
 		w.Header().Set("Content-Type", contentType)
