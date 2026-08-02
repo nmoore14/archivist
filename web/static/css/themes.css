@@ -12,6 +12,10 @@ html[data-theme="dark"] {
   --green: #66c7a2;
   --red: #ef9298;
   --shadow: 0 14px 40px rgba(0,0,0,.3);
+  --cream: #201e29;
+  --grid: rgba(255, 255, 255, 0.055);
+  --violet: #ffd22e;
+  --violet-2: #42cf85;
 }
 html[data-theme="dark"] body {
   background: var(--paper);
@@ -133,4 +137,28 @@ html[data-theme="dark"] .user-settings-menu label:has(input:checked) {
 html[data-theme="dark"] .workspace-hero,
 html[data-theme="dark"] .index-settings {
   background-image: none;
+}
+
+html[data-theme="dark"] .eyebrow,
+html[data-theme="dark"] .course-code,
+html[data-theme="dark"] .status,
+html[data-theme="dark"] .local-badge {
+  color: var(--ink);
+}
+
+html[data-theme="dark"] .status,
+html[data-theme="dark"] .local-badge,
+html[data-theme="dark"] .workspace-card,
+html[data-theme="dark"] .ask-course,
+html[data-theme="dark"] .panel,
+html[data-theme="dark"] .composer,
+html[data-theme="dark"] .global-search-form,
+html[data-theme="dark"] .global-search-results > article {
+  border-color: #625d69;
+}
+
+html[data-theme="dark"] .chat-course-sidebar nav a.active {
+  border-color: var(--sun);
+  background: var(--sun);
+  color: #191918;
 }

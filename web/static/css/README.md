@@ -13,6 +13,7 @@ Stylesheets load in the order listed below. Keep that order when adding files be
 | `course-shell.css` | Shared left-sidebar layout for non-chat course pages |
 | `search.css` | Global search page, results, and modal |
 | `settings.css` | User settings and appearance menu |
+| `aesthetic.css` | Visual direction, color accents, graph paper, rounded cards, and playful interaction styling |
 | `themes.css` | Dark-theme tokens and component overrides |
 
 Use the existing design tokens in `base.css` instead of introducing isolated colors. Place responsive rules with the component they modify, and put cross-application theme overrides in `themes.css`.
