@@ -1,0 +1,14 @@
+{{define "search.html"}}{{template "app-start" .}}
+<header class="search-hero">
+  <div><span class="eyebrow">Across your course library</span><h1>Find it without opening every course.</h1><p>Search the indexed content you have permission to view. Everything stays on this server.</p></div>
+  <kbd>⌘ K</kbd>
+</header>
+<main class="global-search-page">
+  <form class="global-search-form" method="get" action="/search" role="search">
+    <label for="global-search">Search all of your courses</label>
+    <div><svg aria-hidden="true"><use href="#search"/></svg><input id="global-search" data-global-search name="q" value="{{.Query}}" maxlength="200" autocomplete="off" placeholder="Try a topic, phrase, or document name" autofocus><button class="button primary">Search</button></div>
+    <small>Searches indexed course passages and document names. It does not use the internet.</small>
+  </form>
+  {{template "search-results" .}}
+</main>
+{{template "app-end" .}}{{end}}

@@ -1,0 +1,13 @@
+{{define "search-results.html"}}{{template "search-results" .}}{{end}}
+{{define "search-results"}}
+{{if .Error}}<div class="alert error">{{.Error}}</div>{{end}}
+{{if .Query}}
+  <header class="search-results-head"><div><span class="eyebrow">Search results</span><h2>{{len .SearchResults}} matches for “{{.Query}}”</h2></div><span>Course sources + your chats</span></header>
+  {{if .SearchResults}}<div class="global-search-results">{{range .SearchResults}}
+    <article class="search-result-{{.Kind}}">
+      <div class="search-result-course"><span>{{.WorkspaceCode}}</span><strong>{{.WorkspaceName}}</strong></div>
+      <div class="search-result-copy"><header><h3>{{.DocumentName}}</h3>{{if eq .Kind "chat"}}<span>Chat history</span>{{else if .PageNumber}}<span>Page {{.PageNumber}}</span>{{end}}</header><p>{{.Content}}</p><footer><a href="/workspaces/{{.WorkspaceID}}/chat">{{if eq .Kind "chat"}}Open conversation{{else}}Ask this course{{end}} →</a>{{if eq .Kind "course"}}<a href="/workspaces/{{.WorkspaceID}}/source?name={{urlquery .DocumentName}}{{if .PageNumber}}#page={{.PageNumber}}{{end}}" target="_blank" rel="noopener">Open source ↗</a>{{end}}</footer></div>
+    </article>
+  {{end}}</div>{{else}}<div class="empty compact"><div class="empty-mark">0</div><h2>No course content or chats matched.</h2><p>Try fewer words, check the spelling, or search for a document name.</p></div>{{end}}
+{{else}}<section class="search-start"><span class="eyebrow">One private index</span><h2>Search everything you can access.</h2><p>Results include course sources and only your own chat history.</p></section>{{end}}
+{{end}}

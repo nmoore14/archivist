@@ -1,0 +1,136 @@
+/* Dark theme overrides. */
+
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --ink: #eeeaf5;
+  --muted: #aaa4b4;
+  --line: #3b3745;
+  --paper: #15141c;
+  --white: #201e29;
+  --pale: #312640;
+  --deep: #0d0c12;
+  --green: #66c7a2;
+  --red: #ef9298;
+  --shadow: 0 14px 40px rgba(0,0,0,.3);
+}
+html[data-theme="dark"] body {
+  background: var(--paper);
+}
+html[data-theme="dark"] .topbar,
+html[data-theme="dark"] .chat-top,
+html[data-theme="dark"] .workspace-hero,
+html[data-theme="dark"] .chat-course-sidebar,
+html[data-theme="dark"] .global-search-modal > header,
+html[data-theme="dark"] .global-search-form,
+html[data-theme="dark"] .global-search-results > article,
+html[data-theme="dark"] .search-start,
+html[data-theme="dark"] .table-list,
+html[data-theme="dark"] .panel,
+html[data-theme="dark"] .metric-row,
+html[data-theme="dark"] .workspace-card,
+html[data-theme="dark"] .editor-card,
+html[data-theme="dark"] .note-folio,
+html[data-theme="dark"] .composer,
+html[data-theme="dark"] .source-map,
+html[data-theme="dark"] .source-drawer,
+html[data-theme="dark"] .index-path,
+html[data-theme="dark"] .index-table-wrap,
+html[data-theme="dark"] .index-settings,
+html[data-theme="dark"] .empty,
+html[data-theme="dark"] .command-ribbon {
+  background-color: var(--white);
+  color: var(--ink);
+}
+html[data-theme="dark"] .course-page-shell,
+html[data-theme="dark"] .chat-shell,
+html[data-theme="dark"] .chat-compose-dock,
+html[data-theme="dark"] .global-search-modal {
+  background: var(--paper);
+}
+html[data-theme="dark"] .course-sidebar-context,
+html[data-theme="dark"] .search-result-course,
+html[data-theme="dark"] .index-table th,
+html[data-theme="dark"] .setting-choice,
+html[data-theme="dark"] .dropzone,
+html[data-theme="dark"] .document-progress-list article[data-index-pending] .file-mark {
+  background: #292631;
+}
+html[data-theme="dark"] .search-result-chat .search-result-course {
+  background: #302541;
+}
+html[data-theme="dark"] input,
+html[data-theme="dark"] textarea,
+html[data-theme="dark"] select,
+html[data-theme="dark"] .note-folio > input,
+html[data-theme="dark"] .note-folio > textarea {
+  border-color: #4a4554;
+  background: #191820;
+  color: var(--ink);
+}
+html[data-theme="dark"] input::placeholder,
+html[data-theme="dark"] textarea::placeholder {
+  color: #77717f;
+}
+html[data-theme="dark"] .button.secondary,
+html[data-theme="dark"] .button.ghost,
+html[data-theme="dark"] .message-action,
+html[data-theme="dark"] .chat-course-sidebar kbd,
+html[data-theme="dark"] .command-ribbon kbd,
+html[data-theme="dark"] .source-map-shortcut kbd {
+  border-color: #494353;
+  background: #292631;
+  color: #d8cfea;
+}
+html[data-theme="dark"] .tag,
+html[data-theme="dark"] .index-state {
+  border-color: #484351;
+  background: #292631;
+  color: #bbb4c3;
+}
+html[data-theme="dark"] .tag.success,
+html[data-theme="dark"] .index-state.ready {
+  border-color: #315c4c;
+  background: #1d342d;
+  color: var(--green);
+}
+html[data-theme="dark"] .index-state.indexing {
+  border-color: #594574;
+  background: #302541;
+  color: #c6a5f3;
+}
+html[data-theme="dark"] .note-folio {
+  background: repeating-linear-gradient(#201e29 0,#201e29 35px,#373241 36px);
+}
+html[data-theme="dark"] .monogram,
+html[data-theme="dark"] .ask-course-mark,
+html[data-theme="dark"] .course-desk-mark {
+  background: linear-gradient(#292631,#211c2b);
+}
+html[data-theme="dark"] .source-loading {
+  background: var(--paper);
+  color: var(--muted);
+}
+html[data-theme="dark"] .message p,
+html[data-theme="dark"] .search-result-copy p {
+  color: #d0cad7;
+}
+html[data-theme="dark"] .global-search-form > div {
+  border-color: #4a4554;
+  background: #191820;
+}
+html[data-theme="dark"] .user-settings-menu label:hover,
+html[data-theme="dark"] .user-settings-menu label:has(input:checked) {
+  border-color: #66547c;
+  background: #302541;
+}
+@media (max-width:700px) {
+  .user-settings-menu {
+    left: 10px;
+    bottom: 74px;
+    width: calc(100vw - 20px);
+  }
+}
+html[data-theme="dark"] .workspace-hero,
+html[data-theme="dark"] .index-settings {
+  background-image: none;
+}

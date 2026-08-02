@@ -1,9 +1,8 @@
-{{define "index.html"}}{{template "app-start" .}}
+{{define "index.html"}}{{template "app-start" .}}<div class="course-page-shell">{{template "course-sidebar" .}}<main class="course-page-main">
 <header class="workspace-hero index-hero">
   <div><span class="course-code">{{.Workspace.Code}}</span><h1>Course index</h1><p>See how Archivist prepares this course for questions.</p></div>
   <span class="tag {{if eq .IndexStats.ReadyDocuments .IndexStats.Documents}}success{{end}}">{{.IndexStats.ReadyDocuments}} of {{.IndexStats.Documents}} sources ready</span>
 </header>
-{{template "workspace-tabs" .}}
 <div class="content index-admin">
   {{if .Notice}}<div class="alert success">{{.Notice}}</div>{{end}}
   {{if .Error}}<div class="alert error">{{.Error}}</div>{{end}}
@@ -66,4 +65,4 @@
     </aside>
   </div>
 </div>
-{{template "app-end" .}}{{end}}
+</main></div>{{template "app-end" .}}{{end}}

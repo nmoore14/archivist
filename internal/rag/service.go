@@ -3,6 +3,7 @@ package rag
 import (
 	"context"
 	"database/sql"
+	_ "embed"
 	"encoding/json"
 	"fmt"
 	"math"
@@ -12,6 +13,9 @@ import (
 
 	"archivist/internal/models"
 )
+
+//go:embed prompts/system.md
+var systemPrompt string
 
 var (
 	generatedReferenceHeading = regexp.MustCompile(`(?im)^\s{0,3}(?:#{1,6}\s*)?(?:source references?|references|bibliography|sources)\s*:?\s*$`)
@@ -90,14 +94,12 @@ func (s *Service) Answer(ctx context.Context, workspaceID int64, question string
 			sources = append(sources, h.source)
 		}
 	}
-	prompt := `You are Archivist, a course assistant running entirely on this local server.
-
-Answer using only facts and instructions explicitly present in the course context below. Do not fill gaps with general knowledge, training memory, or plausible examples. If the requested detail is not in the context, say that the course materials do not provide enough information.
-
-Do not write a Sources, References, Source references, or Bibliography section. Do not include web links or recommend external documentation. The application displays its own verified source citations beneath your answer.
-
-Use Markdown when it makes the answer easier to read. When an answer contains mathematics, write valid LaTeX. Delimit inline formulas with \( and \), and display formulas with \[ and \]. Do not place LaTeX inside code fences.` + "\n\nCourse context:\n" + contextText.String() + "\n\nStudent question:\n" + question
-	answer, err := s.Ollama.Chat(ctx, s.ChatModel, []models.ChatMessage{{Role: "user", Content: prompt}})
+	userPrompt := "Course context:\n" + contextText.String() + "\n\nStudent question:\n" + question
+	messages := []models.ChatMessage{
+		{Role: "system", Content: strings.TrimSpace(systemPrompt)},
+		{Role: "user", Content: userPrompt},
+	}
+	answer, err := s.Ollama.Chat(ctx, s.ChatModel, messages)
 	return enforceLocalAnswer(answer), sources, err
 }
 

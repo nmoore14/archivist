@@ -1,9 +1,8 @@
-{{define "notes.html"}}{{template "app-start" .}}
+{{define "notes.html"}}{{template "app-start" .}}<div class="course-page-shell">{{template "course-sidebar" .}}<main class="course-page-main">
 <header class="workspace-hero notes-hero">
   <div><span class="course-code">{{.Workspace.Code}}</span><h1>Course notes</h1><p>A private working page for your ideas and useful Archivist answers.</p></div>
   <span class="tag">Only you can see this note</span>
 </header>
-{{template "workspace-tabs" .}}
 <div class="content notes-page">
   {{if .Notice}}<div class="alert success">{{.Notice}}</div>{{end}}
   {{if .Error}}<div class="alert error">{{.Error}}</div>{{end}}
@@ -24,4 +23,4 @@
     </footer>
   </form>
 </div>
-{{template "app-end" .}}{{end}}
+</main></div>{{template "app-end" .}}{{end}}

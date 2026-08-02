@@ -84,6 +84,18 @@ type DocumentFile struct {
 	Name, Path, MIMEType string
 }
 
+type SearchResult struct {
+	WorkspaceID   int64
+	WorkspaceName string
+	WorkspaceCode string
+	DocumentName  string
+	Content       string
+	PageNumber    *int
+	Kind          string
+	Role          string
+	CreatedAt     time.Time
+}
+
 type Note struct {
 	Title     string
 	Content   string
@@ -283,6 +295,97 @@ func (s *Store) Workspaces(user User) ([]Workspace, error) {
 		out = append(out, w)
 	}
 	return out, rows.Err()
+}
+
+// SearchCourseContent searches only indexed passages belonging to workspaces
+// the current user is allowed to open. It does not call an embedding model or
+// any external service.
+func (s *Store) SearchCourseContent(user User, query string, limit int) ([]SearchResult, error) {
+	query = strings.TrimSpace(query)
+	if query == "" {
+		return nil, nil
+	}
+	if limit < 1 || limit > 100 {
+		limit = 40
+	}
+	pattern := "%" + strings.NewReplacer(`\`, `\\`, `%`, `\%`, `_`, `\_`).Replace(strings.ToLower(query)) + "%"
+	statement := `SELECT w.id,w.name,w.code,c.source_name,c.content,c.page_number
+		FROM document_chunks c
+		JOIN workspaces w ON w.id=c.workspace_id
+		JOIN documents d ON d.id=c.document_id
+		WHERE d.status='ready' AND (LOWER(c.content) LIKE ? ESCAPE '\' OR LOWER(c.source_name) LIKE ? ESCAPE '\')`
+	args := []any{pattern, pattern}
+	if user.Role == "student" {
+		statement += ` AND w.published=1 AND EXISTS (
+			SELECT 1 FROM workspace_members wm WHERE wm.workspace_id=w.id AND wm.user_id=?)`
+		args = append(args, user.ID)
+	}
+	statement += ` ORDER BY w.name,c.source_name,c.chunk_index LIMIT ?`
+	args = append(args, limit)
+	rows, err := s.DB.Query(statement, args...)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var results []SearchResult
+	for rows.Next() {
+		var result SearchResult
+		var page sql.NullInt64
+		if err := rows.Scan(&result.WorkspaceID, &result.WorkspaceName, &result.WorkspaceCode, &result.DocumentName, &result.Content, &page); err != nil {
+			return nil, err
+		}
+		if page.Valid {
+			value := int(page.Int64)
+			result.PageNumber = &value
+		}
+		result.Kind = "course"
+		results = append(results, result)
+	}
+	return results, rows.Err()
+}
+
+// SearchChatHistory searches only messages owned by the current user. Course
+// access is checked as well so removed assignments disappear from search.
+func (s *Store) SearchChatHistory(user User, query string, limit int) ([]SearchResult, error) {
+	query = strings.TrimSpace(query)
+	if query == "" {
+		return nil, nil
+	}
+	if limit < 1 || limit > 100 {
+		limit = 40
+	}
+	pattern := "%" + strings.NewReplacer(`\`, `\\`, `%`, `\%`, `_`, `\_`).Replace(strings.ToLower(query)) + "%"
+	statement := `SELECT w.id,w.name,w.code,m.role,m.content,m.created_at
+		FROM chat_messages m JOIN workspaces w ON w.id=m.workspace_id
+		WHERE m.user_id=? AND LOWER(m.content) LIKE ? ESCAPE '\'`
+	args := []any{user.ID, pattern}
+	if user.Role == "student" {
+		statement += ` AND w.published=1 AND EXISTS (
+			SELECT 1 FROM workspace_members wm WHERE wm.workspace_id=w.id AND wm.user_id=?)`
+		args = append(args, user.ID)
+	}
+	statement += ` ORDER BY m.created_at DESC,m.id DESC LIMIT ?`
+	args = append(args, limit)
+	rows, err := s.DB.Query(statement, args...)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var results []SearchResult
+	for rows.Next() {
+		var result SearchResult
+		if err := rows.Scan(&result.WorkspaceID, &result.WorkspaceName, &result.WorkspaceCode, &result.Role, &result.Content, &result.CreatedAt); err != nil {
+			return nil, err
+		}
+		result.Kind = "chat"
+		if result.Role == "assistant" {
+			result.DocumentName = "Archivist answer"
+		} else {
+			result.DocumentName = "Your question"
+		}
+		results = append(results, result)
+	}
+	return results, rows.Err()
 }
 
 func (s *Store) Workspace(id int64, user User) (Workspace, error) {

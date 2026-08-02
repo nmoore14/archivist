@@ -45,6 +45,8 @@ type View struct {
 	Messages      []storage.Message
 	Note          storage.Note
 	IndexStats    storage.IndexStats
+	SearchResults []storage.SearchResult
+	Query         string
 	ActiveTab     string
 	Error, Notice string
 }
@@ -142,6 +144,7 @@ func (s *Server) routes() {
 	s.mux.HandleFunc("/", s.requireAuth(s.home))
 	s.mux.HandleFunc("/dashboard", s.requireAuth(s.home))
 	s.mux.HandleFunc("/ask", s.requireAuth(s.ask))
+	s.mux.HandleFunc("/search", s.requireAuth(s.search))
 	s.mux.HandleFunc("/workspaces", s.requireAuth(s.workspaces))
 	s.mux.HandleFunc("/workspaces/new", s.requireAdmin(s.newWorkspace))
 	s.mux.HandleFunc("/workspaces/", s.requireAuth(s.workspaceRoutes))
@@ -242,6 +245,67 @@ func (s *Server) ask(w http.ResponseWriter, r *http.Request) {
 	u, _ := s.current(r)
 	workspaces, _ := s.App.Store.Workspaces(u)
 	s.render(w, "ask.html", View{Title: "Ask Archivist", User: u, Workspaces: workspaces})
+}
+func (s *Server) search(w http.ResponseWriter, r *http.Request) {
+	u, _ := s.current(r)
+	query := strings.TrimSpace(r.URL.Query().Get("q"))
+	if len(query) > 200 {
+		query = query[:200]
+	}
+	results, err := s.App.Store.SearchCourseContent(u, query, 40)
+	if err != nil {
+		log.Printf("global search: %v", err)
+		s.render(w, "search.html", View{Title: "Search", User: u, Query: query, Error: "Archivist could not search the course index. Please try again."})
+		return
+	}
+	chatResults, err := s.App.Store.SearchChatHistory(u, query, 40)
+	if err != nil {
+		log.Printf("chat history search: %v", err)
+		s.render(w, "search.html", View{Title: "Search", User: u, Query: query, Error: "Archivist could not search your chat history. Please try again."})
+		return
+	}
+	results = append(chatResults, results...)
+	if len(results) > 40 {
+		results = results[:40]
+	}
+	for index := range results {
+		results[index].Content = searchExcerpt(results[index].Content, query, 280)
+	}
+	view := View{Title: "Search", User: u, Query: query, SearchResults: results}
+	if r.URL.Query().Get("partial") == "1" {
+		s.render(w, "search-results.html", view)
+		return
+	}
+	s.render(w, "search.html", view)
+}
+
+func searchExcerpt(content, query string, limit int) string {
+	content = strings.Join(strings.Fields(content), " ")
+	if len(content) <= limit {
+		return content
+	}
+	start := strings.Index(strings.ToLower(content), strings.ToLower(query))
+	if start < 0 {
+		start = 0
+	} else {
+		start -= limit / 3
+		if start < 0 {
+			start = 0
+		}
+	}
+	end := start + limit
+	if end > len(content) {
+		end = len(content)
+		start = end - limit
+	}
+	excerpt := strings.TrimSpace(content[start:end])
+	if start > 0 {
+		excerpt = "…" + excerpt
+	}
+	if end < len(content) {
+		excerpt += "…"
+	}
+	return excerpt
 }
 func (s *Server) workspaces(w http.ResponseWriter, r *http.Request) {
 	u, _ := s.current(r)

@@ -1,0 +1,253 @@
+/* Rendered content: typography, Markdown, citations, and source drawer. */
+
+:root {
+  --source-drawer-width: min(780px,55vw);
+}
+.source-drawer {
+  position: fixed;
+  z-index: 20;
+  inset: 0 0 0 auto;
+  width: var(--source-drawer-width);
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  background: #f7f5fa;
+  border-left: 1px solid #d9d3e0;
+  box-shadow: -20px 0 55px rgba(31,24,47,.16);
+  transform: translateX(102%);
+  visibility: hidden;
+  transition: transform .3s cubic-bezier(.2,.78,.25,1),visibility 0s linear .3s;
+}
+.source-drawer[aria-hidden="false"] {
+  transform: none;
+  visibility: visible;
+  transition-delay: 0s;
+}
+.source-drawer > header {
+  min-height: 105px;
+  padding: 22px 24px;
+  background: #fff;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+.source-drawer h2 {
+  margin: 5px 0 2px;
+  font: 600 1.1002rem var(--serif);
+}
+.source-drawer header p {
+  margin: 0;
+  color: var(--muted);
+  font: 0.5498rem var(--mono);
+}
+.drawer-close {
+  width: 38px;
+  height: 38px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: #fff;
+  color: var(--ink);
+  font: 1.2rem/1 var(--sans);
+}
+.drawer-close:hover,
+.drawer-close:focus-visible {
+  border-color: var(--violet);
+  color: var(--violet);
+  outline: none;
+}
+.source-frame-wrap {
+  position: relative;
+  min-height: 0;
+  margin: 16px;
+  background: #fff;
+  border: 1px solid #dcd7e3;
+  box-shadow: 0 10px 26px rgba(41,32,59,.08);
+  overflow: hidden;
+}
+.source-loading {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: var(--muted);
+  font: 0.5498rem var(--mono);
+}
+.source-drawer iframe {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: #fff;
+}
+.source-drawer > footer {
+  min-height: 49px;
+  padding: 0 20px;
+  border-top: 1px solid var(--line);
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  color: var(--muted);
+  font: 0.5002rem var(--mono);
+}
+.source-drawer > footer a {
+  color: var(--violet);
+  font-weight: 600;
+}
+.source-drawer-scrim {
+  display: none;
+}
+@media (max-width:1000px) {
+  :root {
+    --source-drawer-width: min(720px,68vw);
+  }
+}
+@media (max-width:700px) {
+  :root {
+    --source-drawer-width: 100vw;
+  }
+  .source-drawer {
+    bottom: 65px;
+  }
+  .source-drawer > header {
+    padding: 18px;
+  }
+  .source-frame-wrap {
+    margin: 10px;
+  }
+  .source-drawer > footer {
+    padding: 0 14px;
+  }
+  .source-drawer-scrim {
+    position: fixed;
+    z-index: 19;
+    inset: 0 0 65px;
+    display: block;
+    border: 0;
+    background: rgba(23,23,34,.32);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .2s ease,visibility 0s linear .2s;
+  }
+  body.source-drawer-open .source-drawer-scrim {
+    opacity: 1;
+    visibility: visible;
+    transition-delay: 0s;
+  }
+}
+.message.assistant .markdown {
+  color: #454052;
+  line-height: 1.72;
+  overflow-wrap: anywhere;
+}
+.message.assistant .markdown > :first-child {
+  margin-top: 4px;
+}
+.message.assistant .markdown > :last-child {
+  margin-bottom: 5px;
+}
+.message.assistant .markdown p {
+  white-space: normal;
+  margin: .65em 0;
+}
+.message.assistant .markdown h1,
+.message.assistant .markdown h2,
+.message.assistant .markdown h3,
+.message.assistant .markdown h4 {
+  margin: 1.25em 0 .45em;
+  color: #2d2840;
+  font-family: var(--serif);
+  line-height: 1.25;
+}
+.message.assistant .markdown h1 {
+  font-size: 1.55em;
+}
+.message.assistant .markdown h2 {
+  font-size: 1.35em;
+}
+.message.assistant .markdown h3 {
+  font-size: 1.16em;
+}
+.message.assistant .markdown ul,
+.message.assistant .markdown ol {
+  margin: .65em 0;
+  padding-left: 1.6em;
+}
+.message.assistant .markdown li {
+  margin: .3em 0;
+  padding-left: .15em;
+}
+.message.assistant .markdown li > p {
+  margin: .25em 0;
+}
+.message.assistant .markdown a {
+  color: var(--violet);
+  text-decoration: underline;
+  text-decoration-color: #c7b4e6;
+  text-underline-offset: 2px;
+}
+.message.assistant .markdown strong {
+  color: #302a43;
+}
+.message.assistant .markdown blockquote {
+  margin: 1em 0;
+  padding: .2em 1em;
+  border-left: 3px solid #c7b4e6;
+  background: #faf7ff;
+  color: #625b70;
+}
+.message.assistant .markdown code {
+  padding: .14em .36em;
+  border: 1px solid #e2dce9;
+  border-radius: 4px;
+  background: #f6f3f9;
+  color: #4c3475;
+  font: 0.6502rem/1.55 var(--mono);
+}
+.message.assistant .markdown pre {
+  max-width: 100%;
+  margin: 1em 0;
+  padding: 15px 17px;
+  overflow: auto;
+  border: 1px solid #ddd6e5;
+  border-radius: 7px;
+  background: #262331;
+  color: #f5f1fb;
+}
+.message.assistant .markdown pre code {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+}
+.message.assistant .markdown hr {
+  margin: 1.3em 0;
+  border: 0;
+  border-top: 1px solid var(--line);
+}
+.message.assistant .markdown table {
+  display: block;
+  max-width: 100%;
+  margin: 1em 0;
+  overflow-x: auto;
+  border-collapse: collapse;
+}
+.message.assistant .markdown th,
+.message.assistant .markdown td {
+  padding: 8px 10px;
+  border: 1px solid #ded8e5;
+  text-align: left;
+  vertical-align: top;
+}
+.message.assistant .markdown th {
+  background: #f6f2fa;
+  color: #302a43;
+  font-weight: 650;
+}
+.alert.success {
+  background: #eef8f3;
+  color: var(--green);
+  border: 1px solid #cfe7dc;
+}

@@ -49,3 +49,16 @@ func TestEnforceLocalAnswerKeepsOrdinaryMarkdown(t *testing.T) {
 		t.Fatalf("ordinary grounded Markdown changed: %q", filtered)
 	}
 }
+
+func TestSystemPromptIsKeptInItsOwnFile(t *testing.T) {
+	prompt := strings.TrimSpace(systemPrompt)
+	if prompt == "" {
+		t.Fatal("embedded system prompt is empty")
+	}
+	if !strings.HasPrefix(prompt, "You are Archivist") {
+		t.Fatalf("unexpected system prompt: %q", prompt)
+	}
+	if strings.Contains(prompt, "Course context:") || strings.Contains(prompt, "Student question:") {
+		t.Fatal("request-specific content belongs in the user message, not the system prompt")
+	}
+}
