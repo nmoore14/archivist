@@ -1,0 +1,306 @@
+/* Architect blend: drafting-room color, softer edges, and material depth. */
+
+:root {
+  --architect-blue: #476b7d;
+  --architect-terracotta: #c97855;
+  --architect-sage: #7f987f;
+  --architect-brass: #c59a4a;
+  --architect-graphite: #2d3438;
+  --architect-line: #c9c5ba;
+  --sun: #dfb85f;
+  --mint: #8da58b;
+  --pink: #d99175;
+  --ink: #252b2e;
+  --muted: #6f7472;
+  --line: var(--architect-line);
+  --paper: #f1efe8;
+  --white: #fbfaf5;
+  --violet: var(--architect-blue);
+  --violet-2: var(--architect-brass);
+  --pale: #e7ece9;
+  --grid: rgba(71, 107, 125, 0.055);
+  --shadow: 0 12px 32px rgba(42, 47, 49, 0.1);
+}
+
+.rail {
+  border-color: rgba(255, 255, 255, 0.08);
+  background: var(--architect-graphite);
+  box-shadow: 0 12px 30px rgba(38, 43, 46, 0.18);
+}
+
+.seal {
+  background: var(--architect-brass);
+  box-shadow: 0 5px 14px rgba(0, 0, 0, 0.16);
+  transform: none;
+}
+
+.rail nav a.rail-ask {
+  background: #f4f1e8;
+  color: var(--architect-graphite);
+}
+
+.rail nav a.rail-ask:hover,
+.rail nav a.rail-ask:focus-visible {
+  background: var(--architect-brass);
+}
+
+.avatar {
+  border-color: rgba(255, 255, 255, 0.55);
+  background: var(--architect-terracotta);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.16);
+}
+
+.button {
+  border-color: color-mix(in srgb, var(--architect-graphite) 55%, transparent);
+}
+
+.button:hover,
+.button:focus-visible {
+  box-shadow: 0 7px 18px rgba(45, 52, 56, 0.16);
+}
+
+.button.primary,
+.course-new-question {
+  border-color: color-mix(in srgb, var(--architect-brass) 55%, var(--ink));
+  background: var(--architect-brass);
+  color: #202426;
+  box-shadow: 0 7px 18px rgba(123, 91, 35, 0.18);
+}
+
+.button.primary:hover,
+.course-new-question:hover,
+.course-new-question:focus-visible {
+  background: #d1a54f;
+  box-shadow: 0 9px 22px rgba(123, 91, 35, 0.22);
+  transform: translateY(-1px);
+}
+
+.welcome,
+.ask-header,
+.search-hero {
+  border-color: var(--architect-line);
+  border-radius: 22px;
+  box-shadow: 0 18px 48px rgba(45, 52, 56, 0.12);
+}
+
+.welcome::after {
+  color: color-mix(in srgb, var(--architect-terracotta) 58%, var(--white));
+  -webkit-text-stroke-color: color-mix(
+    in srgb,
+    var(--architect-terracotta) 65%,
+    transparent
+  );
+}
+
+.ask-orbit {
+  border-color: color-mix(in srgb, var(--architect-sage) 65%, var(--ink));
+  background: var(--architect-sage);
+}
+
+.ask-orbit::before,
+.ask-orbit::after {
+  border-color: color-mix(in srgb, var(--architect-blue) 25%, transparent);
+}
+
+.ask-orbit span {
+  background: var(--architect-brass);
+}
+
+.workspace-card,
+.ask-course,
+.panel,
+.editor-card,
+.metric-row,
+.table-list,
+.note-folio,
+.index-path,
+.index-table-wrap,
+.index-settings,
+.global-search-form,
+.global-search-results > article,
+.search-start,
+.empty,
+.composer,
+.command-ribbon,
+.source-map,
+.source-drawer,
+.global-search-modal,
+.user-settings-menu {
+  border-width: 1px;
+  border-color: var(--architect-line);
+  box-shadow: var(--shadow);
+}
+
+.workspace-card,
+.ask-course,
+.panel,
+.editor-card,
+.metric-row,
+.table-list,
+.index-path,
+.index-table-wrap,
+.index-settings,
+.global-search-form,
+.global-search-results > article,
+.search-start,
+.empty {
+  border-radius: 16px;
+}
+
+.workspace-card:hover,
+.workspace-card:focus-visible,
+.ask-course:hover,
+.ask-course:focus-visible {
+  border-color: color-mix(in srgb, var(--architect-blue) 45%, var(--line));
+  box-shadow: 0 16px 36px rgba(45, 52, 56, 0.14);
+  transform: translateY(-2px);
+}
+
+.monogram,
+.ask-course-mark,
+.course-desk-mark,
+.file-mark,
+.empty-mark {
+  border-color: color-mix(in srgb, var(--architect-graphite) 30%, var(--line));
+}
+
+.workspace-card:nth-child(3n+1) .monogram,
+.ask-course:nth-child(3n+1) .ask-course-mark {
+  background: color-mix(in srgb, var(--white) 52%, var(--architect-terracotta));
+}
+
+.workspace-card:nth-child(3n+2) .monogram,
+.ask-course:nth-child(3n+2) .ask-course-mark {
+  background: color-mix(in srgb, var(--white) 48%, var(--architect-sage));
+}
+
+.workspace-card:nth-child(3n) .monogram,
+.ask-course:nth-child(3n) .ask-course-mark {
+  background: color-mix(in srgb, var(--white) 48%, var(--architect-brass));
+}
+
+.status,
+.local-badge,
+.tag {
+  border-color: var(--architect-line);
+  background: color-mix(in srgb, var(--white) 92%, var(--architect-sage));
+}
+
+.dropzone {
+  border-color: color-mix(in srgb, var(--architect-blue) 45%, var(--line));
+  background: color-mix(in srgb, var(--white) 88%, var(--architect-blue));
+}
+
+.index-settings {
+  background: color-mix(in srgb, var(--white) 82%, var(--architect-sage));
+}
+
+.setting-choice {
+  border-color: var(--architect-line);
+}
+
+.setting-choice:has(input:checked) {
+  border-color: color-mix(in srgb, var(--architect-blue) 55%, var(--line));
+  background: color-mix(in srgb, var(--white) 78%, var(--architect-blue));
+  box-shadow: 0 7px 18px rgba(71, 107, 125, 0.13);
+}
+
+.chat-course-sidebar {
+  border-color: var(--architect-line);
+}
+
+.chat-course-sidebar nav a.active {
+  border-color: var(--architect-blue);
+  background: var(--architect-blue);
+  color: #f9faf7;
+}
+
+.course-sidebar-context {
+  border-color: color-mix(in srgb, var(--architect-sage) 60%, var(--line));
+  background: color-mix(in srgb, var(--white) 62%, var(--architect-sage));
+  box-shadow: 0 8px 20px rgba(71, 84, 72, 0.1);
+}
+
+.message.assistant .message-content {
+  border-color: color-mix(in srgb, var(--architect-blue) 65%, #1d2529);
+  background: #26343b;
+  box-shadow: 0 12px 28px rgba(38, 52, 59, 0.16);
+}
+
+.message.user > div:last-child {
+  border-color: var(--architect-line);
+  box-shadow: 0 8px 20px rgba(45, 52, 56, 0.08);
+}
+
+.message-role {
+  border-color: color-mix(in srgb, var(--architect-sage) 60%, var(--ink));
+  background: var(--architect-sage);
+}
+
+.message.user .message-role {
+  border-color: color-mix(in srgb, var(--architect-terracotta) 60%, var(--ink));
+  background: var(--architect-terracotta);
+}
+
+.message-action,
+.source-citation {
+  border-color: color-mix(in srgb, var(--architect-brass) 50%, var(--line));
+  background: color-mix(in srgb, var(--white) 58%, var(--architect-brass));
+}
+
+.source-map {
+  background: var(--architect-graphite);
+  box-shadow: 0 14px 34px rgba(45, 52, 56, 0.16);
+}
+
+.composer,
+.command-ribbon {
+  border-color: var(--architect-line);
+  box-shadow: 0 12px 30px rgba(45, 52, 56, 0.1);
+}
+
+.command-ribbon a:hover,
+.command-ribbon button:hover,
+.command-ribbon a:focus-visible,
+.command-ribbon button:focus-visible {
+  background: color-mix(in srgb, var(--white) 68%, var(--architect-sage));
+}
+
+.source-drawer,
+.global-search-modal,
+.user-settings-menu {
+  border-color: var(--architect-line);
+  box-shadow: 0 24px 65px rgba(38, 43, 46, 0.2);
+}
+
+.search-result-chat {
+  border-left-color: var(--architect-terracotta) !important;
+}
+
+.search-result-chat .search-result-course {
+  background: color-mix(in srgb, var(--white) 58%, var(--architect-terracotta));
+}
+
+.global-search-form > div {
+  border-color: var(--architect-line);
+}
+
+.user-settings-menu label:hover,
+.user-settings-menu label:has(input:checked) {
+  border-color: color-mix(in srgb, var(--architect-blue) 45%, var(--line));
+  background: color-mix(in srgb, var(--white) 76%, var(--architect-blue));
+}
+
+@media (max-width: 700px) {
+  .welcome,
+  .ask-header,
+  .search-hero,
+  .workspace-card,
+  .ask-course,
+  .panel,
+  .editor-card,
+  .note-folio,
+  .index-settings {
+    box-shadow: 0 10px 24px rgba(45, 52, 56, 0.11);
+  }
+}
