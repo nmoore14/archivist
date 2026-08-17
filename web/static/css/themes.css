@@ -162,3 +162,96 @@ html[data-theme="dark"] .chat-course-sidebar nav a.active {
   background: var(--sun);
   color: #191918;
 }
+
+/* Course workspace contrast. Keep the architect palette legible after dark-mode
+   surfaces replace the light sidebar and citation backgrounds. */
+html[data-theme="dark"] .chat-course-sidebar nav a {
+  color: #d8e0dc;
+}
+
+html[data-theme="dark"] .chat-course-sidebar nav a:not(.active):hover,
+html[data-theme="dark"] .chat-course-sidebar nav a:not(.active):focus-visible {
+  border-color: #657476;
+  background: #303b3f;
+  color: #fff;
+}
+
+html[data-theme="dark"] .course-sidebar-label {
+  color: #b8c2bd;
+}
+
+html[data-theme="dark"] .course-sidebar-context {
+  background: #303b3a;
+  color: #f0f3f1;
+}
+
+html[data-theme="dark"] .course-sidebar-context p {
+  color: #c5cfca;
+}
+
+html[data-theme="dark"] .course-sidebar-context strong {
+  color: #f3f5f4;
+}
+
+html[data-theme="dark"] .course-sidebar-context a {
+  color: #e5c77f;
+}
+
+html[data-theme="dark"] .course-desk-mark,
+html[data-theme="dark"] .file-mark {
+  border-color: #536164;
+  color: #d9e2de;
+}
+
+html[data-theme="dark"] .dropzone {
+  border-color: #66808a;
+  background: #2b373b;
+  color: #edf2ef;
+}
+
+html[data-theme="dark"] .dropzone > span {
+  color: #f4f6f5;
+  font-weight: 700;
+}
+
+html[data-theme="dark"] .dropzone small {
+  color: #c2ccc8;
+}
+
+html[data-theme="dark"] .dropzone:hover,
+html[data-theme="dark"] .dropzone:focus-within {
+  border-color: #9ac0cf;
+  background: #324247;
+}
+
+html[data-theme="dark"] .source-citation {
+  border: 1px solid #d2ad60;
+  background: #c8a45a;
+  color: #172023;
+}
+
+html[data-theme="dark"] .source-citation small {
+  border-left-color: rgba(23, 32, 35, 0.35);
+  color: #173d4b;
+  font-weight: 700;
+}
+
+html[data-theme="dark"] .source-citation:hover,
+html[data-theme="dark"] .source-citation:focus-visible {
+  border-color: #f0d18b;
+  background: #dfbc70;
+  color: #101719;
+  outline: 2px solid #8db2c2;
+  outline-offset: 2px;
+}
+
+html[data-theme="dark"] .thinking-card {
+  border-color: #526268;
+  background: #303c41;
+  color: #f2f5f3;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.22);
+}
+
+html[data-theme="dark"] .thinking-dots i {
+  background: #8fc2d3;
+}

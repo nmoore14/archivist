@@ -1,4 +1,4 @@
-.PHONY: help setup build demo verify status logs stop test
+.PHONY: help setup build demo verify status logs stop test evaluate evaluate-test
 
 help:
 	@echo "Archivist setup and operations"
@@ -11,6 +11,8 @@ help:
 	@echo "  make logs    Follow container logs"
 	@echo "  make stop    Stop the standard local containers"
 	@echo "  make test    Run the application tests"
+	@echo "  make evaluate       Run the no-RAG versus RAG model evaluation"
+	@echo "  make evaluate-test  Validate evaluation files without Ollama"
 
 setup:
 	@./deploy/linux/guided-setup.sh
@@ -36,3 +38,10 @@ stop:
 
 test:
 	go test ./...
+
+evaluate:
+	python3 scripts/evaluate.py
+
+evaluate-test:
+	python3 scripts/evaluate.py --validate-only
+	python3 -m unittest discover -s evaluation/tests -p 'test_*.py'

@@ -100,14 +100,37 @@ func (s *Service) Answer(ctx context.Context, workspaceID int64, question string
 		{Role: "user", Content: userPrompt},
 	}
 	answer, err := s.Ollama.Chat(ctx, s.ChatModel, messages)
-	return enforceLocalAnswer(answer), sources, err
+	return enforceLocalAnswerWithContext(answer, contextText.String()), sources, err
 }
 
 func enforceLocalAnswer(answer string) string {
+	return enforceLocalAnswerWithContext(answer, "")
+}
+
+func enforceLocalAnswerWithContext(answer, courseContext string) string {
 	if location := generatedReferenceHeading.FindStringIndex(answer); location != nil {
 		answer = answer[:location[0]]
 	}
-	answer = markdownWebLink.ReplaceAllString(answer, "$1")
-	answer = bareWebURL.ReplaceAllString(answer, "")
+	allowedURLs := map[string]bool{}
+	for _, url := range bareWebURL.FindAllString(courseContext, -1) {
+		allowedURLs[url] = true
+	}
+	answer = markdownWebLink.ReplaceAllStringFunc(answer, func(link string) string {
+		parts := markdownWebLink.FindStringSubmatch(link)
+		if len(parts) != 2 {
+			return link
+		}
+		url := bareWebURL.FindString(link)
+		if !allowedURLs[url] {
+			return parts[1]
+		}
+		return link
+	})
+	answer = bareWebURL.ReplaceAllStringFunc(answer, func(url string) string {
+		if allowedURLs[url] {
+			return url
+		}
+		return ""
+	})
 	return strings.TrimSpace(answer)
 }

@@ -1,0 +1,753 @@
+{
+  "schema": "openai.presentation.layout/v4",
+  "unit": "px",
+  "slide": {
+    "aid": "sl/aq8jgu",
+    "id": "aq8jgu",
+    "slide": 2,
+    "layoutId": "b51edbfd-e492-42ce-ac4f-a927f12d9e5c",
+    "layoutName": "Title Slide",
+    "layoutType": "title",
+    "masterLayoutId": "fa7c8eff-0407-41fd-ad6f-37185122648b",
+    "masterLayoutName": "Master",
+    "backgroundColor": "#FFFFFF",
+    "frame": {
+      "left": 0,
+      "top": 0,
+      "width": 1280,
+      "height": 720
+    }
+  },
+  "theme": {
+    "colorSchemeName": "ChatGPT",
+    "colors": {
+      "accent1": "#156082",
+      "accent2": "#E97132",
+      "accent3": "#196B24",
+      "accent4": "#0F9ED5",
+      "accent5": "#A02B93",
+      "accent6": "#4EA72E",
+      "bg1": "#FFFFFF",
+      "bg2": "#000000",
+      "tx1": "#1F1F1F",
+      "tx2": "#FFFFFF",
+      "dk1": "#000000",
+      "lt1": "#FFFFFF",
+      "dk2": "#0E2841",
+      "lt2": "#E8E8E8",
+      "hlink": "#467886",
+      "folHlink": "#96607D"
+    },
+    "typefaces": [
+      "+mn-lt"
+    ]
+  },
+  "inheritedLayers": [
+    {
+      "scope": "layout",
+      "id": "b51edbfd-e492-42ce-ac4f-a927f12d9e5c",
+      "name": "Title Slide",
+      "type": "title",
+      "parentLayoutId": "fa7c8eff-0407-41fd-ad6f-37185122648b",
+      "elements": []
+    },
+    {
+      "scope": "master",
+      "id": "fa7c8eff-0407-41fd-ad6f-37185122648b",
+      "name": "Master",
+      "type": "master",
+      "elements": []
+    }
+  ],
+  "elements": [
+    {
+      "order": 1,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/yxwzehwj",
+      "id": "1",
+      "bbox": [
+        56,
+        34,
+        430,
+        24
+      ],
+      "geometry": "rect",
+      "text": "THE PROBLEM",
+      "textPreview": "THE PROBLEM",
+      "resolvedFontSize": 13,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 13,
+        "typeface": "+mn-lt",
+        "color": "#59616B",
+        "bold": true,
+        "alignment": "left",
+        "verticalAlignment": "middle",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "THE PROBLEM"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "THE PROBLEM",
+          "resolvedTextStyle": {
+            "fontSize": 13,
+            "color": "#59616B",
+            "bold": true,
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "THE PROBLEM",
+              "fontSize": 13,
+              "color": "#59616B",
+              "bold": true,
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 2,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/l0nipcva",
+      "id": "2",
+      "bbox": [
+        56,
+        68,
+        1168,
+        64
+      ],
+      "geometry": "rect",
+      "text": "Schools face an AI access–control tradeoff",
+      "textPreview": "Schools face an AI access–control tradeoff",
+      "resolvedFontSize": 38,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 38,
+        "typeface": "+mn-lt",
+        "color": "#101214",
+        "bold": true,
+        "alignment": "left",
+        "verticalAlignment": "middle",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Schools face an AI access–control tradeoff"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Schools face an AI access–control tradeoff",
+          "resolvedTextStyle": {
+            "fontSize": 38,
+            "color": "#101214",
+            "bold": true,
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Schools face an AI access–control tradeoff",
+              "fontSize": 38,
+              "color": "#101214",
+              "bold": true,
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 3,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/kzehg7ep",
+      "id": "3",
+      "bbox": [
+        56,
+        146,
+        1168,
+        2
+      ],
+      "geometry": "rect",
+      "fillColor": "#101214",
+      "lineWidth": 0
+    },
+    {
+      "order": 4,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/7250rmd0",
+      "id": "4",
+      "bbox": [
+        56,
+        178,
+        640,
+        92
+      ],
+      "geometry": "rect",
+      "text": "Cloud assistants are easy to try, but they can create concerns around privacy, source control, cost, and reliability.",
+      "textPreview": "Cloud assistants are easy to try, but they can create concerns around privacy, source control, cost, and reliability.",
+      "resolvedFontSize": 27,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 27,
+        "typeface": "+mn-lt",
+        "color": "#101214",
+        "bold": true,
+        "alignment": "left",
+        "verticalAlignment": "middle",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 3,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Cloud assistants are easy to try, but they can"
+          },
+          {
+            "index": 2,
+            "text": "create concerns around privacy, source control,"
+          },
+          {
+            "index": 3,
+            "text": "cost, and reliability."
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Cloud assistants are easy to try, but they can create concerns around privacy, source control, cost, and reliability.",
+          "resolvedTextStyle": {
+            "fontSize": 27,
+            "color": "#101214",
+            "bold": true,
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Cloud assistants are easy to try, but they can create concerns around privacy, source control, cost, and reliability.",
+              "fontSize": 27,
+              "color": "#101214",
+              "bold": true,
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 5,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/61wzihwv",
+      "id": "5",
+      "bbox": [
+        56,
+        316,
+        540,
+        238
+      ],
+      "geometry": "rect",
+      "fillColor": "#EEF1F3",
+      "lineWidth": 0
+    },
+    {
+      "order": 6,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/t47itwv6",
+      "id": "6",
+      "bbox": [
+        84,
+        340,
+        450,
+        36
+      ],
+      "geometry": "rect",
+      "text": "What stakeholders need",
+      "textPreview": "What stakeholders need",
+      "resolvedFontSize": 23,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 23,
+        "typeface": "+mn-lt",
+        "color": "#173B57",
+        "bold": true,
+        "alignment": "left",
+        "verticalAlignment": "middle",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "What stakeholders need"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "What stakeholders need",
+          "resolvedTextStyle": {
+            "fontSize": 23,
+            "color": "#173B57",
+            "bold": true,
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "What stakeholders need",
+              "fontSize": 23,
+              "color": "#173B57",
+              "bold": true,
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 7,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/s3y1krel",
+      "id": "7",
+      "bbox": [
+        84,
+        395,
+        455,
+        130
+      ],
+      "geometry": "rect",
+      "text": "• Course content stays under local control\n• Answers trace back to approved material\n• Setup works without an AI infrastructure team",
+      "textPreview": "• Course content stays under local control | • Answers trace back to approved material | • Setup works without an AI infrastructure team",
+      "resolvedFontSize": 20,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 20,
+        "typeface": "+mn-lt",
+        "color": "#101214",
+        "alignment": "left",
+        "verticalAlignment": "middle",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 3,
+        "lines": [
+          {
+            "index": 1,
+            "text": "• Course content stays under local control"
+          },
+          {
+            "index": 2,
+            "text": "• Answers trace back to approved material"
+          },
+          {
+            "index": 3,
+            "text": "• Setup works without an AI infrastructure team"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "• Course content stays under local control",
+          "resolvedTextStyle": {
+            "fontSize": 20,
+            "color": "#101214",
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "• Course content stays under local control",
+              "fontSize": 20,
+              "color": "#101214",
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        },
+        {
+          "index": 2,
+          "text": "• Answers trace back to approved material",
+          "resolvedTextStyle": {
+            "fontSize": 20,
+            "color": "#101214",
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "• Answers trace back to approved material",
+              "fontSize": 20,
+              "color": "#101214",
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        },
+        {
+          "index": 3,
+          "text": "• Setup works without an AI infrastructure team",
+          "resolvedTextStyle": {
+            "fontSize": 20,
+            "color": "#101214",
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "• Setup works without an AI infrastructure team",
+              "fontSize": 20,
+              "color": "#101214",
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 8,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/n6l0fidw",
+      "id": "8",
+      "bbox": [
+        760,
+        190,
+        360,
+        28
+      ],
+      "geometry": "rect",
+      "text": "The research question",
+      "textPreview": "The research question",
+      "resolvedFontSize": 18,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 18,
+        "typeface": "+mn-lt",
+        "color": "#59616B",
+        "bold": true,
+        "alignment": "left",
+        "verticalAlignment": "middle",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "The research question"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "The research question",
+          "resolvedTextStyle": {
+            "fontSize": 18,
+            "color": "#59616B",
+            "bold": true,
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "The research question",
+              "fontSize": 18,
+              "color": "#59616B",
+              "bold": true,
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 9,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/m5cz6xwb",
+      "id": "9",
+      "bbox": [
+        760,
+        240,
+        390,
+        220
+      ],
+      "geometry": "rect",
+      "text": "Can guided workflows reduce the technical barriers to deploying local AI assistants for education?",
+      "textPreview": "Can guided workflows reduce the technical barriers to deploying local AI assistants for education?",
+      "resolvedFontSize": 36,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 36,
+        "typeface": "+mn-lt",
+        "color": "#2F80ED",
+        "bold": true,
+        "alignment": "left",
+        "verticalAlignment": "middle",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 6,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Can guided"
+          },
+          {
+            "index": 2,
+            "text": "workflows reduce"
+          },
+          {
+            "index": 3,
+            "text": "the technical barriers"
+          },
+          {
+            "index": 4,
+            "text": "to deploying local AI"
+          },
+          {
+            "index": 5,
+            "text": "assistants for"
+          },
+          {
+            "index": 6,
+            "text": "education?"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Can guided workflows reduce the technical barriers to deploying local AI assistants for education?",
+          "resolvedTextStyle": {
+            "fontSize": 36,
+            "color": "#2F80ED",
+            "bold": true,
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Can guided workflows reduce the technical barriers to deploying local AI assistants for education?",
+              "fontSize": 36,
+              "color": "#2F80ED",
+              "bold": true,
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 10,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/cvmx47ah",
+      "id": "10",
+      "bbox": [
+        56,
+        678,
+        500,
+        18
+      ],
+      "geometry": "rect",
+      "text": "ARCHIVIST  •  LOCAL-FIRST AI FOR SCHOOLS",
+      "textPreview": "ARCHIVIST  •  LOCAL-FIRST AI FOR SCHOOLS",
+      "resolvedFontSize": 10,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 10,
+        "typeface": "+mn-lt",
+        "color": "#59616B",
+        "bold": true,
+        "alignment": "left",
+        "verticalAlignment": "middle",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "ARCHIVIST  •  LOCAL-FIRST AI FOR SCHOOLS"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "ARCHIVIST  •  LOCAL-FIRST AI FOR SCHOOLS",
+          "resolvedTextStyle": {
+            "fontSize": 10,
+            "color": "#59616B",
+            "bold": true,
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "ARCHIVIST  •  LOCAL-FIRST AI FOR SCHOOLS",
+              "fontSize": 10,
+              "color": "#59616B",
+              "bold": true,
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 11,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/dwfexcb2",
+      "id": "11",
+      "bbox": [
+        1160,
+        678,
+        64,
+        18
+      ],
+      "geometry": "rect",
+      "text": "02",
+      "textPreview": "02",
+      "resolvedFontSize": 10,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 10,
+        "typeface": "+mn-lt",
+        "color": "#59616B",
+        "bold": true,
+        "alignment": "right",
+        "verticalAlignment": "middle",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "02"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "02",
+          "resolvedTextStyle": {
+            "fontSize": 10,
+            "color": "#59616B",
+            "bold": true,
+            "alignment": "right"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "02",
+              "fontSize": 10,
+              "color": "#59616B",
+              "bold": true,
+              "alignment": "right"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    }
+  ],
+  "composeRuns": []
+}

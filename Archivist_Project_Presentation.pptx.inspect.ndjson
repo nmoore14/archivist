@@ -1,0 +1,123 @@
+{"kind":"deck","id":"pr/hetp7c","name":"Deck"}
+{"kind":"layout","layoutId":"fa7c8eff-0407-41fd-ad6f-37185122648b","name":"Master","type":"master"}
+{"kind":"layout","layoutId":"b51edbfd-e492-42ce-ac4f-a927f12d9e5c","name":"Title Slide","type":"title"}
+{"kind":"slide","id":"sl/e27eg3","slide":1,"title":"MSAI 699 CAPSTONE","textShapes":7}
+{"kind":"textbox","id":"sh/pk7qh0bm","slide":1,"text":"MSAI 699 CAPSTONE","textPreview":"MSAI 699 CAPSTONE","textChars":17,"textLines":1,"bbox":[56,38,360,24]}
+{"kind":"textbox","id":"sh/2hg76lcv","slide":1,"text":"Archivist","textPreview":"Archivist","textChars":9,"textLines":1,"bbox":[56,188,700,92]}
+{"kind":"textbox","id":"sh/3ip8fqtg","slide":1,"text":"A local-first AI workspace that keeps course answers grounded in trusted material","textPreview":"A local-first AI workspace that keeps course answers grounded in trusted material","textChars":81,"textLines":1,"bbox":[56,298,760,104]}
+{"kind":"shape","id":"sh/gfep4bu5","slide":1,"bbox":[930,0,350,720]}
+{"kind":"shape","id":"sh/1gn6dgba","slide":1,"bbox":[970,150,245,245]}
+{"kind":"textbox","id":"sh/etw721cz","slide":1,"text":"PRIVATE","textPreview":"PRIVATE","textChars":7,"textLines":1,"bbox":[994,185,197,44]}
+{"kind":"textbox","id":"sh/fu5ob6tk","slide":1,"text":"+","textPreview":"+","textChars":1,"textLines":1,"bbox":[994,243,197,44]}
+{"kind":"textbox","id":"sh/0bipgfu9","slide":1,"text":"GROUNDED","textPreview":"GROUNDED","textChars":8,"textLines":1,"bbox":[994,305,197,44]}
+{"kind":"textbox","id":"sh/lcrqpkbu","slide":1,"text":"Nick Moore  •  Summer 2026","textPreview":"Nick Moore  •  Summer 2026","textChars":26,"textLines":1,"bbox":[56,620,500,26]}
+{"kind":"notes","id":"nt/e27eg3","slide":1,"text":"Stakeholders need educational AI that is useful without sending sensitive course content to an external service. Archivist explores a practical middle path: local deployment, guided administration, and answers tied directly to instructor-approved sources. Today I’ll show the problem, the system, how I evaluated it, and what the results suggest.\n\n[Sources]\n- Project repository artifacts and evaluation outputs supplied in the workspace.\n[/Sources]"}
+{"kind":"slide","id":"sl/aq8jgu","slide":2,"title":"THE PROBLEM","textShapes":9}
+{"kind":"textbox","id":"sh/yxwzehwj","slide":2,"text":"THE PROBLEM","textPreview":"THE PROBLEM","textChars":11,"textLines":1,"bbox":[56,34,430,24]}
+{"kind":"textbox","id":"sh/l0nipcva","slide":2,"text":"Schools face an AI access–control tradeoff","textPreview":"Schools face an AI access–control tradeoff","textChars":42,"textLines":1,"bbox":[56,68,1168,64]}
+{"kind":"shape","id":"sh/kzehg7ep","slide":2,"bbox":[56,146,1168,2]}
+{"kind":"textbox","id":"sh/7250rmd0","slide":2,"text":"Cloud assistants are easy to try, but they can create concerns around privacy, source control, cost, and reliability.","textPreview":"Cloud assistants are easy to try, but they can create concerns around privacy, source control, cost, and reliability.","textChars":117,"textLines":1,"bbox":[56,178,640,92]}
+{"kind":"shape","id":"sh/61wzihwv","slide":2,"bbox":[56,316,540,238]}
+{"kind":"textbox","id":"sh/t47itwv6","slide":2,"text":"What stakeholders need","textPreview":"What stakeholders need","textChars":22,"textLines":1,"bbox":[84,340,450,36]}
+{"kind":"textbox","id":"sh/s3y1krel","slide":2,"text":"• Course content stays under local control\n• Answers trace back to approved material\n• Setup works without an AI infrastructure team","textPreview":"• Course content stays under local control | • Answers trace back to approved material | • Setup works without an AI infrastructure team","textChars":132,"textLines":3,"bbox":[84,395,455,130]}
+{"kind":"textbox","id":"sh/n6l0fidw","slide":2,"text":"The research question","textPreview":"The research question","textChars":21,"textLines":1,"bbox":[760,190,360,28]}
+{"kind":"textbox","id":"sh/m5cz6xwb","slide":2,"text":"Can guided workflows reduce the technical barriers to deploying local AI assistants for education?","textPreview":"Can guided workflows reduce the technical barriers to deploying local AI assistants for education?","textChars":98,"textLines":1,"bbox":[760,240,390,220]}
+{"kind":"textbox","id":"sh/cvmx47ah","slide":2,"text":"ARCHIVIST  •  LOCAL-FIRST AI FOR SCHOOLS","textPreview":"ARCHIVIST  •  LOCAL-FIRST AI FOR SCHOOLS","textChars":40,"textLines":1,"bbox":[56,678,500,18]}
+{"kind":"textbox","id":"sh/dwfexcb2","slide":2,"text":"02","textPreview":"02","textChars":2,"textLines":1,"bbox":[1160,678,64,18]}
+{"kind":"notes","id":"nt/aq8jgu","slide":2,"text":"The project began with a stakeholder tension. Schools want the benefits of conversational AI, but administrators also need control over data, sources, and deployment. Local models help with control, yet local AI is usually harder to configure. That leads to the project’s research question: can a guided workflow make local AI practical for an educational setting?\n\n[Sources]\n- Project repository artifacts and evaluation outputs supplied in the workspace.\n[/Sources]"}
+{"kind":"slide","id":"sl/s4nmlb","slide":3,"title":"THE SOLUTION","textShapes":16}
+{"kind":"textbox","id":"sh/21g3adwf","slide":3,"text":"THE SOLUTION","textPreview":"THE SOLUTION","textChars":12,"textLines":1,"bbox":[56,34,430,24]}
+{"kind":"textbox","id":"sh/p4rm58v6","slide":3,"text":"Archivist turns trusted course files into cited student answers","textPreview":"Archivist turns trusted course files into cited student answers","textChars":63,"textLines":1,"bbox":[56,68,1168,64]}
+{"kind":"shape","id":"sh/43ilc3el","slide":3,"bbox":[56,146,1168,2]}
+{"kind":"shape","id":"sh/r6947idc","slide":3,"bbox":[64,214,236,250]}
+{"kind":"textbox","id":"sh/q503edwr","slide":3,"text":"1  ADMIN","textPreview":"1  ADMIN","textChars":8,"textLines":1,"bbox":[86,234,192,28]}
+{"kind":"textbox","id":"sh/d8rm9sv2","slide":3,"text":"Create a course workspace and upload approved documents.","textPreview":"Create a course workspace and upload approved documents.","textChars":56,"textLines":1,"bbox":[86,294,192,125]}
+{"kind":"textbox","id":"sh/c7ilgnex","slide":3,"text":"→","textPreview":"→","textChars":1,"textLines":1,"bbox":[307,302,46,50]}
+{"kind":"shape","id":"sh/zut4b2d8","slide":3,"bbox":[360,214,236,250]}
+{"kind":"textbox","id":"sh/etk3ixwn","slide":3,"text":"2  INDEX","textPreview":"2  INDEX","textChars":8,"textLines":1,"bbox":[382,234,192,28]}
+{"kind":"textbox","id":"sh/ofyts72h","slide":3,"text":"Extract, chunk, and embed content using local models.","textPreview":"Extract, chunk, and embed content using local models.","textChars":53,"textLines":1,"bbox":[382,294,192,125]}
+{"kind":"textbox","id":"sh/9g7ulcjm","slide":3,"text":"→","textPreview":"→","textChars":1,"textLines":1,"bbox":[603,302,46,50]}
+{"kind":"shape","id":"sh/mtgbqxkb","slide":3,"bbox":[656,214,236,250]}
+{"kind":"textbox","id":"sh/nupcj21w","slide":3,"text":"3  ASK","textPreview":"3  ASK","textChars":6,"textLines":1,"bbox":[678,234,192,28]}
+{"kind":"textbox","id":"sh/wjitwr2d","slide":3,"text":"Assigned students ask questions in a simple web interface.","textPreview":"Assigned students ask questions in a simple web interface.","textChars":58,"textLines":1,"bbox":[678,294,192,125]}
+{"kind":"textbox","id":"sh/xkrupwjy","slide":3,"text":"→","textPreview":"→","textChars":1,"textLines":1,"bbox":[899,302,46,50]}
+{"kind":"shape","id":"sh/ahgbuhk7","slide":3,"bbox":[952,214,236,250]}
+{"kind":"textbox","id":"sh/bipcnm1s","slide":3,"text":"4  ANSWER","textPreview":"4  ANSWER","textChars":9,"textLines":1,"bbox":[974,234,192,28]}
+{"kind":"textbox","id":"sh/knid0r29","slide":3,"text":"Generate a grounded response with references to source material.","textPreview":"Generate a grounded response with references to source material.","textChars":64,"textLines":1,"bbox":[974,294,192,125]}
+{"kind":"textbox","id":"sh/5orutwju","slide":3,"text":"One guided path connects administration, retrieval, and learning—without moving course data to a hosted AI service.","textPreview":"One guided path connects administration, retrieval, and learning—without moving course data to a hosted AI service.","textChars":115,"textLines":1,"bbox":[120,520,1040,60]}
+{"kind":"textbox","id":"sh/t4nudwby","slide":3,"text":"ARCHIVIST  •  LOCAL-FIRST AI FOR SCHOOLS","textPreview":"ARCHIVIST  •  LOCAL-FIRST AI FOR SCHOOLS","textChars":40,"textLines":1,"bbox":[56,678,500,18]}
+{"kind":"textbox","id":"sh/s3etkrut","slide":3,"text":"03","textPreview":"03","textChars":2,"textLines":1,"bbox":[1160,678,64,18]}
+{"kind":"notes","id":"nt/s4nmlb","slide":3,"text":"The workflow is deliberately simple. An administrator creates a workspace, uploads trusted material, and assigns students. Archivist extracts the text, breaks it into chunks, and creates embeddings locally. When a student asks a question, the system retrieves the most relevant chunks, sends that context to the local language model, and returns an answer with source references. The value is not just the model—it is the guided end-to-end workflow.\n\n[Sources]\n- Project repository artifacts and evaluation outputs supplied in the workspace.\n[/Sources]"}
+{"kind":"slide","id":"sl/dowu72","slide":4,"title":"METHODOLOGY","textShapes":11}
+{"kind":"textbox","id":"sh/elonup4n","slide":4,"text":"METHODOLOGY","textPreview":"METHODOLOGY","textChars":11,"textLines":1,"bbox":[56,34,430,24]}
+{"kind":"textbox","id":"sh/18f6pk3e","slide":4,"text":"The evaluation separated retrieval value from tuning","textPreview":"The evaluation separated retrieval value from tuning","textChars":52,"textLines":1,"bbox":[56,68,1168,64]}
+{"kind":"shape","id":"sh/0765wfmt","slide":4,"bbox":[56,146,1168,2]}
+{"kind":"textbox","id":"sh/ridojalc","slide":4,"text":"BASELINE STUDY","textPreview":"BASELINE STUDY","textChars":14,"textLines":1,"bbox":[56,190,280,30]}
+{"kind":"textbox","id":"sh/qh4nq54r","slide":4,"text":"15 versioned questions","textPreview":"15 versioned questions","textChars":22,"textLines":1,"bbox":[56,235,360,45]}
+{"kind":"textbox","id":"sh/dkf6lk32","slide":4,"text":"Compared no-RAG and RAG answers with manual correctness scoring, groundedness, retrieval hits, hallucination handling, and latency.","textPreview":"Compared no-RAG and RAG answers with manual correctness scoring, groundedness, retrieval hits, hallucination handling, and latency.","textChars":131,"textLines":1,"bbox":[56,296,470,156]}
+{"kind":"shape","id":"sh/sj65sfmx","slide":4,"bbox":[610,182,2,382]}
+{"kind":"textbox","id":"sh/jed4fql0","slide":4,"text":"OPTIMIZATION STUDY","textPreview":"OPTIMIZATION STUDY","textChars":18,"textLines":1,"bbox":[672,190,300,30]}
+{"kind":"textbox","id":"sh/id4nml4f","slide":4,"text":"6 RAG configurations","textPreview":"6 RAG configurations","textChars":20,"textLines":1,"bbox":[672,235,420,45]}
+{"kind":"textbox","id":"sh/obmtkvex","slide":4,"text":"Varied chunk size, overlap, and top-k while holding the same question set and using a project-specific quality–speed selection score.","textPreview":"Varied chunk size, overlap, and top-k while holding the same question set and using a project-specific quality–speed selection score.","textChars":133,"textLines":1,"bbox":[672,296,470,156]}
+{"kind":"shape","id":"sh/pcvad0f2","slide":4,"bbox":[56,500,1088,58]}
+{"kind":"textbox","id":"sh/294rilwr","slide":4,"text":"Scope: a small initial benchmark—not a statistical or production-scale validation.","textPreview":"Scope: a small initial benchmark—not a statistical or production-scale validation.","textChars":82,"textLines":1,"bbox":[76,511,1048,36]}
+{"kind":"textbox","id":"sh/nadsbqxc","slide":4,"text":"ARCHIVIST  •  LOCAL-FIRST AI FOR SCHOOLS","textPreview":"ARCHIVIST  •  LOCAL-FIRST AI FOR SCHOOLS","textChars":40,"textLines":1,"bbox":[56,678,500,18]}
+{"kind":"textbox","id":"sh/0729gvel","slide":4,"text":"04","textPreview":"04","textChars":2,"textLines":1,"bbox":[1160,678,64,18]}
+{"kind":"notes","id":"nt/dowu72","slide":4,"text":"I used a two-stage methodology. First, the baseline study compared the model without retrieval against the same model with retrieval on 15 versioned questions. I manually scored correctness and tracked groundedness, retrieval success, hallucination handling, and response time. Second, I evaluated six retrieval configurations by changing chunk size, overlap, and the number of retrieved chunks. The same test set made the comparisons reproducible. Because the sample is small, I treat these results as directional rather than statistically significant.\n\n[Sources]\n- Project repository artifacts and evaluation outputs supplied in the workspace.\n[/Sources]"}
+{"kind":"slide","id":"sl/aq2ufa","slide":5,"title":"BASELINE RESULTS","textShapes":17}
+{"kind":"textbox","id":"sh/0nad8zy9","slide":5,"text":"BASELINE RESULTS","textPreview":"BASELINE RESULTS","textChars":16,"textLines":1,"bbox":[56,34,430,24]}
+{"kind":"textbox","id":"sh/zm1cfuho","slide":5,"text":"Grounding raised answer correctness by 30 percentage points","textPreview":"Grounding raised answer correctness by 30 percentage points","textChars":59,"textLines":1,"bbox":[56,68,1168,64]}
+{"kind":"shape","id":"sh/ylsv69g3","slide":5,"bbox":[56,146,1168,2]}
+{"kind":"textbox","id":"sh/dkjud4zi","slide":5,"text":"NO RETRIEVAL","textPreview":"NO RETRIEVAL","textChars":12,"textLines":1,"bbox":[76,192,360,24]}
+{"kind":"textbox","id":"sh/cjad4zyx","slide":5,"text":"63.3%","textPreview":"63.3%","textChars":5,"textLines":1,"bbox":[76,230,360,92]}
+{"kind":"textbox","id":"sh/bi1cbuhs","slide":5,"text":"correctness","textPreview":"correctness","textChars":11,"textLines":1,"bbox":[76,326,360,30]}
+{"kind":"textbox","id":"sh/qhsv2pg7","slide":5,"text":"+30.0 pts","textPreview":"+30.0 pts","textChars":9,"textLines":1,"bbox":[470,253,340,58]}
+{"kind":"textbox","id":"sh/pgju9kzm","slide":5,"text":"WITH RETRIEVAL","textPreview":"WITH RETRIEVAL","textChars":14,"textLines":1,"bbox":[844,192,360,24]}
+{"kind":"textbox","id":"sh/ovqd0fy1","slide":5,"text":"93.3%","textPreview":"93.3%","textChars":5,"textLines":1,"bbox":[844,230,360,92]}
+{"kind":"textbox","id":"sh/i18zy9sb","slide":5,"text":"correctness","textPreview":"correctness","textChars":11,"textLines":1,"bbox":[844,326,360,30]}
+{"kind":"shape","id":"sh/32hgre9w","slide":5,"bbox":[124,420,1032,2]}
+{"kind":"textbox","id":"sh/43qh0jah","slide":5,"text":"100%","textPreview":"100%","textChars":4,"textLines":1,"bbox":[92,458,320,56]}
+{"kind":"textbox","id":"sh/54jyt4r2","slide":5,"text":"Retrieval Hit Rate@3","textPreview":"Retrieval Hit Rate@3","textChars":20,"textLines":1,"bbox":[92,520,320,42]}
+{"kind":"textbox","id":"sh/ud8zupsf","slide":5,"text":"0.93","textPreview":"0.93","textChars":4,"textLines":1,"bbox":[478,458,320,56]}
+{"kind":"textbox","id":"sh/vehgnu90","slide":5,"text":"Average groundedness","textPreview":"Average groundedness","textChars":20,"textLines":1,"bbox":[478,520,320,42]}
+{"kind":"textbox","id":"sh/gfqhwzal","slide":5,"text":"100%","textPreview":"100%","textChars":4,"textLines":1,"bbox":[864,458,320,56]}
+{"kind":"textbox","id":"sh/hgzyp4rq","slide":5,"text":"Unanswerable-question handling","textPreview":"Unanswerable-question handling","textChars":30,"textLines":1,"bbox":[864,520,320,42]}
+{"kind":"textbox","id":"sh/69ofqps3","slide":5,"text":"ARCHIVIST  •  LOCAL-FIRST AI FOR SCHOOLS","textPreview":"ARCHIVIST  •  LOCAL-FIRST AI FOR SCHOOLS","textChars":40,"textLines":1,"bbox":[56,678,500,18]}
+{"kind":"textbox","id":"sh/7axgju9o","slide":5,"text":"05","textPreview":"05","textChars":2,"textLines":1,"bbox":[1160,678,64,18]}
+{"kind":"notes","id":"nt/aq2ufa","slide":5,"text":"The baseline result is the clearest evidence in the project. Without retrieval, answers earned 63.3 percent of the maximum correctness score. With retrieval, correctness rose to 93.3 percent—a 30-point improvement. Retrieval found relevant material for every question, average groundedness was 0.93, and the system correctly handled the questions whose answers were not in the source. The important stakeholder takeaway is that trusted context did more than add citations; it materially improved the answer behavior.\n\n[Sources]\n- Project repository artifacts and evaluation outputs supplied in the workspace.\n[/Sources]"}
+{"kind":"slide","id":"sl/odjmli","slide":6,"title":"OPTIMIZATION RESULTS","textShapes":12}
+{"kind":"textbox","id":"sh/hcbu947m","slide":6,"text":"OPTIMIZATION RESULTS","textPreview":"OPTIMIZATION RESULTS","textChars":20,"textLines":1,"bbox":[56,34,430,24]}
+{"kind":"textbox","id":"sh/u9kby98b","slide":6,"text":"Tuning improved quality and cut mean latency 43%","textPreview":"Tuning improved quality and cut mean latency 43%","textChars":48,"textLines":1,"bbox":[56,68,1168,64]}
+{"kind":"shape","id":"sh/vatc7epg","slide":6,"bbox":[56,146,1168,2]}
+{"kind":"textbox","id":"sh/tobu547q","slide":6,"text":"SELECTED","textPreview":"SELECTED","textChars":8,"textLines":1,"bbox":[810,186,300,24]}
+{"kind":"textbox","id":"sh/6l0bup8z","slide":6,"text":"top-k = 1","textPreview":"top-k = 1","textChars":9,"textLines":1,"bbox":[810,222,350,46]}
+{"kind":"shape","id":"sh/7mtc3upk","slide":6,"bbox":[810,296,350,2]}
+{"kind":"textbox","id":"sh/sjmd8jq9","slide":6,"text":"96.7%","textPreview":"96.7%","textChars":5,"textLines":1,"bbox":[810,320,160,54]}
+{"kind":"textbox","id":"sh/dkvuho7u","slide":6,"text":"correctness","textPreview":"correctness","textChars":11,"textLines":1,"bbox":[810,374,160,28]}
+{"kind":"textbox","id":"sh/1kr6pg3u","slide":6,"text":"1.07 s","textPreview":"1.07 s","textChars":6,"textLines":1,"bbox":[1000,320,160,54]}
+{"kind":"textbox","id":"sh/0jipgb29","slide":6,"text":"mean response","textPreview":"mean response","textChars":13,"textLines":1,"bbox":[1000,374,160,28]}
+{"kind":"textbox","id":"sh/fipon6lo","slide":6,"text":"Versus baseline: +3.3 correctness points and −0.81 seconds.","textPreview":"Versus baseline: +3.3 correctness points and −0.81 seconds.","textChars":59,"textLines":1,"bbox":[810,438,350,92]}
+{"kind":"textbox","id":"sh/ehg7elk3","slide":6,"text":"Smaller chunks reached 100% correctness, but the selection score favored top-k 1 for its stronger quality–speed balance.","textPreview":"Smaller chunks reached 100% correctness, but the selection score favored top-k 1 for its stronger quality–speed balance.","textChars":120,"textLines":1,"bbox":[810,538,350,82]}
+{"kind":"textbox","id":"sh/dg76lg3i","slide":6,"text":"ARCHIVIST  •  LOCAL-FIRST AI FOR SCHOOLS","textPreview":"ARCHIVIST  •  LOCAL-FIRST AI FOR SCHOOLS","textChars":40,"textLines":1,"bbox":[56,678,500,18]}
+{"kind":"textbox","id":"sh/sfy5cb2d","slide":6,"text":"06","textPreview":"06","textChars":2,"textLines":1,"bbox":[1160,678,64,18]}
+{"kind":"image","id":"im/d8re9kfm","slide":6,"name":"","alt":"Correctness and response-time tradeoff across six RAG configurations","bbox":[56,172,700,430]}
+{"kind":"notes","id":"nt/odjmli","slide":6,"text":"The optimization study showed that more retrieved context was not automatically better. The selected configuration kept the original 1,000-character chunks and 200-character overlap, but reduced top-k from three chunks to one. It reached 96.7 percent correctness with a mean response time of 1.07 seconds. Relative to the baseline configuration, that is a 3.3-point correctness improvement and a 43 percent reduction in mean latency. A smaller-chunk setup did reach 100 percent correctness, but the project’s combined quality-and-speed score favored top-k one.\n\n[Sources]\n- Project repository artifacts and evaluation outputs supplied in the workspace.\n[/Sources]"}
+{"kind":"slide","id":"sl/w6pqkp","slide":7,"title":"INTERPRETATION","textShapes":8}
+{"kind":"textbox","id":"sh/5gbm1gfa","slide":7,"text":"INTERPRETATION","textPreview":"INTERPRETATION","textChars":14,"textLines":1,"bbox":[56,34,430,24]}
+{"kind":"textbox","id":"sh/it0361wz","slide":7,"text":"The MVP validates the technical path—not usability","textPreview":"The MVP validates the technical path—not usability","textChars":50,"textLines":1,"bbox":[56,68,1168,64]}
+{"kind":"shape","id":"sh/ju94z6xk","slide":7,"bbox":[56,146,1168,2]}
+{"kind":"textbox","id":"sh/sj25cbe1","slide":7,"text":"WHAT THE RESULTS SUPPORT","textPreview":"WHAT THE RESULTS SUPPORT","textChars":24,"textLines":1,"bbox":[56,184,500,26]}
+{"kind":"textbox","id":"sh/tkbm5gfm","slide":7,"text":"Retrieval makes local answers substantially more reliable on the project test set.\n\nCareful tuning can reduce context and latency without sacrificing quality.\n\nA guided local workflow is feasible as a deployable educational MVP.","textPreview":"Retrieval makes local answers substantially more reliable on the project test set. |  | Careful tuning can reduce context and latency wit...","textChars":228,"textLines":5,"bbox":[56,228,510,330]}
+{"kind":"shape","id":"sh/6hk3a1wv","slide":7,"bbox":[620,176,2,404]}
+{"kind":"textbox","id":"sh/7it436xg","slide":7,"text":"WHAT THEY DO NOT YET PROVE","textPreview":"WHAT THEY DO NOT YET PROVE","textChars":26,"textLines":1,"bbox":[684,184,500,26]}
+{"kind":"textbox","id":"sh/8nyl0rex","slide":7,"text":"The 15-question benchmark is too small for broad generalization.\n\nAI-assisted quality scores still require final human verification.\n\nThe central research question needs user testing: completion rate, time on task, errors, recovery, and confidence.","textPreview":"The 15-question benchmark is too small for broad generalization. |  | AI-assisted quality scores still require final human verification. ...","textChars":248,"textLines":5,"bbox":[684,228,510,330]}
+{"kind":"textbox","id":"sh/9ormtwfi","slide":7,"text":"ARCHIVIST  •  LOCAL-FIRST AI FOR SCHOOLS","textPreview":"ARCHIVIST  •  LOCAL-FIRST AI FOR SCHOOLS","textChars":40,"textLines":1,"bbox":[56,678,500,18]}
+{"kind":"textbox","id":"sh/xwredgji","slide":7,"text":"07","textPreview":"07","textChars":2,"textLines":1,"bbox":[1160,678,64,18]}
+{"kind":"notes","id":"nt/w6pqkp","slide":7,"text":"These results support three conclusions: retrieval is valuable for this use case, configuration choices matter, and the local architecture can deliver responsive grounded answers. But they do not yet prove that nontechnical administrators can deploy the system successfully. The evaluation is small and project-specific, and the optimization quality scores are an AI-assisted draft pending human verification. The next study should focus directly on the guided workflow using completion rate, time on task, errors, recovery behavior, and confidence.\n\n[Sources]\n- Project repository artifacts and evaluation outputs supplied in the workspace.\n[/Sources]"}
+{"kind":"slide","id":"sl/jvex38","slide":8,"title":"CONCLUSION","textShapes":4}
+{"kind":"textbox","id":"sh/gbelwbyd","slide":8,"text":"CONCLUSION","textPreview":"CONCLUSION","textChars":10,"textLines":1,"bbox":[56,42,320,24]}
+{"kind":"textbox","id":"sh/fa5kn6h8","slide":8,"text":"Archivist makes local educational AI more useful by making it grounded—and more practical by making it guided.","textPreview":"Archivist makes local educational AI more useful by making it grounded—and more practical by making it guided.","textChars":110,"textLines":1,"bbox":[56,158,1040,220]}
+{"kind":"shape","id":"sh/u9w3u1gn","slide":8,"bbox":[56,430,1168,2]}
+{"kind":"textbox","id":"sh/p07mtgfa","slide":8,"text":"Next: validate the setup experience with real administrators, then harden OCR, background indexing, security, and scale.","textPreview":"Next: validate the setup experience with real administrators, then harden OCR, background indexing, security, and scale.","textChars":120,"textLines":1,"bbox":[56,470,1040,92]}
+{"kind":"textbox","id":"sh/4fel0byp","slide":8,"text":"Questions & stakeholder feedback","textPreview":"Questions & stakeholder feedback","textChars":32,"textLines":1,"bbox":[56,626,760,26]}
+{"kind":"notes","id":"nt/jvex38","slide":8,"text":"The project’s central conclusion is that local AI for schools becomes more useful when answers are grounded and more practical when deployment is guided. Archivist demonstrates that technical path with a working MVP and measurable retrieval gains. The next decision is whether to proceed to stakeholder usability testing, followed by hardening work such as OCR, background indexing, security controls, and scalable vector storage. I’d welcome questions and feedback on the workflow and the next evaluation phase.\n\n[Sources]\n- Project repository artifacts and evaluation outputs supplied in the workspace.\n[/Sources]"}

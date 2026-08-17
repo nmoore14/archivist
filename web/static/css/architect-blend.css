@@ -304,3 +304,369 @@
     box-shadow: 0 10px 24px rgba(45, 52, 56, 0.11);
   }
 }
+
+/* Dashboard-frame composition inspired by compact operations workspaces. */
+
+html,
+body {
+  background-color: var(--architect-graphite);
+  background-image: none;
+}
+
+.app-shell {
+  min-height: 100vh;
+  margin: 0;
+  padding: 14px 14px 14px 78px;
+  border-radius: 0;
+  overflow: hidden;
+  background: var(--architect-graphite);
+}
+
+.rail {
+  inset: 14px auto 14px 14px;
+  width: 58px;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.rail nav {
+  gap: 8px;
+}
+
+.rail nav a,
+.icon-button {
+  width: 42px;
+  height: 42px;
+}
+
+.rail nav a:hover,
+.rail nav a:focus-visible {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+}
+
+.rail nav a.rail-ask,
+.rail nav a.rail-ask:hover,
+.rail nav a.rail-ask:focus-visible {
+  background: #edf1ed;
+  color: var(--architect-graphite);
+}
+
+.main {
+  min-height: calc(100vh - 28px);
+  border-radius: 24px;
+  overflow: hidden;
+  background: var(--white);
+}
+
+.topbar,
+.chat-top,
+.workspace-hero,
+.chat-shell,
+.course-page-shell,
+.chat-compose-dock {
+  background-image: none;
+}
+
+.topbar,
+.chat-top {
+  background: var(--white);
+}
+
+.eyebrow::before,
+.course-code::before {
+  content: none;
+}
+
+.content {
+  background: var(--white);
+}
+
+.welcome,
+.ask-header,
+.search-hero {
+  border: 0;
+  background-color: color-mix(in srgb, var(--white) 72%, var(--architect-blue));
+  background-image: none;
+  box-shadow: none;
+}
+
+.welcome::after {
+  opacity: 0.22;
+  -webkit-text-stroke-width: 1px;
+}
+
+.welcome .button.primary {
+  border-color: #d69f21;
+  background: #f2c94c;
+  color: #1d2528;
+  box-shadow: 0 8px 22px rgba(174, 121, 20, 0.28);
+}
+
+.welcome .button.primary:hover,
+.welcome .button.primary:focus-visible {
+  border-color: #bd8411;
+  background: #ffda63;
+  color: #151b1d;
+  box-shadow: 0 10px 26px rgba(174, 121, 20, 0.36);
+}
+
+html[data-theme="light"] .welcome,
+html[data-theme="light"] .welcome .eyebrow,
+html[data-theme="light"] .finding-aid,
+html[data-theme="light"] .finding-aid .eyebrow,
+html[data-theme="light"] .finding-aid h3 {
+  color: #202b30;
+}
+
+html[data-theme="light"] .finding-aid b {
+  color: #294754;
+}
+
+html[data-theme="light"] .finding-aid span {
+  color: #44555c;
+}
+
+@media (min-width: 1001px) {
+  .welcome {
+    min-height: 270px;
+    padding-bottom: 56px;
+  }
+
+  .welcome .button {
+    bottom: 30px;
+  }
+}
+
+.workspace-grid {
+  gap: 16px;
+}
+
+.workspace-card,
+.ask-course {
+  border: 0;
+  box-shadow: none;
+}
+
+.workspace-card:nth-child(3n+1),
+.ask-course:nth-child(3n+1) {
+  background: color-mix(in srgb, var(--white) 78%, var(--architect-blue));
+}
+
+.workspace-card:nth-child(3n+2),
+.ask-course:nth-child(3n+2) {
+  background: color-mix(in srgb, var(--white) 78%, var(--architect-sage));
+}
+
+.workspace-card:nth-child(3n),
+.ask-course:nth-child(3n) {
+  background: color-mix(
+    in srgb,
+    var(--white) 82%,
+    var(--architect-terracotta)
+  );
+}
+
+.workspace-card:hover,
+.workspace-card:focus-visible,
+.ask-course:hover,
+.ask-course:focus-visible {
+  border: 0;
+  box-shadow: 0 12px 28px rgba(45, 52, 56, 0.12);
+  transform: translateY(-2px);
+}
+
+.panel,
+.editor-card,
+.metric-row,
+.table-list,
+.note-folio,
+.index-path,
+.index-table-wrap,
+.global-search-form,
+.global-search-results > article,
+.search-start,
+.empty {
+  border-color: color-mix(in srgb, var(--line) 70%, transparent);
+  box-shadow: 0 8px 24px rgba(45, 52, 56, 0.07);
+}
+
+.metric-row > div:nth-child(1) {
+  background: color-mix(in srgb, var(--white) 76%, var(--architect-blue));
+}
+
+.metric-row > div:nth-child(2) {
+  background: color-mix(in srgb, var(--white) 78%, var(--architect-sage));
+}
+
+.metric-row > div:nth-child(3) {
+  background: color-mix(
+    in srgb,
+    var(--white) 82%,
+    var(--architect-terracotta)
+  );
+}
+
+.chat-shell,
+.course-page-shell {
+  min-height: calc(100vh - 28px);
+  background: var(--white);
+}
+
+.chat-shell {
+  height: calc(100vh - 28px);
+}
+
+.chat-course-sidebar {
+  border: 0;
+  border-right: 1px solid color-mix(in srgb, var(--line) 65%, transparent);
+  background: #f1f2ef;
+  background-image: none;
+}
+
+.chat-course-sidebar nav a {
+  min-height: 40px;
+  padding-inline: 12px;
+  border-radius: 10px;
+}
+
+.chat-course-sidebar nav a.active {
+  border-color: #253d49;
+  background: #253d49;
+  box-shadow: none;
+}
+
+.course-new-question {
+  min-height: 42px;
+  border: 0;
+  border-radius: 12px;
+  background: var(--architect-brass);
+  box-shadow: none;
+}
+
+.course-new-question:hover,
+.course-new-question:focus-visible {
+  box-shadow: 0 7px 18px rgba(123, 91, 35, 0.18);
+}
+
+.course-sidebar-context {
+  border: 0;
+  border-radius: 14px;
+  background: color-mix(in srgb, #f1f2ef 72%, var(--architect-sage));
+  box-shadow: none;
+}
+
+.chat-body {
+  background: color-mix(in srgb, var(--white) 94%, var(--architect-blue));
+}
+
+.message.assistant .message-content {
+  border: 0;
+  border-radius: 14px;
+  background: #253d49;
+  box-shadow: none;
+}
+
+.message.user > div:last-child {
+  border: 0;
+  border-radius: 14px;
+  background: var(--white);
+  box-shadow: 0 4px 14px rgba(45, 52, 56, 0.07);
+}
+
+.message-role {
+  border: 0;
+  box-shadow: 0 3px 10px rgba(45, 52, 56, 0.1);
+}
+
+.message-action,
+.source-citation {
+  border: 0;
+  background: color-mix(in srgb, var(--white) 48%, var(--architect-brass));
+  box-shadow: none;
+}
+
+.source-map {
+  border: 0;
+  border-radius: 16px;
+  background: #253d49;
+  box-shadow: none;
+}
+
+.chat-compose-dock {
+  background: var(--white);
+}
+
+.composer,
+.command-ribbon {
+  border-color: color-mix(in srgb, var(--line) 75%, transparent);
+  box-shadow: 0 8px 24px rgba(45, 52, 56, 0.08);
+}
+
+.composer {
+  border-radius: 16px;
+}
+
+.command-ribbon {
+  border-radius: 12px;
+}
+
+.index-settings {
+  border: 0;
+  background: color-mix(in srgb, var(--white) 76%, var(--architect-sage));
+  box-shadow: none;
+}
+
+.source-drawer,
+.global-search-modal,
+.user-settings-menu {
+  border-color: color-mix(in srgb, var(--line) 75%, transparent);
+  box-shadow: 0 24px 60px rgba(38, 43, 46, 0.18);
+}
+
+@media (max-width: 860px) {
+  .chat-course-sidebar {
+    border-right: 0;
+    border-bottom: 1px solid color-mix(in srgb, var(--line) 65%, transparent);
+  }
+}
+
+@media (max-width: 700px) {
+  html,
+  body {
+    background: var(--paper);
+  }
+
+  .app-shell {
+    min-height: 100vh;
+    margin: 0;
+    padding: 0 0 75px;
+    border-radius: 0;
+    background: var(--paper);
+  }
+
+  .main {
+    min-height: 100vh;
+    border-radius: 0;
+  }
+
+  .rail {
+    inset: auto 10px 10px;
+    width: calc(100% - 20px);
+    height: 62px;
+    padding-inline: 14px;
+    border-radius: 20px;
+    background: var(--architect-graphite);
+    box-shadow: 0 12px 30px rgba(38, 43, 46, 0.2);
+  }
+
+  .chat-shell,
+  .course-page-shell {
+    min-height: calc(100vh - 75px);
+  }
+
+  .chat-shell {
+    height: calc(100vh - 75px);
+  }
+}

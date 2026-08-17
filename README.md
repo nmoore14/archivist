@@ -13,33 +13,42 @@ The capstone investigates whether guided workflows can reduce the technical barr
 - Bubble Tea TUI foundation
 - Docker Compose for a two-service local deployment
 
-## Run with Docker
+## Run Archivist with Docker
 
-Docker is the only required host dependency.
+Before you begin, install Docker Engine with the Docker Compose v2 plugin. Docker
+is the only host dependency.
 
-For a guided menu covering Linux installation, the portable demo, build-only,
-and offline verification, run:
-
-```sh
-make setup
-```
-
-The same common operations are available individually through `make help`.
+To start Archivist locally:
 
 ```sh
-docker compose up --build
+docker compose up --build -d
 ```
 
-In another terminal, install the local models:
+Download the chat and embedding models:
 
 ```sh
 docker compose exec ollama ollama pull gemma3:1b
 docker compose exec ollama ollama pull nomic-embed-text
 ```
 
-Open [http://localhost:8080](http://localhost:8080). On a fresh data volume, Archivist opens the **Create Admin Account** screen. Create the first admin, then add a workspace, course sources, student accounts, and workspace assignments.
+Open the [Archivist web interface](http://localhost:8080). On a new data volume,
+Archivist displays **Create Admin Account**. Create the first administrator
+account, and then create a workspace, upload course sources, create student
+accounts, and assign the students to the workspace.
 
-New uploads are extracted, chunked, and embedded immediately. Archivist also records the indexing-pipeline version used for each document. On startup it waits for Ollama, detects missing, failed, or outdated document indexes, and rebuilds only those documents automatically.
+Archivist extracts, chunks, and embeds new uploads immediately. It records the
+indexing-pipeline version for each document. On startup, Archivist waits for
+Ollama and rebuilds missing, failed, or outdated document indexes.
+
+To follow the application logs:
+
+```sh
+docker compose logs -f
+```
+
+For detailed setup instructions and troubleshooting, see [Set up Archivist
+locally](docs/setup.md). Run `make help` to list the common build, test, status,
+log, and shutdown commands.
 
 To open the TUI inside the running app container:
 
@@ -61,20 +70,21 @@ With Go 1.23 and Ollama installed:
 go run ./cmd/archivist-server
 ```
 
-Defaults may be changed with the variables documented in [.env.example](.env.example).
+You can change the defaults with the variables in the [environment variable
+example](.env.example).
 
 ## Offline Linux deployment
 
 The production-style Linux deployment keeps both runtime containers on an
-internal Docker network with no published ports. Host Nginx is the only
-LAN-facing component and proxies port 8080 to Archivist.
+internal Docker network with no published ports. Nginx on the host is the only
+LAN-facing component. It proxies port `8080` to Archivist.
 
-See [docs/linux-deployment.md](docs/linux-deployment.md) for the installation,
-demo, verification, upgrade, and removal workflow.
+For installation, verification, upgrade, and removal instructions, see [Deploy
+Archivist on an offline Linux network](docs/linux-deployment.md).
 
-For a portable, single-parent-container demonstration, see
-[docs/nested-demo.md](docs/nested-demo.md). That privileged Docker-in-Docker
-wrapper is intentionally separate from the production deployment.
+For a portable, single-parent-container demonstration, see [Run the nested
+container demo](docs/nested-demo.md). That privileged Docker-in-Docker wrapper
+is separate from the production deployment.
 
 ## Current MVP limitations
 
@@ -83,6 +93,13 @@ wrapper is intentionally separate from the production deployment.
 - Reindex is a route and UI foundation; background job processing is not yet implemented.
 - Student password reset, account editing, CSRF tokens, rate limiting, and production TLS are future hardening work.
 - Chat history is currently grouped by workspace rather than separate named conversations.
+
+## Evaluate model behavior
+
+Archivist includes a reproducible no-RAG versus RAG evaluation with 15 versioned
+questions, automated screening, latency measurements, and a manual-review
+template. See [Run the model evaluation](evaluation/README.md) for prerequisites,
+commands, scoring guidance, and generated artifacts.
 
 ## Roadmap
 

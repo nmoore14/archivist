@@ -1,10 +1,10 @@
 # Offline Linux deployment
 
-This deployment is intended for a school or business Linux server. Installation
-uses the internet to build the image and download the two Ollama models. After
-installation, Archivist and Ollama run on an internal Docker network without a
-default outbound route. Nginx runs on the host and exposes Archivist only to the
-configured LAN.
+Use this deployment for a school or business Linux server. During installation,
+the server uses the internet to build the image and download two Ollama models.
+After installation, Archivist and Ollama run on an internal Docker network
+without a default outbound route. Nginx runs on the host and exposes Archivist
+only to the configured LAN.
 
 ## Guided setup
 
@@ -54,14 +54,14 @@ Identify the LAN subnet. Common examples are `192.168.1.0/24`,
 sudo LAN_CIDR=192.168.1.0/24 ./deploy/linux/install.sh
 ```
 
-The installer:
+The installer performs these steps:
 
-1. builds the application image;
-2. downloads the configured chat and embedding models;
-3. removes the temporary internet-connected model bootstrap container;
-4. installs an Nginx reverse proxy restricted to `LAN_CIDR`;
-5. installs and starts `archivist.service`;
-6. verifies that the runtime Docker network is internal and has no published
+1. Builds the application image.
+2. Downloads the configured chat and embedding models.
+3. Removes the temporary internet-connected model bootstrap container.
+4. Installs an Nginx reverse proxy restricted to `LAN_CIDR`.
+5. Installs and starts `archivist.service`.
+6. Verifies that the runtime Docker network is internal and has no published
    ports or default outbound route.
 
 Model and application data persist in the `archivist_ollama-data` and
