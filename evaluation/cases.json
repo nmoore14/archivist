@@ -1,0 +1,129 @@
+{
+  "dataset_version": "openstax-1.3-v1",
+  "source": "data/openstax_section_1_3.txt",
+  "description": "Questions for comparing direct generation with retrieval-augmented generation on the bundled OpenStax section.",
+  "cases": [
+    {
+      "id": "q01",
+      "category": "definition",
+      "question": "What is the difference between a datum and data?",
+      "reference_answer": "A datum is one observation or point of reference; data is the plural term for multiple observations.",
+      "answerable": true,
+      "required_concepts": [["datum", "single observation", "one observation"], ["plural", "multiple observations"]]
+    },
+    {
+      "id": "q02",
+      "category": "definition",
+      "question": "How does the textbook define a dataset?",
+      "reference_answer": "A dataset is a collection of observations or data entities organized for analysis and interpretation.",
+      "answerable": true,
+      "required_concepts": [["collection"], ["observations", "entities"], ["analysis", "analyzed", "interpret"]]
+    },
+    {
+      "id": "q03",
+      "category": "comparison",
+      "question": "What is the difference between structured and unstructured data?",
+      "reference_answer": "Structured data follows a predefined consistent schema; unstructured data lacks a fixed schema and does not fit neatly into rows and columns.",
+      "answerable": true,
+      "required_concepts": [["predefined", "consistent", "schema"], ["lacks", "without", "no fixed"], ["rows and columns", "tabular"]]
+    },
+    {
+      "id": "q04",
+      "category": "definition",
+      "question": "What characteristics make a dataset structured?",
+      "reference_answer": "Its entities share the same attributes and its values follow a consistent organization such as rows and columns.",
+      "answerable": true,
+      "required_concepts": [["same attributes", "consistent fields"], ["rows and columns", "tabular", "consistent organization"]]
+    },
+    {
+      "id": "q05",
+      "category": "examples",
+      "question": "What are examples of unstructured datasets mentioned in the section?",
+      "reference_answer": "Examples include product reviews, social-media posts and images, short videos, and free-form web searches.",
+      "answerable": true,
+      "required_concepts": [["reviews"], ["twitter", "instagram", "social-media", "social media"], ["video", "tiktok"], ["search"]]
+    },
+    {
+      "id": "q06",
+      "category": "comparison",
+      "question": "What is the difference between an entity and an attribute in a dataset?",
+      "reference_answer": "An entity is one observation being described; an attribute is a feature or characteristic used to describe it.",
+      "answerable": true,
+      "required_concepts": [["observation", "item", "instance"], ["feature", "characteristic", "property"]]
+    },
+    {
+      "id": "q07",
+      "category": "reasoning",
+      "question": "Why is temperature considered continuous numeric data in the jacket example?",
+      "reference_answer": "Temperature is a measured quantity with numeric values and units, and a reading can take any real-number value in the measurement context.",
+      "answerable": true,
+      "required_concepts": [["measured", "measurement", "numeric"], ["real-number", "real number", "infinite", "continuous"]]
+    },
+    {
+      "id": "q08",
+      "category": "reasoning",
+      "question": "Why is the 'Needed a Jacket?' column categorical nominal data?",
+      "reference_answer": "Its values come from the finite labels Yes and No, and those labels have no inherent order.",
+      "answerable": true,
+      "required_concepts": [["yes and no", "yes or no", "labels"], ["no inherent order", "no natural order", "not ordered"]]
+    },
+    {
+      "id": "q09",
+      "category": "reasoning",
+      "question": "Why can structured data be easier to analyze than unstructured data?",
+      "reference_answer": "Consistent fields and tabular organization make the same attributes easier to compare across records.",
+      "answerable": true,
+      "required_concepts": [["consistent fields", "consistent attributes", "consistent"], ["compare", "comparison"], ["records", "rows", "tabular"]]
+    },
+    {
+      "id": "q10",
+      "category": "recall",
+      "question": "What structured data formats are introduced in the section?",
+      "reference_answer": "The section introduces CSV, JSON, and XML.",
+      "answerable": true,
+      "required_concepts": [["csv"], ["json"], ["xml"]]
+    },
+    {
+      "id": "q11",
+      "category": "comparison",
+      "question": "How does CSV differ from JSON when storing structured data?",
+      "reference_answer": "CSV stores flat comma-separated rows; JSON uses keys and values in objects and arrays and can represent nested structures.",
+      "answerable": true,
+      "required_concepts": [["comma", "csv"], ["flat", "rows", "tabular"], ["keys and values", "key-value", "objects and arrays"], ["nested"]]
+    },
+    {
+      "id": "q12",
+      "category": "reasoning",
+      "question": "Why might an organization transform unstructured data before analysis?",
+      "reference_answer": "It may convert the content into consistent fields or records so it can be analyzed systematically.",
+      "answerable": true,
+      "required_concepts": [["consistent", "structured"], ["systematic", "analyze", "analysis"]]
+    },
+    {
+      "id": "q13",
+      "category": "synthesis",
+      "question": "Why has data become increasingly important across modern industries?",
+      "reference_answer": "Digital data and computing capacity grew, creating large datasets and opportunities to extract insights for decisions and innovation.",
+      "answerable": true,
+      "required_concepts": [["digital data"], ["computing", "technology"], ["large", "complex"], ["decisions", "innovation", "insight"]]
+    },
+    {
+      "id": "q14",
+      "category": "unanswerable",
+      "question": "Does this section explain how cosine similarity is calculated?",
+      "reference_answer": "No. The section does not explain how cosine similarity is calculated.",
+      "answerable": false,
+      "required_concepts": [["does not", "not provide", "not explain", "insufficient", "enough information"]],
+      "forbidden_concepts": ["dot product", "magnitude", "angle between"]
+    },
+    {
+      "id": "q15",
+      "category": "unanswerable",
+      "question": "Does this section explain how transformer neural networks generate embeddings?",
+      "reference_answer": "No. The section does not explain how transformer neural networks generate embeddings.",
+      "answerable": false,
+      "required_concepts": [["does not", "not provide", "not explain", "insufficient", "enough information"]],
+      "forbidden_concepts": ["self-attention", "attention mechanism", "token vectors"]
+    }
+  ]
+}

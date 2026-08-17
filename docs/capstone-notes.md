@@ -1,8 +1,9 @@
-# Capstone Notes
+# Capstone notes
 
 ## Project title
 
-**Archivist: Investigating Guided Workflows for Reducing Technical Barriers to Local Artificial Intelligence Adoption**
+_Archivist: Investigating Guided Workflows for Reducing Technical Barriers to
+Local Artificial Intelligence Adoption_
 
 ## Research focus
 
@@ -10,7 +11,8 @@ This project investigates whether guided workflows can reduce the technical barr
 
 ## Primary workflow
 
-Admin uploads course documents. Students ask questions. Archivist answers using local AI and cites the uploaded course materials.
+An administrator uploads course documents. Students ask questions. Archivist
+uses local AI to answer the questions and cites the uploaded course materials.
 
 ## Primary research question
 

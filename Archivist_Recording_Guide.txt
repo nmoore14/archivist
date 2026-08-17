@@ -1,0 +1,21 @@
+ARCHIVIST PRESENTATION RECORDING GUIDE
+Target length: about 7 minutes
+
+Before recording
+- Use slideshow/presenter mode so the speaker notes are visible to you but not the audience.
+- Record in a quiet space, use headphones or an external microphone if available, and do a 20-second sound check.
+- Speak to stakeholders: emphasize the educational problem, evidence, limitations, and next decision—not implementation details.
+- Aim for roughly 45–60 seconds per slide. Pause briefly after each headline.
+
+Suggested opening
+“Schools want the benefits of AI, but they also need control over course content, sources, privacy, and reliability. Archivist explores whether a guided, local-first workflow can make those goals compatible.”
+
+Suggested close
+“Archivist shows that grounding can materially improve local model answers and that tuning can improve both quality and speed. The next step is to test whether the guided deployment workflow delivers the same kind of improvement for real administrators.”
+
+Submission check
+- Slides exported and open correctly.
+- Recording is between 5 and 10 minutes.
+- Audio is clear and the cursor does not distract from the slides.
+- The presentation covers the problem, methodology, analysis, results, conclusion, limitations, and next steps.
+- Upload both the .pptx deck and the recording file required by the course platform.

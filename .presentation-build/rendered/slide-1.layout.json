@@ -1,0 +1,550 @@
+{
+  "schema": "openai.presentation.layout/v4",
+  "unit": "px",
+  "slide": {
+    "aid": "sl/e27eg3",
+    "id": "e27eg3",
+    "slide": 1,
+    "layoutId": "b51edbfd-e492-42ce-ac4f-a927f12d9e5c",
+    "layoutName": "Title Slide",
+    "layoutType": "title",
+    "masterLayoutId": "fa7c8eff-0407-41fd-ad6f-37185122648b",
+    "masterLayoutName": "Master",
+    "backgroundColor": "#FFFFFF",
+    "frame": {
+      "left": 0,
+      "top": 0,
+      "width": 1280,
+      "height": 720
+    }
+  },
+  "theme": {
+    "colorSchemeName": "ChatGPT",
+    "colors": {
+      "accent1": "#156082",
+      "accent2": "#E97132",
+      "accent3": "#196B24",
+      "accent4": "#0F9ED5",
+      "accent5": "#A02B93",
+      "accent6": "#4EA72E",
+      "bg1": "#FFFFFF",
+      "bg2": "#000000",
+      "tx1": "#1F1F1F",
+      "tx2": "#FFFFFF",
+      "dk1": "#000000",
+      "lt1": "#FFFFFF",
+      "dk2": "#0E2841",
+      "lt2": "#E8E8E8",
+      "hlink": "#467886",
+      "folHlink": "#96607D"
+    },
+    "typefaces": [
+      "+mn-lt"
+    ]
+  },
+  "inheritedLayers": [
+    {
+      "scope": "layout",
+      "id": "b51edbfd-e492-42ce-ac4f-a927f12d9e5c",
+      "name": "Title Slide",
+      "type": "title",
+      "parentLayoutId": "fa7c8eff-0407-41fd-ad6f-37185122648b",
+      "elements": []
+    },
+    {
+      "scope": "master",
+      "id": "fa7c8eff-0407-41fd-ad6f-37185122648b",
+      "name": "Master",
+      "type": "master",
+      "elements": []
+    }
+  ],
+  "elements": [
+    {
+      "order": 1,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/pk7qh0bm",
+      "id": "1",
+      "bbox": [
+        56,
+        38,
+        360,
+        24
+      ],
+      "geometry": "rect",
+      "text": "MSAI 699 CAPSTONE",
+      "textPreview": "MSAI 699 CAPSTONE",
+      "resolvedFontSize": 14,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 14,
+        "typeface": "+mn-lt",
+        "color": "#59616B",
+        "bold": true,
+        "alignment": "left",
+        "verticalAlignment": "middle",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "MSAI 699 CAPSTONE"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "MSAI 699 CAPSTONE",
+          "resolvedTextStyle": {
+            "fontSize": 14,
+            "color": "#59616B",
+            "bold": true,
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "MSAI 699 CAPSTONE",
+              "fontSize": 14,
+              "color": "#59616B",
+              "bold": true,
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 2,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/2hg76lcv",
+      "id": "2",
+      "bbox": [
+        56,
+        188,
+        700,
+        92
+      ],
+      "geometry": "rect",
+      "text": "Archivist",
+      "textPreview": "Archivist",
+      "resolvedFontSize": 76,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 76,
+        "typeface": "+mn-lt",
+        "color": "#101214",
+        "bold": true,
+        "alignment": "left",
+        "verticalAlignment": "middle",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Archivist"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Archivist",
+          "resolvedTextStyle": {
+            "fontSize": 76,
+            "color": "#101214",
+            "bold": true,
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Archivist",
+              "fontSize": 76,
+              "color": "#101214",
+              "bold": true,
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 3,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/3ip8fqtg",
+      "id": "3",
+      "bbox": [
+        56,
+        298,
+        760,
+        104
+      ],
+      "geometry": "rect",
+      "text": "A local-first AI workspace that keeps course answers grounded in trusted material",
+      "textPreview": "A local-first AI workspace that keeps course answers grounded in trusted material",
+      "resolvedFontSize": 30,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 30,
+        "typeface": "+mn-lt",
+        "color": "#173B57",
+        "alignment": "left",
+        "verticalAlignment": "middle",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 2,
+        "lines": [
+          {
+            "index": 1,
+            "text": "A local-first AI workspace that keeps course answers"
+          },
+          {
+            "index": 2,
+            "text": "grounded in trusted material"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "A local-first AI workspace that keeps course answers grounded in trusted material",
+          "resolvedTextStyle": {
+            "fontSize": 30,
+            "color": "#173B57",
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "A local-first AI workspace that keeps course answers grounded in trusted material",
+              "fontSize": 30,
+              "color": "#173B57",
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 4,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/gfep4bu5",
+      "id": "4",
+      "bbox": [
+        930,
+        0,
+        350,
+        720
+      ],
+      "geometry": "rect",
+      "fillColor": "#173B57",
+      "lineWidth": 0
+    },
+    {
+      "order": 5,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/1gn6dgba",
+      "id": "5",
+      "bbox": [
+        970,
+        150,
+        245,
+        245
+      ],
+      "geometry": "roundRect",
+      "fillColor": "#75D4F5",
+      "lineWidth": 1
+    },
+    {
+      "order": 6,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/etw721cz",
+      "id": "6",
+      "bbox": [
+        994,
+        185,
+        197,
+        44
+      ],
+      "geometry": "rect",
+      "text": "PRIVATE",
+      "textPreview": "PRIVATE",
+      "resolvedFontSize": 22,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 22,
+        "typeface": "+mn-lt",
+        "color": "#173B57",
+        "bold": true,
+        "alignment": "center",
+        "verticalAlignment": "middle",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "PRIVATE"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "PRIVATE",
+          "resolvedTextStyle": {
+            "fontSize": 22,
+            "color": "#173B57",
+            "bold": true,
+            "alignment": "center"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "PRIVATE",
+              "fontSize": 22,
+              "color": "#173B57",
+              "bold": true,
+              "alignment": "center"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 7,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/fu5ob6tk",
+      "id": "7",
+      "bbox": [
+        994,
+        243,
+        197,
+        44
+      ],
+      "geometry": "rect",
+      "text": "+",
+      "textPreview": "+",
+      "resolvedFontSize": 32,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 32,
+        "typeface": "+mn-lt",
+        "color": "#173B57",
+        "bold": true,
+        "alignment": "center",
+        "verticalAlignment": "middle",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "+"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "+",
+          "resolvedTextStyle": {
+            "fontSize": 32,
+            "color": "#173B57",
+            "bold": true,
+            "alignment": "center"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "+",
+              "fontSize": 32,
+              "color": "#173B57",
+              "bold": true,
+              "alignment": "center"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 8,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/0bipgfu9",
+      "id": "8",
+      "bbox": [
+        994,
+        305,
+        197,
+        44
+      ],
+      "geometry": "rect",
+      "text": "GROUNDED",
+      "textPreview": "GROUNDED",
+      "resolvedFontSize": 22,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 22,
+        "typeface": "+mn-lt",
+        "color": "#173B57",
+        "bold": true,
+        "alignment": "center",
+        "verticalAlignment": "middle",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "GROUNDED"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "GROUNDED",
+          "resolvedTextStyle": {
+            "fontSize": 22,
+            "color": "#173B57",
+            "bold": true,
+            "alignment": "center"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "GROUNDED",
+              "fontSize": 22,
+              "color": "#173B57",
+              "bold": true,
+              "alignment": "center"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 9,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/lcrqpkbu",
+      "id": "9",
+      "bbox": [
+        56,
+        620,
+        500,
+        26
+      ],
+      "geometry": "rect",
+      "text": "Nick Moore  •  Summer 2026",
+      "textPreview": "Nick Moore  •  Summer 2026",
+      "resolvedFontSize": 18,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 18,
+        "typeface": "+mn-lt",
+        "color": "#59616B",
+        "alignment": "left",
+        "verticalAlignment": "middle",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Nick Moore  •  Summer 2026"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Nick Moore  •  Summer 2026",
+          "resolvedTextStyle": {
+            "fontSize": 18,
+            "color": "#59616B",
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Nick Moore  •  Summer 2026",
+              "fontSize": 18,
+              "color": "#59616B",
+              "alignment": "left"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    }
+  ],
+  "composeRuns": []
+}

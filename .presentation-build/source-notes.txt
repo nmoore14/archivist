@@ -1,0 +1,7 @@
+All visible claims and visuals are derived from project-local artifacts:
+- README.md and docs/capstone-notes.md for the problem, workflow, architecture, limitations, and roadmap.
+- results/report_summary.txt and results/baseline_results.csv for baseline metrics.
+- results/optimization_report_summary.txt and results/optimization_summary.csv for configuration results.
+- results/charts/correctness_latency_tradeoff.png for the optimization visual.
+
+No external web research or externally sourced imagery was used.

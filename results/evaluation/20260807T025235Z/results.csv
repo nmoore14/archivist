@@ -1,0 +1,305 @@
+case_id,category,condition,question,reference_answer,answerable,answer,latency_seconds,lexical_coverage,automated_pass,retrieval_hit,retrieved_chunk_ids,retrieved_scores,retrieved_context,error_category,error
+q01,definition,no_rag,What is the difference between a datum and data?,A datum is one observation or point of reference; data is the plural term for multiple observations.,True,,0.004618,0.0,False,,[],[],,model_error,Ollama request failed: HTTP Error 404: Not Found
+q01,definition,rag,What is the difference between a datum and data?,A datum is one observation or point of reference; data is the plural term for multiple observations.,True,,0.001284,0.0,False,True,"[1, 4, 5]","[0.774686, 0.662457, 0.62859]","[Chunk 1]
+ght from data to support decisions and innovation in areas such as business, health care, and entertainment. Its modern growth accelerated as digital data, computing capacity, and technology expanded. The rise of large, complex datasets created demand for more advanced analysis, making data science important across many industries. People have recorded data for a very long time; digital scale and modern tools are what changed rapidly.
+Data, datum, and information
+Datum is the singular form and refers to one given value, observation, or point of reference. Data is the plural term for multiple observations. Data is not limited to numbers. Text, symbols, descriptions, images, and other material can count as data when they can be analyzed to produce information or higher-level insight.
+For example, a course-evaluation table can contain semester, instructor, class size, and rating. A single rating does not by itself decide whether a student should enroll.
+
+[Chunk 4]
+thermometer measurement with units. It is continuous because a temperature reading can take any real-number value within the measurement context, giving an effectively infinite set of possible values. “Needed a Jacket?” is categorical because its values come from the finite labels Yes and No. It is nominal because those labels have no natural ranking.
+Datasets, entities, and attributes
+A dataset is a collection of observations or data entities organized so they can be analyzed and interpreted. In a tabular dataset, a row commonly represents a unique entity, item, entry, or instance. A column represents an attribute, feature, variable, or characteristic shared by the entities. An entity is therefore the thing or observation being described; an attribute is one property used to describe it.
+A course-evaluation dataset might have one row for each semester offering and columns for semester, instructor, class size, and rating.
+
+[Chunk 5]
+ing described; an attribute is one property used to describe it.
+A course-evaluation dataset might have one row for each semester offering and columns for semester, instructor, class size, and rating. The values differ by entity, while each entity follows the same set of attributes.
+Structured and unstructured data
+A structured dataset uses a predefined, consistent organization. Its entities have the same attributes, fields and relationships are clearly defined, and values can usually fit into rows and columns. A jacket table with Date, Temperature, and Needed a Jacket is structured because each daily item has those same three attributes and every value fits a table cell.
+An unstructured dataset lacks a fixed schema or predefined data model. Its contents do not fit neatly into consistent rows and columns. Common forms include free-form text, images, video, and audio.",model_error,Ollama request failed: HTTP Error 404: Not Found
+q02,definition,no_rag,How does the textbook define a dataset?,A dataset is a collection of observations or data entities organized for analysis and interpretation.,True,,0.00197,0.0,False,,[],[],,model_error,Ollama request failed: HTTP Error 404: Not Found
+q02,definition,rag,How does the textbook define a dataset?,A dataset is a collection of observations or data entities organized for analysis and interpretation.,True,,0.001331,0.0,False,True,"[4, 0, 1]","[0.756158, 0.675968, 0.67121]","[Chunk 4]
+thermometer measurement with units. It is continuous because a temperature reading can take any real-number value within the measurement context, giving an effectively infinite set of possible values. “Needed a Jacket?” is categorical because its values come from the finite labels Yes and No. It is nominal because those labels have no natural ranking.
+Datasets, entities, and attributes
+A dataset is a collection of observations or data entities organized so they can be analyzed and interpreted. In a tabular dataset, a row commonly represents a unique entity, item, entry, or instance. A column represents an attribute, feature, variable, or characteristic shared by the entities. An entity is therefore the thing or observation being described; an attribute is one property used to describe it.
+A course-evaluation dataset might have one row for each semester offering and columns for semester, instructor, class size, and rating.
+
+[Chunk 0]
+OpenStax Principles of Data Science — Section 1.3 Study Text
+Source: Ault, Shaun V.; Liao, Soohyun Nam; and Musolino, Larry. Principles of Data Science, section 1.3, “Data and Datasets.” OpenStax, 2025.
+Section URL: https://openstax.org/books/principles-data-science/pages/1-3-data-and-datasets
+License noted by the source: CC BY-NC-SA.
+About this file
+This is a concise, instructor-prepared paraphrase of the assigned section, not a verbatim copy. It is bundled so the baseline notebook can run without web access. Before submitting academic work, compare it with the assigned OpenStax section and replace it with an instructor-approved local export if required.
+Data and the growth of data science
+Data science extracts information and insight from data to support decisions and innovation in areas such as business, health care, and entertainment. Its modern growth accelerated as digital data, computing capacity, and technology expanded.
+
+[Chunk 1]
+ght from data to support decisions and innovation in areas such as business, health care, and entertainment. Its modern growth accelerated as digital data, computing capacity, and technology expanded. The rise of large, complex datasets created demand for more advanced analysis, making data science important across many industries. People have recorded data for a very long time; digital scale and modern tools are what changed rapidly.
+Data, datum, and information
+Datum is the singular form and refers to one given value, observation, or point of reference. Data is the plural term for multiple observations. Data is not limited to numbers. Text, symbols, descriptions, images, and other material can count as data when they can be analyzed to produce information or higher-level insight.
+For example, a course-evaluation table can contain semester, instructor, class size, and rating. A single rating does not by itself decide whether a student should enroll.",model_error,Ollama request failed: HTTP Error 404: Not Found
+q03,comparison,no_rag,What is the difference between structured and unstructured data?,Structured data follows a predefined consistent schema; unstructured data lacks a fixed schema and does not fit neatly into rows and columns.,True,,0.002455,0.0,False,,[],[],,model_error,Ollama request failed: HTTP Error 404: Not Found
+q03,comparison,rag,What is the difference between structured and unstructured data?,Structured data follows a predefined consistent schema; unstructured data lacks a fixed schema and does not fit neatly into rows and columns.,True,,0.001488,0.0,False,True,"[5, 6, 7]","[0.808065, 0.805599, 0.684455]","[Chunk 5]
+ing described; an attribute is one property used to describe it.
+A course-evaluation dataset might have one row for each semester offering and columns for semester, instructor, class size, and rating. The values differ by entity, while each entity follows the same set of attributes.
+Structured and unstructured data
+A structured dataset uses a predefined, consistent organization. Its entities have the same attributes, fields and relationships are clearly defined, and values can usually fit into rows and columns. A jacket table with Date, Temperature, and Needed a Jacket is structured because each daily item has those same three attributes and every value fits a table cell.
+An unstructured dataset lacks a fixed schema or predefined data model. Its contents do not fit neatly into consistent rows and columns. Common forms include free-form text, images, video, and audio.
+
+[Chunk 6]
+.
+An unstructured dataset lacks a fixed schema or predefined data model. Its contents do not fit neatly into consistent rows and columns. Common forms include free-form text, images, video, and audio. Examples discussed in the section include product reviews on Amazon, posts on Twitter, public Instagram images, short TikTok videos, and free-form web-search phrases.
+Structured data is often easier to analyze because its consistent fields and tabular organization let tools compare the same attributes across records. Organizations may process unstructured material into a structured dataset to make systematic analysis possible. For example, free-form searches could be reduced to a short keyword field plus a timestamp, giving every record the same two attributes. That transformation can lose nuance, so the processing choice should match the analysis goal.
+Structured dataset formats
+
+[Chunk 7]
+t keyword field plus a timestamp, giving every record the same two attributes. That transformation can lose nuance, so the processing choice should match the analysis goal.
+Structured dataset formats
+The section introduces three common plain-text formats for structured datasets: comma-separated values (CSV), JavaScript Object Notation (JSON), and Extensible Markup Language (XML).
+CSV is a simple, flat representation suited to tabular data. Each item is stored on one line, and commas separate its attribute values. Spreadsheet programs can show the file as a table. CSV is simple, but metadata is difficult to include and special characters can complicate parsing.
+JSON represents information through keys and values, objects, and arrays. Keys can name attributes, while their paired values store the corresponding observations. JSON is compatible with many programming languages, is relatively easy to parse, and is well suited to exchanging data between a user and a server.",model_error,Ollama request failed: HTTP Error 404: Not Found
+q04,definition,no_rag,What characteristics make a dataset structured?,Its entities share the same attributes and its values follow a consistent organization such as rows and columns.,True,,0.001958,0.0,False,,[],[],,model_error,Ollama request failed: HTTP Error 404: Not Found
+q04,definition,rag,What characteristics make a dataset structured?,Its entities share the same attributes and its values follow a consistent organization such as rows and columns.,True,,0.001569,0.0,False,True,"[5, 6, 4]","[0.751706, 0.737469, 0.718251]","[Chunk 5]
+ing described; an attribute is one property used to describe it.
+A course-evaluation dataset might have one row for each semester offering and columns for semester, instructor, class size, and rating. The values differ by entity, while each entity follows the same set of attributes.
+Structured and unstructured data
+A structured dataset uses a predefined, consistent organization. Its entities have the same attributes, fields and relationships are clearly defined, and values can usually fit into rows and columns. A jacket table with Date, Temperature, and Needed a Jacket is structured because each daily item has those same three attributes and every value fits a table cell.
+An unstructured dataset lacks a fixed schema or predefined data model. Its contents do not fit neatly into consistent rows and columns. Common forms include free-form text, images, video, and audio.
+
+[Chunk 6]
+.
+An unstructured dataset lacks a fixed schema or predefined data model. Its contents do not fit neatly into consistent rows and columns. Common forms include free-form text, images, video, and audio. Examples discussed in the section include product reviews on Amazon, posts on Twitter, public Instagram images, short TikTok videos, and free-form web-search phrases.
+Structured data is often easier to analyze because its consistent fields and tabular organization let tools compare the same attributes across records. Organizations may process unstructured material into a structured dataset to make systematic analysis possible. For example, free-form searches could be reduced to a short keyword field plus a timestamp, giving every record the same two attributes. That transformation can lose nuance, so the processing choice should match the analysis goal.
+Structured dataset formats
+
+[Chunk 4]
+thermometer measurement with units. It is continuous because a temperature reading can take any real-number value within the measurement context, giving an effectively infinite set of possible values. “Needed a Jacket?” is categorical because its values come from the finite labels Yes and No. It is nominal because those labels have no natural ranking.
+Datasets, entities, and attributes
+A dataset is a collection of observations or data entities organized so they can be analyzed and interpreted. In a tabular dataset, a row commonly represents a unique entity, item, entry, or instance. A column represents an attribute, feature, variable, or characteristic shared by the entities. An entity is therefore the thing or observation being described; an attribute is one property used to describe it.
+A course-evaluation dataset might have one row for each semester offering and columns for semester, instructor, class size, and rating.",model_error,Ollama request failed: HTTP Error 404: Not Found
+q05,examples,no_rag,What are examples of unstructured datasets mentioned in the section?,"Examples include product reviews, social-media posts and images, short videos, and free-form web searches.",True,,0.003179,0.0,False,,[],[],,model_error,Ollama request failed: HTTP Error 404: Not Found
+q05,examples,rag,What are examples of unstructured datasets mentioned in the section?,"Examples include product reviews, social-media posts and images, short videos, and free-form web searches.",True,,0.001322,0.0,False,True,"[6, 5, 7]","[0.780423, 0.732259, 0.686604]","[Chunk 6]
+.
+An unstructured dataset lacks a fixed schema or predefined data model. Its contents do not fit neatly into consistent rows and columns. Common forms include free-form text, images, video, and audio. Examples discussed in the section include product reviews on Amazon, posts on Twitter, public Instagram images, short TikTok videos, and free-form web-search phrases.
+Structured data is often easier to analyze because its consistent fields and tabular organization let tools compare the same attributes across records. Organizations may process unstructured material into a structured dataset to make systematic analysis possible. For example, free-form searches could be reduced to a short keyword field plus a timestamp, giving every record the same two attributes. That transformation can lose nuance, so the processing choice should match the analysis goal.
+Structured dataset formats
+
+[Chunk 5]
+ing described; an attribute is one property used to describe it.
+A course-evaluation dataset might have one row for each semester offering and columns for semester, instructor, class size, and rating. The values differ by entity, while each entity follows the same set of attributes.
+Structured and unstructured data
+A structured dataset uses a predefined, consistent organization. Its entities have the same attributes, fields and relationships are clearly defined, and values can usually fit into rows and columns. A jacket table with Date, Temperature, and Needed a Jacket is structured because each daily item has those same three attributes and every value fits a table cell.
+An unstructured dataset lacks a fixed schema or predefined data model. Its contents do not fit neatly into consistent rows and columns. Common forms include free-form text, images, video, and audio.
+
+[Chunk 7]
+t keyword field plus a timestamp, giving every record the same two attributes. That transformation can lose nuance, so the processing choice should match the analysis goal.
+Structured dataset formats
+The section introduces three common plain-text formats for structured datasets: comma-separated values (CSV), JavaScript Object Notation (JSON), and Extensible Markup Language (XML).
+CSV is a simple, flat representation suited to tabular data. Each item is stored on one line, and commas separate its attribute values. Spreadsheet programs can show the file as a table. CSV is simple, but metadata is difficult to include and special characters can complicate parsing.
+JSON represents information through keys and values, objects, and arrays. Keys can name attributes, while their paired values store the corresponding observations. JSON is compatible with many programming languages, is relatively easy to parse, and is well suited to exchanging data between a user and a server.",model_error,Ollama request failed: HTTP Error 404: Not Found
+q06,comparison,no_rag,What is the difference between an entity and an attribute in a dataset?,An entity is one observation being described; an attribute is a feature or characteristic used to describe it.,True,,0.002374,0.0,False,,[],[],,model_error,Ollama request failed: HTTP Error 404: Not Found
+q06,comparison,rag,What is the difference between an entity and an attribute in a dataset?,An entity is one observation being described; an attribute is a feature or characteristic used to describe it.,True,,0.001744,0.0,False,True,"[4, 5, 8]","[0.802688, 0.730289, 0.643173]","[Chunk 4]
+thermometer measurement with units. It is continuous because a temperature reading can take any real-number value within the measurement context, giving an effectively infinite set of possible values. “Needed a Jacket?” is categorical because its values come from the finite labels Yes and No. It is nominal because those labels have no natural ranking.
+Datasets, entities, and attributes
+A dataset is a collection of observations or data entities organized so they can be analyzed and interpreted. In a tabular dataset, a row commonly represents a unique entity, item, entry, or instance. A column represents an attribute, feature, variable, or characteristic shared by the entities. An entity is therefore the thing or observation being described; an attribute is one property used to describe it.
+A course-evaluation dataset might have one row for each semester offering and columns for semester, instructor, class size, and rating.
+
+[Chunk 5]
+ing described; an attribute is one property used to describe it.
+A course-evaluation dataset might have one row for each semester offering and columns for semester, instructor, class size, and rating. The values differ by entity, while each entity follows the same set of attributes.
+Structured and unstructured data
+A structured dataset uses a predefined, consistent organization. Its entities have the same attributes, fields and relationships are clearly defined, and values can usually fit into rows and columns. A jacket table with Date, Temperature, and Needed a Jacket is structured because each daily item has those same three attributes and every value fits a table cell.
+An unstructured dataset lacks a fixed schema or predefined data model. Its contents do not fit neatly into consistent rows and columns. Common forms include free-form text, images, video, and audio.
+
+[Chunk 8]
+paired values store the corresponding observations. JSON is compatible with many programming languages, is relatively easy to parse, and is well suited to exchanging data between a user and a server. Compared with CSV’s flat rows and comma-separated fields, JSON can express nested object and array structure. The section notes that JSON is less convenient for comments and metadata.
+XML uses named opening and closing tags to represent items and their attributes. Its tagged structure is verbose, but it supports metadata and hierarchical structures. XML can also accompany image datasets as annotation files.
+Section boundaries
+This section explains definitions and examples for data, data types, datasets, structure, entities, attributes, CSV, JSON, and XML. It does not explain how cosine similarity is calculated. It also does not explain how transformer neural networks generate embeddings. Those topics require material outside this section.",model_error,Ollama request failed: HTTP Error 404: Not Found
+q07,reasoning,no_rag,Why is temperature considered continuous numeric data in the jacket example?,"Temperature is a measured quantity with numeric values and units, and a reading can take any real-number value in the measurement context.",True,,0.002341,0.0,False,,[],[],,model_error,Ollama request failed: HTTP Error 404: Not Found
+q07,reasoning,rag,Why is temperature considered continuous numeric data in the jacket example?,"Temperature is a measured quantity with numeric values and units, and a reading can take any real-number value in the measurement context.",True,,0.003107,0.0,False,True,"[3, 4, 2]","[0.692676, 0.685389, 0.630805]","[Chunk 3]
+ibes nonnumeric characteristics or subjective material. Descriptions, interviews, open-ended responses, photographs, and social-media posts are examples.
+Numeric data represents measurable quantities. Continuous numeric values may be selected from an infinite set of possible values, while discrete values follow a precision or restriction that leaves a finite set in the relevant context. Context can affect this classification.
+Categorical data chooses values from a finite set of labels or symbols and need not measure an amount. Nominal categories do not have an inherent order. Ordinal categories do have an ordering. Instructor identifiers are nominal; recommendation ratings ranging from low to high are ordinal.
+Jacket example
+In the jacket dataset, temperature is numeric because it is a thermometer measurement with units. It is continuous because a temperature reading can take any real-number value within the measurement context, giving an effectively infinite set of possible values.
+
+[Chunk 4]
+thermometer measurement with units. It is continuous because a temperature reading can take any real-number value within the measurement context, giving an effectively infinite set of possible values. “Needed a Jacket?” is categorical because its values come from the finite labels Yes and No. It is nominal because those labels have no natural ranking.
+Datasets, entities, and attributes
+A dataset is a collection of observations or data entities organized so they can be analyzed and interpreted. In a tabular dataset, a row commonly represents a unique entity, item, entry, or instance. A column represents an attribute, feature, variable, or characteristic shared by the entities. An entity is therefore the thing or observation being described; an attribute is one property used to describe it.
+A course-evaluation dataset might have one row for each semester offering and columns for semester, instructor, class size, and rating.
+
+[Chunk 2]
+ion or higher-level insight.
+For example, a course-evaluation table can contain semester, instructor, class size, and rating. A single rating does not by itself decide whether a student should enroll. Looking across the observations and their attributes can produce information useful for that decision. Likewise, several days of temperatures and yes-or-no jacket choices are observations; analyzing them may inform whether to wear a jacket today.
+Quantitative, qualitative, numeric, and categorical data
+Quantitative data expresses quantities, generally with numbers, and can be studied statistically. Examples include height, weight, temperature, heart rate, and sales. Qualitative data describes nonnumeric characteristics or subjective material. Descriptions, interviews, open-ended responses, photographs, and social-media posts are examples.
+Numeric data represents measurable quantities.",model_error,Ollama request failed: HTTP Error 404: Not Found
+q08,reasoning,no_rag,Why is the 'Needed a Jacket?' column categorical nominal data?,"Its values come from the finite labels Yes and No, and those labels have no inherent order.",True,,0.00186,0.0,False,,[],[],,model_error,Ollama request failed: HTTP Error 404: Not Found
+q08,reasoning,rag,Why is the 'Needed a Jacket?' column categorical nominal data?,"Its values come from the finite labels Yes and No, and those labels have no inherent order.",True,,0.00146,0.0,False,False,"[4, 3, 5]","[0.693946, 0.638664, 0.617809]","[Chunk 4]
+thermometer measurement with units. It is continuous because a temperature reading can take any real-number value within the measurement context, giving an effectively infinite set of possible values. “Needed a Jacket?” is categorical because its values come from the finite labels Yes and No. It is nominal because those labels have no natural ranking.
+Datasets, entities, and attributes
+A dataset is a collection of observations or data entities organized so they can be analyzed and interpreted. In a tabular dataset, a row commonly represents a unique entity, item, entry, or instance. A column represents an attribute, feature, variable, or characteristic shared by the entities. An entity is therefore the thing or observation being described; an attribute is one property used to describe it.
+A course-evaluation dataset might have one row for each semester offering and columns for semester, instructor, class size, and rating.
+
+[Chunk 3]
+ibes nonnumeric characteristics or subjective material. Descriptions, interviews, open-ended responses, photographs, and social-media posts are examples.
+Numeric data represents measurable quantities. Continuous numeric values may be selected from an infinite set of possible values, while discrete values follow a precision or restriction that leaves a finite set in the relevant context. Context can affect this classification.
+Categorical data chooses values from a finite set of labels or symbols and need not measure an amount. Nominal categories do not have an inherent order. Ordinal categories do have an ordering. Instructor identifiers are nominal; recommendation ratings ranging from low to high are ordinal.
+Jacket example
+In the jacket dataset, temperature is numeric because it is a thermometer measurement with units. It is continuous because a temperature reading can take any real-number value within the measurement context, giving an effectively infinite set of possible values.
+
+[Chunk 5]
+ing described; an attribute is one property used to describe it.
+A course-evaluation dataset might have one row for each semester offering and columns for semester, instructor, class size, and rating. The values differ by entity, while each entity follows the same set of attributes.
+Structured and unstructured data
+A structured dataset uses a predefined, consistent organization. Its entities have the same attributes, fields and relationships are clearly defined, and values can usually fit into rows and columns. A jacket table with Date, Temperature, and Needed a Jacket is structured because each daily item has those same three attributes and every value fits a table cell.
+An unstructured dataset lacks a fixed schema or predefined data model. Its contents do not fit neatly into consistent rows and columns. Common forms include free-form text, images, video, and audio.",model_error,Ollama request failed: HTTP Error 404: Not Found
+q09,reasoning,no_rag,Why can structured data be easier to analyze than unstructured data?,Consistent fields and tabular organization make the same attributes easier to compare across records.,True,,0.002057,0.0,False,,[],[],,model_error,Ollama request failed: HTTP Error 404: Not Found
+q09,reasoning,rag,Why can structured data be easier to analyze than unstructured data?,Consistent fields and tabular organization make the same attributes easier to compare across records.,True,,0.001638,0.0,False,True,"[6, 5, 7]","[0.801938, 0.735039, 0.65613]","[Chunk 6]
+.
+An unstructured dataset lacks a fixed schema or predefined data model. Its contents do not fit neatly into consistent rows and columns. Common forms include free-form text, images, video, and audio. Examples discussed in the section include product reviews on Amazon, posts on Twitter, public Instagram images, short TikTok videos, and free-form web-search phrases.
+Structured data is often easier to analyze because its consistent fields and tabular organization let tools compare the same attributes across records. Organizations may process unstructured material into a structured dataset to make systematic analysis possible. For example, free-form searches could be reduced to a short keyword field plus a timestamp, giving every record the same two attributes. That transformation can lose nuance, so the processing choice should match the analysis goal.
+Structured dataset formats
+
+[Chunk 5]
+ing described; an attribute is one property used to describe it.
+A course-evaluation dataset might have one row for each semester offering and columns for semester, instructor, class size, and rating. The values differ by entity, while each entity follows the same set of attributes.
+Structured and unstructured data
+A structured dataset uses a predefined, consistent organization. Its entities have the same attributes, fields and relationships are clearly defined, and values can usually fit into rows and columns. A jacket table with Date, Temperature, and Needed a Jacket is structured because each daily item has those same three attributes and every value fits a table cell.
+An unstructured dataset lacks a fixed schema or predefined data model. Its contents do not fit neatly into consistent rows and columns. Common forms include free-form text, images, video, and audio.
+
+[Chunk 7]
+t keyword field plus a timestamp, giving every record the same two attributes. That transformation can lose nuance, so the processing choice should match the analysis goal.
+Structured dataset formats
+The section introduces three common plain-text formats for structured datasets: comma-separated values (CSV), JavaScript Object Notation (JSON), and Extensible Markup Language (XML).
+CSV is a simple, flat representation suited to tabular data. Each item is stored on one line, and commas separate its attribute values. Spreadsheet programs can show the file as a table. CSV is simple, but metadata is difficult to include and special characters can complicate parsing.
+JSON represents information through keys and values, objects, and arrays. Keys can name attributes, while their paired values store the corresponding observations. JSON is compatible with many programming languages, is relatively easy to parse, and is well suited to exchanging data between a user and a server.",model_error,Ollama request failed: HTTP Error 404: Not Found
+q10,recall,no_rag,What structured data formats are introduced in the section?,"The section introduces CSV, JSON, and XML.",True,,0.001878,0.0,False,,[],[],,model_error,Ollama request failed: HTTP Error 404: Not Found
+q10,recall,rag,What structured data formats are introduced in the section?,"The section introduces CSV, JSON, and XML.",True,,0.001369,0.0,False,True,"[7, 6, 5]","[0.75434, 0.733451, 0.709145]","[Chunk 7]
+t keyword field plus a timestamp, giving every record the same two attributes. That transformation can lose nuance, so the processing choice should match the analysis goal.
+Structured dataset formats
+The section introduces three common plain-text formats for structured datasets: comma-separated values (CSV), JavaScript Object Notation (JSON), and Extensible Markup Language (XML).
+CSV is a simple, flat representation suited to tabular data. Each item is stored on one line, and commas separate its attribute values. Spreadsheet programs can show the file as a table. CSV is simple, but metadata is difficult to include and special characters can complicate parsing.
+JSON represents information through keys and values, objects, and arrays. Keys can name attributes, while their paired values store the corresponding observations. JSON is compatible with many programming languages, is relatively easy to parse, and is well suited to exchanging data between a user and a server.
+
+[Chunk 6]
+.
+An unstructured dataset lacks a fixed schema or predefined data model. Its contents do not fit neatly into consistent rows and columns. Common forms include free-form text, images, video, and audio. Examples discussed in the section include product reviews on Amazon, posts on Twitter, public Instagram images, short TikTok videos, and free-form web-search phrases.
+Structured data is often easier to analyze because its consistent fields and tabular organization let tools compare the same attributes across records. Organizations may process unstructured material into a structured dataset to make systematic analysis possible. For example, free-form searches could be reduced to a short keyword field plus a timestamp, giving every record the same two attributes. That transformation can lose nuance, so the processing choice should match the analysis goal.
+Structured dataset formats
+
+[Chunk 5]
+ing described; an attribute is one property used to describe it.
+A course-evaluation dataset might have one row for each semester offering and columns for semester, instructor, class size, and rating. The values differ by entity, while each entity follows the same set of attributes.
+Structured and unstructured data
+A structured dataset uses a predefined, consistent organization. Its entities have the same attributes, fields and relationships are clearly defined, and values can usually fit into rows and columns. A jacket table with Date, Temperature, and Needed a Jacket is structured because each daily item has those same three attributes and every value fits a table cell.
+An unstructured dataset lacks a fixed schema or predefined data model. Its contents do not fit neatly into consistent rows and columns. Common forms include free-form text, images, video, and audio.",model_error,Ollama request failed: HTTP Error 404: Not Found
+q11,comparison,no_rag,How does CSV differ from JSON when storing structured data?,CSV stores flat comma-separated rows; JSON uses keys and values in objects and arrays and can represent nested structures.,True,,0.001995,0.0,False,,[],[],,model_error,Ollama request failed: HTTP Error 404: Not Found
+q11,comparison,rag,How does CSV differ from JSON when storing structured data?,CSV stores flat comma-separated rows; JSON uses keys and values in objects and arrays and can represent nested structures.,True,,0.001493,0.0,False,True,"[7, 8, 6]","[0.755815, 0.741823, 0.633716]","[Chunk 7]
+t keyword field plus a timestamp, giving every record the same two attributes. That transformation can lose nuance, so the processing choice should match the analysis goal.
+Structured dataset formats
+The section introduces three common plain-text formats for structured datasets: comma-separated values (CSV), JavaScript Object Notation (JSON), and Extensible Markup Language (XML).
+CSV is a simple, flat representation suited to tabular data. Each item is stored on one line, and commas separate its attribute values. Spreadsheet programs can show the file as a table. CSV is simple, but metadata is difficult to include and special characters can complicate parsing.
+JSON represents information through keys and values, objects, and arrays. Keys can name attributes, while their paired values store the corresponding observations. JSON is compatible with many programming languages, is relatively easy to parse, and is well suited to exchanging data between a user and a server.
+
+[Chunk 8]
+paired values store the corresponding observations. JSON is compatible with many programming languages, is relatively easy to parse, and is well suited to exchanging data between a user and a server. Compared with CSV’s flat rows and comma-separated fields, JSON can express nested object and array structure. The section notes that JSON is less convenient for comments and metadata.
+XML uses named opening and closing tags to represent items and their attributes. Its tagged structure is verbose, but it supports metadata and hierarchical structures. XML can also accompany image datasets as annotation files.
+Section boundaries
+This section explains definitions and examples for data, data types, datasets, structure, entities, attributes, CSV, JSON, and XML. It does not explain how cosine similarity is calculated. It also does not explain how transformer neural networks generate embeddings. Those topics require material outside this section.
+
+[Chunk 6]
+.
+An unstructured dataset lacks a fixed schema or predefined data model. Its contents do not fit neatly into consistent rows and columns. Common forms include free-form text, images, video, and audio. Examples discussed in the section include product reviews on Amazon, posts on Twitter, public Instagram images, short TikTok videos, and free-form web-search phrases.
+Structured data is often easier to analyze because its consistent fields and tabular organization let tools compare the same attributes across records. Organizations may process unstructured material into a structured dataset to make systematic analysis possible. For example, free-form searches could be reduced to a short keyword field plus a timestamp, giving every record the same two attributes. That transformation can lose nuance, so the processing choice should match the analysis goal.
+Structured dataset formats",model_error,Ollama request failed: HTTP Error 404: Not Found
+q12,reasoning,no_rag,Why might an organization transform unstructured data before analysis?,It may convert the content into consistent fields or records so it can be analyzed systematically.,True,,0.001904,0.0,False,,[],[],,model_error,Ollama request failed: HTTP Error 404: Not Found
+q12,reasoning,rag,Why might an organization transform unstructured data before analysis?,It may convert the content into consistent fields or records so it can be analyzed systematically.,True,,0.001269,0.0,False,True,"[6, 5, 1]","[0.705687, 0.62067, 0.567402]","[Chunk 6]
+.
+An unstructured dataset lacks a fixed schema or predefined data model. Its contents do not fit neatly into consistent rows and columns. Common forms include free-form text, images, video, and audio. Examples discussed in the section include product reviews on Amazon, posts on Twitter, public Instagram images, short TikTok videos, and free-form web-search phrases.
+Structured data is often easier to analyze because its consistent fields and tabular organization let tools compare the same attributes across records. Organizations may process unstructured material into a structured dataset to make systematic analysis possible. For example, free-form searches could be reduced to a short keyword field plus a timestamp, giving every record the same two attributes. That transformation can lose nuance, so the processing choice should match the analysis goal.
+Structured dataset formats
+
+[Chunk 5]
+ing described; an attribute is one property used to describe it.
+A course-evaluation dataset might have one row for each semester offering and columns for semester, instructor, class size, and rating. The values differ by entity, while each entity follows the same set of attributes.
+Structured and unstructured data
+A structured dataset uses a predefined, consistent organization. Its entities have the same attributes, fields and relationships are clearly defined, and values can usually fit into rows and columns. A jacket table with Date, Temperature, and Needed a Jacket is structured because each daily item has those same three attributes and every value fits a table cell.
+An unstructured dataset lacks a fixed schema or predefined data model. Its contents do not fit neatly into consistent rows and columns. Common forms include free-form text, images, video, and audio.
+
+[Chunk 1]
+ght from data to support decisions and innovation in areas such as business, health care, and entertainment. Its modern growth accelerated as digital data, computing capacity, and technology expanded. The rise of large, complex datasets created demand for more advanced analysis, making data science important across many industries. People have recorded data for a very long time; digital scale and modern tools are what changed rapidly.
+Data, datum, and information
+Datum is the singular form and refers to one given value, observation, or point of reference. Data is the plural term for multiple observations. Data is not limited to numbers. Text, symbols, descriptions, images, and other material can count as data when they can be analyzed to produce information or higher-level insight.
+For example, a course-evaluation table can contain semester, instructor, class size, and rating. A single rating does not by itself decide whether a student should enroll.",model_error,Ollama request failed: HTTP Error 404: Not Found
+q13,synthesis,no_rag,Why has data become increasingly important across modern industries?,"Digital data and computing capacity grew, creating large datasets and opportunities to extract insights for decisions and innovation.",True,,0.001872,0.0,False,,[],[],,model_error,Ollama request failed: HTTP Error 404: Not Found
+q13,synthesis,rag,Why has data become increasingly important across modern industries?,"Digital data and computing capacity grew, creating large datasets and opportunities to extract insights for decisions and innovation.",True,,0.001542,0.0,False,True,"[1, 0, 6]","[0.750825, 0.621606, 0.588655]","[Chunk 1]
+ght from data to support decisions and innovation in areas such as business, health care, and entertainment. Its modern growth accelerated as digital data, computing capacity, and technology expanded. The rise of large, complex datasets created demand for more advanced analysis, making data science important across many industries. People have recorded data for a very long time; digital scale and modern tools are what changed rapidly.
+Data, datum, and information
+Datum is the singular form and refers to one given value, observation, or point of reference. Data is the plural term for multiple observations. Data is not limited to numbers. Text, symbols, descriptions, images, and other material can count as data when they can be analyzed to produce information or higher-level insight.
+For example, a course-evaluation table can contain semester, instructor, class size, and rating. A single rating does not by itself decide whether a student should enroll.
+
+[Chunk 0]
+OpenStax Principles of Data Science — Section 1.3 Study Text
+Source: Ault, Shaun V.; Liao, Soohyun Nam; and Musolino, Larry. Principles of Data Science, section 1.3, “Data and Datasets.” OpenStax, 2025.
+Section URL: https://openstax.org/books/principles-data-science/pages/1-3-data-and-datasets
+License noted by the source: CC BY-NC-SA.
+About this file
+This is a concise, instructor-prepared paraphrase of the assigned section, not a verbatim copy. It is bundled so the baseline notebook can run without web access. Before submitting academic work, compare it with the assigned OpenStax section and replace it with an instructor-approved local export if required.
+Data and the growth of data science
+Data science extracts information and insight from data to support decisions and innovation in areas such as business, health care, and entertainment. Its modern growth accelerated as digital data, computing capacity, and technology expanded.
+
+[Chunk 6]
+.
+An unstructured dataset lacks a fixed schema or predefined data model. Its contents do not fit neatly into consistent rows and columns. Common forms include free-form text, images, video, and audio. Examples discussed in the section include product reviews on Amazon, posts on Twitter, public Instagram images, short TikTok videos, and free-form web-search phrases.
+Structured data is often easier to analyze because its consistent fields and tabular organization let tools compare the same attributes across records. Organizations may process unstructured material into a structured dataset to make systematic analysis possible. For example, free-form searches could be reduced to a short keyword field plus a timestamp, giving every record the same two attributes. That transformation can lose nuance, so the processing choice should match the analysis goal.
+Structured dataset formats",model_error,Ollama request failed: HTTP Error 404: Not Found
+q14,unanswerable,no_rag,Does this section explain how cosine similarity is calculated?,No. The section does not explain how cosine similarity is calculated.,False,,0.002042,0.0,False,,[],[],,model_error,Ollama request failed: HTTP Error 404: Not Found
+q14,unanswerable,rag,Does this section explain how cosine similarity is calculated?,No. The section does not explain how cosine similarity is calculated.,False,,0.001374,0.0,False,True,"[8, 5, 0]","[0.586644, 0.551363, 0.546178]","[Chunk 8]
+paired values store the corresponding observations. JSON is compatible with many programming languages, is relatively easy to parse, and is well suited to exchanging data between a user and a server. Compared with CSV’s flat rows and comma-separated fields, JSON can express nested object and array structure. The section notes that JSON is less convenient for comments and metadata.
+XML uses named opening and closing tags to represent items and their attributes. Its tagged structure is verbose, but it supports metadata and hierarchical structures. XML can also accompany image datasets as annotation files.
+Section boundaries
+This section explains definitions and examples for data, data types, datasets, structure, entities, attributes, CSV, JSON, and XML. It does not explain how cosine similarity is calculated. It also does not explain how transformer neural networks generate embeddings. Those topics require material outside this section.
+
+[Chunk 5]
+ing described; an attribute is one property used to describe it.
+A course-evaluation dataset might have one row for each semester offering and columns for semester, instructor, class size, and rating. The values differ by entity, while each entity follows the same set of attributes.
+Structured and unstructured data
+A structured dataset uses a predefined, consistent organization. Its entities have the same attributes, fields and relationships are clearly defined, and values can usually fit into rows and columns. A jacket table with Date, Temperature, and Needed a Jacket is structured because each daily item has those same three attributes and every value fits a table cell.
+An unstructured dataset lacks a fixed schema or predefined data model. Its contents do not fit neatly into consistent rows and columns. Common forms include free-form text, images, video, and audio.
+
+[Chunk 0]
+OpenStax Principles of Data Science — Section 1.3 Study Text
+Source: Ault, Shaun V.; Liao, Soohyun Nam; and Musolino, Larry. Principles of Data Science, section 1.3, “Data and Datasets.” OpenStax, 2025.
+Section URL: https://openstax.org/books/principles-data-science/pages/1-3-data-and-datasets
+License noted by the source: CC BY-NC-SA.
+About this file
+This is a concise, instructor-prepared paraphrase of the assigned section, not a verbatim copy. It is bundled so the baseline notebook can run without web access. Before submitting academic work, compare it with the assigned OpenStax section and replace it with an instructor-approved local export if required.
+Data and the growth of data science
+Data science extracts information and insight from data to support decisions and innovation in areas such as business, health care, and entertainment. Its modern growth accelerated as digital data, computing capacity, and technology expanded.",model_error,Ollama request failed: HTTP Error 404: Not Found
+q15,unanswerable,no_rag,Does this section explain how transformer neural networks generate embeddings?,No. The section does not explain how transformer neural networks generate embeddings.,False,,0.002187,0.0,False,,[],[],,model_error,Ollama request failed: HTTP Error 404: Not Found
+q15,unanswerable,rag,Does this section explain how transformer neural networks generate embeddings?,No. The section does not explain how transformer neural networks generate embeddings.,False,,0.00208,0.0,False,True,"[8, 4, 0]","[0.605537, 0.50193, 0.500367]","[Chunk 8]
+paired values store the corresponding observations. JSON is compatible with many programming languages, is relatively easy to parse, and is well suited to exchanging data between a user and a server. Compared with CSV’s flat rows and comma-separated fields, JSON can express nested object and array structure. The section notes that JSON is less convenient for comments and metadata.
+XML uses named opening and closing tags to represent items and their attributes. Its tagged structure is verbose, but it supports metadata and hierarchical structures. XML can also accompany image datasets as annotation files.
+Section boundaries
+This section explains definitions and examples for data, data types, datasets, structure, entities, attributes, CSV, JSON, and XML. It does not explain how cosine similarity is calculated. It also does not explain how transformer neural networks generate embeddings. Those topics require material outside this section.
+
+[Chunk 4]
+thermometer measurement with units. It is continuous because a temperature reading can take any real-number value within the measurement context, giving an effectively infinite set of possible values. “Needed a Jacket?” is categorical because its values come from the finite labels Yes and No. It is nominal because those labels have no natural ranking.
+Datasets, entities, and attributes
+A dataset is a collection of observations or data entities organized so they can be analyzed and interpreted. In a tabular dataset, a row commonly represents a unique entity, item, entry, or instance. A column represents an attribute, feature, variable, or characteristic shared by the entities. An entity is therefore the thing or observation being described; an attribute is one property used to describe it.
+A course-evaluation dataset might have one row for each semester offering and columns for semester, instructor, class size, and rating.
+
+[Chunk 0]
+OpenStax Principles of Data Science — Section 1.3 Study Text
+Source: Ault, Shaun V.; Liao, Soohyun Nam; and Musolino, Larry. Principles of Data Science, section 1.3, “Data and Datasets.” OpenStax, 2025.
+Section URL: https://openstax.org/books/principles-data-science/pages/1-3-data-and-datasets
+License noted by the source: CC BY-NC-SA.
+About this file
+This is a concise, instructor-prepared paraphrase of the assigned section, not a verbatim copy. It is bundled so the baseline notebook can run without web access. Before submitting academic work, compare it with the assigned OpenStax section and replace it with an instructor-approved local export if required.
+Data and the growth of data science
+Data science extracts information and insight from data to support decisions and innovation in areas such as business, health care, and entertainment. Its modern growth accelerated as digital data, computing capacity, and technology expanded.",model_error,Ollama request failed: HTTP Error 404: Not Found

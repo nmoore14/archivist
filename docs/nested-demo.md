@@ -4,14 +4,14 @@ The nested demo packages the Linux deployment experience into one privileged
 Docker-in-Docker parent. It is for demonstrations only. It is not the production
 deployment model.
 
-The parent:
+The parent performs these steps:
 
-1. starts a nested Docker daemon;
-2. builds the Archivist child image from the mounted repository;
-3. downloads the Ollama image and configured models when missing;
-4. starts Archivist and Ollama as child containers on an internal network;
-5. exposes nested Archivist through Nginx on parent port 8080;
-6. blocks new outbound connections after setup.
+1. Starts a nested Docker daemon.
+2. Builds the Archivist child image from the mounted repository.
+3. Downloads the Ollama image and configured models when they are missing.
+4. Starts Archivist and Ollama as child containers on an internal network.
+5. Exposes nested Archivist through Nginx on parent port `8080`.
+6. Blocks new outbound connections after setup.
 
 ## Start
 

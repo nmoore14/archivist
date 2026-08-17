@@ -2,16 +2,20 @@
 
 html[data-theme="dark"] {
   color-scheme: dark;
-  --ink: #eeeaf5;
-  --muted: #aaa4b4;
-  --line: #3b3745;
-  --paper: #15141c;
-  --white: #201e29;
-  --pale: #312640;
-  --deep: #0d0c12;
-  --green: #66c7a2;
+  --ink: #e8ece9;
+  --muted: #aab3ae;
+  --line: #465154;
+  --paper: #171d20;
+  --white: #222a2e;
+  --pale: #2b3834;
+  --deep: #101517;
+  --green: #8bbd9b;
   --red: #ef9298;
   --shadow: 0 14px 40px rgba(0,0,0,.3);
+  --cream: #222a2e;
+  --grid: rgba(141, 178, 194, 0.06);
+  --violet: #8db2c2;
+  --violet-2: #c59a4a;
 }
 html[data-theme="dark"] body {
   background: var(--paper);
@@ -53,18 +57,18 @@ html[data-theme="dark"] .index-table th,
 html[data-theme="dark"] .setting-choice,
 html[data-theme="dark"] .dropzone,
 html[data-theme="dark"] .document-progress-list article[data-index-pending] .file-mark {
-  background: #292631;
+  background: #2a3336;
 }
 html[data-theme="dark"] .search-result-chat .search-result-course {
-  background: #302541;
+  background: #303a36;
 }
 html[data-theme="dark"] input,
 html[data-theme="dark"] textarea,
 html[data-theme="dark"] select,
 html[data-theme="dark"] .note-folio > input,
 html[data-theme="dark"] .note-folio > textarea {
-  border-color: #4a4554;
-  background: #191820;
+  border-color: #4a5558;
+  background: #181f22;
   color: var(--ink);
 }
 html[data-theme="dark"] input::placeholder,
@@ -77,34 +81,34 @@ html[data-theme="dark"] .message-action,
 html[data-theme="dark"] .chat-course-sidebar kbd,
 html[data-theme="dark"] .command-ribbon kbd,
 html[data-theme="dark"] .source-map-shortcut kbd {
-  border-color: #494353;
-  background: #292631;
-  color: #d8cfea;
+  border-color: #4b5557;
+  background: #2a3336;
+  color: #dce4df;
 }
 html[data-theme="dark"] .tag,
 html[data-theme="dark"] .index-state {
   border-color: #484351;
-  background: #292631;
-  color: #bbb4c3;
+  background: #2a3336;
+  color: #b9c2bd;
 }
 html[data-theme="dark"] .tag.success,
 html[data-theme="dark"] .index-state.ready {
-  border-color: #315c4c;
-  background: #1d342d;
+  border-color: #3f6651;
+  background: #213a2d;
   color: var(--green);
 }
 html[data-theme="dark"] .index-state.indexing {
-  border-color: #594574;
-  background: #302541;
-  color: #c6a5f3;
+  border-color: #516b66;
+  background: #303a36;
+  color: #b7d0c4;
 }
 html[data-theme="dark"] .note-folio {
-  background: repeating-linear-gradient(#201e29 0,#201e29 35px,#373241 36px);
+  background: repeating-linear-gradient(#222a2e 0,#222a2e 35px,#394448 36px);
 }
 html[data-theme="dark"] .monogram,
 html[data-theme="dark"] .ask-course-mark,
 html[data-theme="dark"] .course-desk-mark {
-  background: linear-gradient(#292631,#211c2b);
+  background: linear-gradient(#2a3336,#253034);
 }
 html[data-theme="dark"] .source-loading {
   background: var(--paper);
@@ -112,16 +116,16 @@ html[data-theme="dark"] .source-loading {
 }
 html[data-theme="dark"] .message p,
 html[data-theme="dark"] .search-result-copy p {
-  color: #d0cad7;
+  color: #d6ddda;
 }
 html[data-theme="dark"] .global-search-form > div {
-  border-color: #4a4554;
-  background: #191820;
+  border-color: #4a5558;
+  background: #181f22;
 }
 html[data-theme="dark"] .user-settings-menu label:hover,
 html[data-theme="dark"] .user-settings-menu label:has(input:checked) {
-  border-color: #66547c;
-  background: #302541;
+  border-color: #596d69;
+  background: #303a36;
 }
 @media (max-width:700px) {
   .user-settings-menu {
@@ -133,4 +137,121 @@ html[data-theme="dark"] .user-settings-menu label:has(input:checked) {
 html[data-theme="dark"] .workspace-hero,
 html[data-theme="dark"] .index-settings {
   background-image: none;
+}
+
+html[data-theme="dark"] .eyebrow,
+html[data-theme="dark"] .course-code,
+html[data-theme="dark"] .status,
+html[data-theme="dark"] .local-badge {
+  color: var(--ink);
+}
+
+html[data-theme="dark"] .status,
+html[data-theme="dark"] .local-badge,
+html[data-theme="dark"] .workspace-card,
+html[data-theme="dark"] .ask-course,
+html[data-theme="dark"] .panel,
+html[data-theme="dark"] .composer,
+html[data-theme="dark"] .global-search-form,
+html[data-theme="dark"] .global-search-results > article {
+  border-color: #596366;
+}
+
+html[data-theme="dark"] .chat-course-sidebar nav a.active {
+  border-color: var(--sun);
+  background: var(--sun);
+  color: #191918;
+}
+
+/* Course workspace contrast. Keep the architect palette legible after dark-mode
+   surfaces replace the light sidebar and citation backgrounds. */
+html[data-theme="dark"] .chat-course-sidebar nav a {
+  color: #d8e0dc;
+}
+
+html[data-theme="dark"] .chat-course-sidebar nav a:not(.active):hover,
+html[data-theme="dark"] .chat-course-sidebar nav a:not(.active):focus-visible {
+  border-color: #657476;
+  background: #303b3f;
+  color: #fff;
+}
+
+html[data-theme="dark"] .course-sidebar-label {
+  color: #b8c2bd;
+}
+
+html[data-theme="dark"] .course-sidebar-context {
+  background: #303b3a;
+  color: #f0f3f1;
+}
+
+html[data-theme="dark"] .course-sidebar-context p {
+  color: #c5cfca;
+}
+
+html[data-theme="dark"] .course-sidebar-context strong {
+  color: #f3f5f4;
+}
+
+html[data-theme="dark"] .course-sidebar-context a {
+  color: #e5c77f;
+}
+
+html[data-theme="dark"] .course-desk-mark,
+html[data-theme="dark"] .file-mark {
+  border-color: #536164;
+  color: #d9e2de;
+}
+
+html[data-theme="dark"] .dropzone {
+  border-color: #66808a;
+  background: #2b373b;
+  color: #edf2ef;
+}
+
+html[data-theme="dark"] .dropzone > span {
+  color: #f4f6f5;
+  font-weight: 700;
+}
+
+html[data-theme="dark"] .dropzone small {
+  color: #c2ccc8;
+}
+
+html[data-theme="dark"] .dropzone:hover,
+html[data-theme="dark"] .dropzone:focus-within {
+  border-color: #9ac0cf;
+  background: #324247;
+}
+
+html[data-theme="dark"] .source-citation {
+  border: 1px solid #d2ad60;
+  background: #c8a45a;
+  color: #172023;
+}
+
+html[data-theme="dark"] .source-citation small {
+  border-left-color: rgba(23, 32, 35, 0.35);
+  color: #173d4b;
+  font-weight: 700;
+}
+
+html[data-theme="dark"] .source-citation:hover,
+html[data-theme="dark"] .source-citation:focus-visible {
+  border-color: #f0d18b;
+  background: #dfbc70;
+  color: #101719;
+  outline: 2px solid #8db2c2;
+  outline-offset: 2px;
+}
+
+html[data-theme="dark"] .thinking-card {
+  border-color: #526268;
+  background: #303c41;
+  color: #f2f5f3;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.22);
+}
+
+html[data-theme="dark"] .thinking-dots i {
+  background: #8fc2d3;
 }

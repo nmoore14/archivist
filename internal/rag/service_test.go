@@ -50,6 +50,25 @@ func TestEnforceLocalAnswerKeepsOrdinaryMarkdown(t *testing.T) {
 	}
 }
 
+func TestEnforceLocalAnswerKeepsOnlyCourseContextLinks(t *testing.T) {
+	context := "Section URL: https://course.example/lesson"
+	answer := `### Related course links
+
+- [Assigned lesson](https://course.example/lesson)
+- [Unverified result](https://outside.example/result)`
+
+	filtered := enforceLocalAnswerWithContext(answer, context)
+	if !strings.Contains(filtered, "[Assigned lesson](https://course.example/lesson)") {
+		t.Fatalf("verified course link was removed: %q", filtered)
+	}
+	if strings.Contains(filtered, "https://outside.example/result") {
+		t.Fatalf("unverified link remained: %q", filtered)
+	}
+	if !strings.Contains(filtered, "Unverified result") {
+		t.Fatalf("unverified link label should remain readable: %q", filtered)
+	}
+}
+
 func TestSystemPromptIsKeptInItsOwnFile(t *testing.T) {
 	prompt := strings.TrimSpace(systemPrompt)
 	if prompt == "" {
