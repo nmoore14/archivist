@@ -7,9 +7,9 @@ network](linux-deployment.md).
 
 ## Before you begin
 
-Install Docker Engine with the Docker Compose v2 plugin. The first setup also
-requires internet access to download container images, application dependencies,
-and Ollama models.
+Install Docker Engine with the Docker Compose v2 plugin. The first setup needs
+internet access only to obtain container images and application dependencies:
+the required Ollama models are bundled in the repository's `models/` directory.
 
 Port `8080` must be available on the host.
 
@@ -21,29 +21,17 @@ Port `8080` must be available on the host.
    docker compose up --build -d
    ```
 
-2. Download the default chat model:
+2. Open the [Archivist web interface](http://localhost:8080).
 
-   ```sh
-   docker compose exec ollama ollama pull gemma3:1b
-   ```
-
-3. Download the default embedding model:
-
-   ```sh
-   docker compose exec ollama ollama pull nomic-embed-text
-   ```
-
-4. Open the [Archivist web interface](http://localhost:8080).
-
-5. On the **Create Admin Account** screen, create the initial administrator
+3. On the **Create Admin Account** screen, create the initial administrator
    account.
 
-6. Create a workspace. You can publish it immediately or leave it unpublished
+4. Create a workspace. You can publish it immediately or leave it unpublished
    while you add content.
 
-7. Upload one or more `.txt`, `.md`, `.html`, `.htm`, or `.pdf` files.
+5. Upload one or more `.txt`, `.md`, `.html`, `.htm`, or `.pdf` files.
 
-8. Create student accounts and assign the students from the workspace overview.
+6. Create student accounts and assign the students from the workspace overview.
 
 Text-based PDF files support page-level citations. Archivist doesn't extract
 text from scanned or image-only PDF files.

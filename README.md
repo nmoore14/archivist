@@ -18,17 +18,15 @@ The capstone investigates whether guided workflows can reduce the technical barr
 Before you begin, install Docker Engine with the Docker Compose v2 plugin. Docker
 is the only host dependency.
 
+The required Ollama model files are included in [`models/`](models). The
+custom Ollama image seeds its persistent model volume from that directory, so
+starting the stack never needs to download `gemma3:1b` or
+`nomic-embed-text`.
+
 To start Archivist locally:
 
 ```sh
 docker compose up --build -d
-```
-
-Download the chat and embedding models:
-
-```sh
-docker compose exec ollama ollama pull gemma3:1b
-docker compose exec ollama ollama pull nomic-embed-text
 ```
 
 Open the [Archivist web interface](http://localhost:8080). On a new data volume,

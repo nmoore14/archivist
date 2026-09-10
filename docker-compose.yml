@@ -19,7 +19,10 @@ services:
     restart: unless-stopped
 
   ollama:
-    image: ollama/ollama:latest
+    build:
+      context: .
+      dockerfile: models/Dockerfile
+    image: archivist-ollama-models:local
     volumes:
       - ollama-data:/root/.ollama
     restart: unless-stopped
