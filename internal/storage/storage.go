@@ -12,7 +12,11 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
-type Store struct{ DB *sql.DB }
+type Store struct {
+	DB                    *sql.DB
+	DefaultIndexProfile   string
+	DefaultRetrievalCount int
+}
 
 type User struct {
 	ID        int64
@@ -265,8 +269,16 @@ func (s *Store) CreateSession(id string, userID int64, expires time.Time) error 
 func (s *Store) DeleteSession(id string) { _, _ = s.DB.Exec(`DELETE FROM sessions WHERE id=?`, id) }
 
 func (s *Store) CreateWorkspace(name, code, description string, published bool, userID int64) error {
-	_, err := s.DB.Exec(`INSERT INTO workspaces(name,code,description,published,created_by) VALUES(?,?,?,?,?)`,
-		name, code, description, published, userID)
+	indexProfile := s.DefaultIndexProfile
+	if indexProfile != "focused" && indexProfile != "balanced" && indexProfile != "broad" {
+		indexProfile = "balanced"
+	}
+	retrievalCount := s.DefaultRetrievalCount
+	if retrievalCount != 3 && retrievalCount != 4 && retrievalCount != 6 {
+		retrievalCount = 4
+	}
+	_, err := s.DB.Exec(`INSERT INTO workspaces(name,code,description,published,index_profile,retrieval_count,created_by) VALUES(?,?,?,?,?,?,?)`,
+		name, code, description, published, indexProfile, retrievalCount, userID)
 	return err
 }
 

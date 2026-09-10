@@ -10,6 +10,7 @@ services:
       OLLAMA_BASE_URL: http://ollama:11434
       ARCHIVIST_DEFAULT_MODEL: ${ARCHIVIST_DEFAULT_MODEL:-gemma3:1b}
       ARCHIVIST_EMBED_MODEL: ${ARCHIVIST_EMBED_MODEL:-nomic-embed-text}
+      ARCHIVIST_PROFILE: ${ARCHIVIST_PROFILE:-school}
       ARCHIVIST_HTTP_ADDR: :8080
     volumes:
       - archivist-data:/data

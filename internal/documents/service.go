@@ -21,6 +21,7 @@ type Service struct {
 	DB                     *sql.DB
 	UploadPath, EmbedModel string
 	Ollama                 *models.Client
+	DefaultIndexProfile    string
 }
 
 type extractedChunk struct {
@@ -310,7 +311,7 @@ func chunksForTextConfigured(text string, pageNumber *int, size, overlap int) ([
 func (s *Service) chunkSettings(workspaceID int64) (int, int) {
 	var profile string
 	if err := s.DB.QueryRow(`SELECT index_profile FROM workspaces WHERE id=?`, workspaceID).Scan(&profile); err != nil {
-		return 1000, 200
+		profile = s.DefaultIndexProfile
 	}
 	switch profile {
 	case "focused":

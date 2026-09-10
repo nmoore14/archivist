@@ -1,6 +1,10 @@
 # Archivist
 
-Archivist is a local-first AI workspace for schools. An administrator creates course workspaces and uploads trusted source material; assigned students ask questions and receive answers grounded in that material, with source references.
+Archivist is a local-first AI workspace. An administrator creates workspaces and uploads trusted source material; assigned members ask questions and receive answers grounded in that material, with source references.
+
+## Deployment profiles
+
+Each installation runs one industry profile and keeps its own database, uploads, and local models. The default `school` profile preserves the existing course-and-student experience. Set `ARCHIVIST_PROFILE=office-kb` to deploy the office knowledge-base profile, which uses office terminology, an office-specific grounded-answer prompt, and broader retrieval defaults. Start from [the office environment example](deploy/profiles/office-kb.env.example).
 
 The capstone investigates whether guided workflows can reduce the technical barriers to configuring and deploying local AI assistants for educational use.
 

@@ -11,6 +11,7 @@ services:
       TINI_SUBREAPER: "1"
       ARCHIVIST_DEFAULT_MODEL: ${ARCHIVIST_DEFAULT_MODEL:-gemma3:1b}
       ARCHIVIST_EMBED_MODEL: ${ARCHIVIST_EMBED_MODEL:-nomic-embed-text}
+      ARCHIVIST_PROFILE: ${ARCHIVIST_PROFILE:-school}
     ports:
       - "0.0.0.0:8080:8080"
     volumes:

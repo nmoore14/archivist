@@ -21,6 +21,7 @@ import (
 
 	"archivist/internal/app"
 	"archivist/internal/auth"
+	"archivist/internal/profile"
 	"archivist/internal/storage"
 	"github.com/yuin/goldmark"
 	"github.com/yuin/goldmark/extension"
@@ -49,6 +50,7 @@ type View struct {
 	Query         string
 	ActiveTab     string
 	Error, Notice string
+	Profile       profile.Profile
 }
 
 func New(a *app.App) *Server {
@@ -152,6 +154,7 @@ func (s *Server) routes() {
 	s.mux.HandleFunc("/users/new", s.requireAdmin(s.newUser))
 }
 func (s *Server) render(w http.ResponseWriter, name string, v View) {
+	v.Profile = s.App.Profile
 	if err := s.templates.ExecuteTemplate(w, name, v); err != nil {
 		log.Printf("render %s: %v", name, err)
 	}

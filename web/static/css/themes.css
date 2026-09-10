@@ -218,6 +218,26 @@ html[data-theme="dark"] .dropzone small {
   color: #c2ccc8;
 }
 
+/* The office profile adopts a restrained blue ink / brass accent system. The
+   narrow color change keeps the shared information architecture familiar while
+   making a business deployment feel purpose-built rather than school-branded. */
+.profile-office-kb {
+  --violet: #275f87;
+  --violet-2: #34759d;
+  --pale: #e8f1f6;
+  --deep: #13283a;
+  --green: #27725f;
+  --shadow: 0 14px 40px rgba(19, 40, 58, .12);
+}
+.profile-office-kb .rail {
+  background: #13283a;
+}
+.profile-office-kb .course-sidebar-context a,
+.profile-office-kb .course-code,
+.profile-office-kb .eyebrow {
+  color: #275f87;
+}
+
 html[data-theme="dark"] .dropzone:hover,
 html[data-theme="dark"] .dropzone:focus-within {
   border-color: #9ac0cf;

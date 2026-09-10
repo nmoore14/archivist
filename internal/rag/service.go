@@ -25,9 +25,11 @@ var (
 )
 
 type Service struct {
-	DB                    *sql.DB
-	Ollama                *models.Client
-	ChatModel, EmbedModel string
+	DB                                        *sql.DB
+	Ollama                                    *models.Client
+	ChatModel, EmbedModel                     string
+	SystemPrompt, ContextLabel, QuestionLabel string
+	DefaultRetrievalCount                     int
 }
 type hit struct {
 	content, source string
@@ -48,7 +50,7 @@ func cosine(a, b []float64) float64 {
 }
 func (s *Service) Answer(ctx context.Context, workspaceID int64, question string) (string, []string, error) {
 	if questionWebURL.MatchString(question) {
-		return "Archivist cannot open or retrieve web addresses. Please ask a question about content already stored in this course library.", nil, nil
+		return "Archivist cannot open or retrieve web addresses. Please ask about content already stored in this private library.", nil, nil
 	}
 	qv, err := s.Ollama.GenerateEmbedding(ctx, s.EmbedModel, question)
 	if err != nil {
@@ -73,7 +75,10 @@ func (s *Service) Answer(ctx context.Context, workspaceID int64, question string
 		}
 	}
 	sort.Slice(hits, func(i, j int) bool { return hits[i].score > hits[j].score })
-	retrievalCount := 4
+	retrievalCount := s.DefaultRetrievalCount
+	if retrievalCount == 0 {
+		retrievalCount = 4
+	}
 	_ = s.DB.QueryRow(`SELECT retrieval_count FROM workspaces WHERE id=?`, workspaceID).Scan(&retrievalCount)
 	if retrievalCount != 3 && retrievalCount != 4 && retrievalCount != 6 {
 		retrievalCount = 4
@@ -82,7 +87,7 @@ func (s *Service) Answer(ctx context.Context, workspaceID int64, question string
 		hits = hits[:retrievalCount]
 	}
 	if len(hits) == 0 {
-		return "The course materials do not provide enough information to answer that yet. Ask an administrator to add or reindex course documents.", nil, nil
+		return "The available documents do not provide enough information to answer that yet. Ask an administrator to add or reindex trusted content.", nil, nil
 	}
 	var contextText strings.Builder
 	seen := map[string]bool{}
@@ -94,9 +99,20 @@ func (s *Service) Answer(ctx context.Context, workspaceID int64, question string
 			sources = append(sources, h.source)
 		}
 	}
-	userPrompt := "Course context:\n" + contextText.String() + "\n\nStudent question:\n" + question
+	contextLabel, questionLabel := s.ContextLabel, s.QuestionLabel
+	if contextLabel == "" {
+		contextLabel = "Course context"
+	}
+	if questionLabel == "" {
+		questionLabel = "Student question"
+	}
+	prompt := s.SystemPrompt
+	if strings.TrimSpace(prompt) == "" {
+		prompt = systemPrompt
+	}
+	userPrompt := contextLabel + ":\n" + contextText.String() + "\n\n" + questionLabel + ":\n" + question
 	messages := []models.ChatMessage{
-		{Role: "system", Content: strings.TrimSpace(systemPrompt)},
+		{Role: "system", Content: strings.TrimSpace(prompt)},
 		{Role: "user", Content: userPrompt},
 	}
 	answer, err := s.Ollama.Chat(ctx, s.ChatModel, messages)
