@@ -1,0 +1,32 @@
+# Run Archivist against an Ollama server outside Docker. This intentionally
+# defines no ollama service, so the bundled model container is never started.
+services:
+  archivist:
+    build: .
+    ports:
+      - "${ARCHIVIST_HOST_BIND:-127.0.0.1}:8080:8080"
+    environment:
+      ARCHIVIST_DB_PATH: /data/archivist.db
+      ARCHIVIST_STORAGE_PATH: /data/storage
+      ARCHIVIST_UPLOAD_PATH: /data/uploads
+      # Reach the Ollama server running directly on this Docker host.
+      # OLLAMA_BASE_URL can still override this for a remote server.
+      OLLAMA_BASE_URL: ${OLLAMA_BASE_URL:-http://host.docker.internal:11434}
+      ARCHIVIST_DEFAULT_MODEL: ${ARCHIVIST_DEFAULT_MODEL:-gemma3:1b}
+      ARCHIVIST_EMBED_MODEL: ${ARCHIVIST_EMBED_MODEL:-nomic-embed-text}
+      ARCHIVIST_HTTP_ADDR: ${ARCHIVIST_HTTP_ADDR:-:8080}
+      ARCHIVIST_MODE: ${ARCHIVIST_MODE:-school}
+    # Docker Desktop supplies this hostname on macOS/Windows. host-gateway
+    # makes it work on modern Linux Docker installations too.
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - archivist-data:/data
+    restart: unless-stopped
+
+volumes:
+  archivist-data:
+
+networks:
+  default:
+    internal: false

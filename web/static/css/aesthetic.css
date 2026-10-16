@@ -508,7 +508,7 @@ body {
   background: var(--pink);
 }
 
-.global-search-form > div {
+.global-search-form > div:not(.search-filters) {
   border: 1.5px solid #191918;
   border-radius: 999px;
 }

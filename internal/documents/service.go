@@ -50,6 +50,9 @@ func (s *Service) Ingest(ctx context.Context, workspaceID int64, file multipart.
 }
 
 func (s *Service) QueueUpload(workspaceID int64, file multipart.File, header *multipart.FileHeader) (int64, error) {
+	return s.QueueUploadWithMetadata(workspaceID, file, header, "reading", "")
+}
+func (s *Service) QueueUploadWithMetadata(workspaceID int64, file multipart.File, header *multipart.FileHeader, materialType, tags string) (int64, error) {
 	ext := strings.ToLower(filepath.Ext(header.Filename))
 	if ext != ".txt" && ext != ".md" && ext != ".html" && ext != ".htm" && ext != ".pdf" {
 		return 0, fmt.Errorf("%s: supported file types are .txt, .md, .html, .htm, and .pdf", filepath.Base(header.Filename))
@@ -73,8 +76,8 @@ func (s *Service) QueueUpload(workspaceID int64, file multipart.File, header *mu
 		_ = os.Remove(path)
 		return 0, err
 	}
-	result, err := s.DB.Exec(`INSERT INTO documents(workspace_id,name,path,mime_type,status,index_version,index_total,index_complete)
-		VALUES(?,?,?,?,?,?,0,0)`, workspaceID, name, path, header.Header.Get("Content-Type"), "queued", 0)
+	result, err := s.DB.Exec(`INSERT INTO documents(workspace_id,name,path,mime_type,status,index_version,index_total,index_complete,material_type,tags)
+		VALUES(?,?,?,?,?,?,0,0,?,?)`, workspaceID, name, path, header.Header.Get("Content-Type"), "queued", 0, materialType, tags)
 	if err != nil {
 		_ = os.Remove(path)
 		return 0, err

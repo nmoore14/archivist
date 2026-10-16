@@ -68,3 +68,24 @@ To override a default, copy the repository's [environment variable
 example](../.env.example) to `.env` and edit the value before you start the
 services. Keep `OLLAMA_BASE_URL` set to `http://ollama:11434` when Ollama runs
 through the provided Docker Compose configuration.
+
+To use Ollama running on the Docker host or another machine, use the dedicated
+external-service configuration. It starts only Archivist:
+
+```sh
+OLLAMA_BASE_URL=http://host.docker.internal:11434 \
+docker compose -f docker-compose.external-ollama.yml up --build -d
+```
+
+Set `ARCHIVIST_DEFAULT_MODEL` and `ARCHIVIST_EMBED_MODEL` when the remote
+server uses different model names. The external Ollama server must expose its
+API to the Archivist container and have both models installed.
+
+You can also update the endpoint and models later from **Settings** in the
+Archivist left rail. Saved settings persist across restarts and override these
+environment defaults.
+
+For a login-free, single-user installation, set `ARCHIVIST_MODE=personal`.
+Personal mode creates a local owner automatically and uses private study spaces
+instead of student/admin accounts. Bind the service to localhost rather than a
+LAN address when using this mode.

@@ -49,7 +49,7 @@ func TestQueueUploadAndIndexDocumentTracksProgress(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
-		id, err := service.QueueUpload(workspaces[0].ID, file, &multipart.FileHeader{Filename: "lesson.md"})
+		id, err := service.QueueUploadWithMetadata(workspaces[0].ID, file, &multipart.FileHeader{Filename: "lesson.md"}, "lecture", "week 1, cells")
 		_ = file.Close()
 		if err != nil {
 			t.Fatal(err)
@@ -71,6 +71,9 @@ func TestQueueUploadAndIndexDocumentTracksProgress(t *testing.T) {
 	for _, document := range documents {
 		if document.Status != "ready" || document.IndexTotal < 2 || document.IndexComplete != document.IndexTotal || document.IndexPercent() != 100 {
 			t.Fatalf("unexpected completed document: %#v", document)
+		}
+		if document.MaterialType != "lecture" || document.Tags != "week 1, cells" {
+			t.Fatalf("document metadata was not retained: %#v", document)
 		}
 	}
 }

@@ -6,7 +6,8 @@
 <main class="global-search-page">
   <form class="global-search-form" method="get" action="/search" role="search">
     <label for="global-search">Search all of your courses</label>
-    <div><svg aria-hidden="true"><use href="#search"/></svg><input id="global-search" data-global-search name="q" value="{{.Query}}" maxlength="200" autocomplete="off" placeholder="Try a topic, phrase, or document name" autofocus><button class="button primary">Search</button></div>
+    <div class="search-query"><svg aria-hidden="true"><use href="#search"/></svg><input id="global-search" data-global-search name="q" value="{{.Query}}" maxlength="200" autocomplete="off" placeholder="Try a topic, phrase, or document name" autofocus><button class="button primary">Search</button></div>
+    <div class="search-filters"><label class="search-material-filter" for="search-material-type">Material type<select id="search-material-type" name="material_type"><option value="" {{if eq .MaterialType ""}}selected{{end}}>All materials and chats</option><option value="lecture" {{if eq .MaterialType "lecture"}}selected{{end}}>Lecture notes</option><option value="reading" {{if eq .MaterialType "reading"}}selected{{end}}>Readings</option><option value="assignment" {{if eq .MaterialType "assignment"}}selected{{end}}>Assignments</option><option value="reference" {{if eq .MaterialType "reference"}}selected{{end}}>Reference</option></select></label><label class="search-material-filter" for="search-material-tag">Tag<input id="search-material-tag" name="tag" value="{{.MaterialTag}}" maxlength="120" placeholder="e.g. week 4"></label></div>
     <small>Searches indexed course passages and document names. It does not use the internet.</small>
   </form>
   {{template "search-results" .}}

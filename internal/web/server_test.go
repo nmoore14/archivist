@@ -164,6 +164,129 @@ func TestAskPagePromotesAvailableCourseChats(t *testing.T) {
 	}
 }
 
+func TestPersonalModeNeedsNoLoginAndCreatesStudySpacesForItsOwner(t *testing.T) {
+	store, err := storage.Open(filepath.Join(t.TempDir(), "archivist.db"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer store.DB.Close()
+
+	application := app.New(store)
+	application.Mode = app.ModePersonal
+	application.RAG.PersonalMode = true
+	handler := New(application).Handler()
+
+	dashboardRequest := httptest.NewRequest(http.MethodGet, "/dashboard", nil)
+	dashboardResponse := httptest.NewRecorder()
+	handler.ServeHTTP(dashboardResponse, dashboardRequest)
+	if dashboardResponse.Code != http.StatusOK {
+		t.Fatalf("personal dashboard status: got %d, want 200", dashboardResponse.Code)
+	}
+	dashboard := dashboardResponse.Body.String()
+	for _, expected := range []string{"Your private study desk", "New study space", "Settings"} {
+		if !strings.Contains(dashboard, expected) {
+			t.Errorf("personal dashboard should contain %q", expected)
+		}
+	}
+	for _, forbidden := range []string{"Sign out", "Signed in as", "Create Admin Account", "Sign in to Archivist"} {
+		if strings.Contains(dashboard, forbidden) {
+			t.Errorf("personal dashboard should not contain %q", forbidden)
+		}
+	}
+
+	createRequest := httptest.NewRequest(http.MethodPost, "/workspaces", strings.NewReader("name=Linear+Algebra+Review&code=LA+REV&description=Exam+practice"))
+	createRequest.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+	createResponse := httptest.NewRecorder()
+	handler.ServeHTTP(createResponse, createRequest)
+	if createResponse.Code != http.StatusSeeOther {
+		t.Fatalf("personal study-space creation status: got %d, want 303", createResponse.Code)
+	}
+
+	owner, err := store.EnsurePersonalUser()
+	if err != nil {
+		t.Fatal(err)
+	}
+	spaces, err := store.Workspaces(owner)
+	if err != nil || len(spaces) != 1 {
+		t.Fatalf("personal study spaces: got %d, err %v", len(spaces), err)
+	}
+	if !spaces[0].Published {
+		t.Fatal("personal study spaces should be immediately available")
+	}
+}
+
+func TestPersonalModeRejectsUnknownStudyActions(t *testing.T) {
+	store, err := storage.Open(filepath.Join(t.TempDir(), "archivist.db"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer store.DB.Close()
+	application := app.New(store)
+	application.Mode = app.ModePersonal
+	application.RAG.PersonalMode = true
+	owner, err := store.EnsurePersonalUser()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if err := store.CreateWorkspace("Review", "REV", "", true, owner.ID); err != nil {
+		t.Fatal(err)
+	}
+	handler := New(application).Handler()
+	chatRequest := httptest.NewRequest(http.MethodGet, "/workspaces/1/chat", nil)
+	chatResponse := httptest.NewRecorder()
+	handler.ServeHTTP(chatResponse, chatRequest)
+	for _, action := range []string{"Explain simply", "Summary", "Compare", "Study guide", "Study plan", "Practice questions", "Flashcards"} {
+		if !strings.Contains(chatResponse.Body.String(), action) {
+			t.Errorf("personal chat should offer %q", action)
+		}
+	}
+
+	request := httptest.NewRequest(http.MethodPost, "/workspaces/1/chat", strings.NewReader("question=What+is+this%3F&study_task=unknown"))
+	request.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+	response := httptest.NewRecorder()
+	handler.ServeHTTP(response, request)
+	if response.Code != http.StatusUnprocessableEntity {
+		t.Fatalf("unknown personal study action: got %d, want 422", response.Code)
+	}
+}
+
+func TestPersonalModeCanSaveItsOllamaConnectionInSettings(t *testing.T) {
+	store, err := storage.Open(filepath.Join(t.TempDir(), "archivist.db"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer store.DB.Close()
+
+	application := app.New(store)
+	application.Mode = app.ModePersonal
+	application.RAG.PersonalMode = true
+	handler := New(application).Handler()
+
+	getRequest := httptest.NewRequest(http.MethodGet, "/settings", nil)
+	getResponse := httptest.NewRecorder()
+	handler.ServeHTTP(getResponse, getRequest)
+	if getResponse.Code != http.StatusOK || !strings.Contains(getResponse.Body.String(), "Choose where Archivist thinks.") {
+		t.Fatalf("personal settings page not available: status %d, body %q", getResponse.Code, getResponse.Body.String())
+	}
+
+	body := "ollama_base_url=http%3A%2F%2Fhost.docker.internal%3A11434&chat_model=qwen3%3A8b&embed_model=nomic-embed-text"
+	postRequest := httptest.NewRequest(http.MethodPost, "/settings", strings.NewReader(body))
+	postRequest.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+	postResponse := httptest.NewRecorder()
+	handler.ServeHTTP(postResponse, postRequest)
+	if postResponse.Code != http.StatusSeeOther {
+		t.Fatalf("saving settings status: got %d, want 303", postResponse.Code)
+	}
+	if application.LLMSettings.BaseURL != "http://host.docker.internal:11434" || application.LLMSettings.ChatModel != "qwen3:8b" {
+		t.Fatalf("application did not use saved settings: %#v", application.LLMSettings)
+	}
+	defaults := storage.LLMSettings{}
+	saved, err := store.LLMSettings(defaults)
+	if err != nil || saved != application.LLMSettings {
+		t.Fatalf("settings not persisted: %#v, err %v", saved, err)
+	}
+}
+
 func TestGlobalSearchOnlyReturnsCoursesTheStudentCanAccess(t *testing.T) {
 	store, err := storage.Open(filepath.Join(t.TempDir(), "archivist.db"))
 	if err != nil {

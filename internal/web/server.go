@@ -13,6 +13,7 @@ import (
 	"mime"
 	"mime/multipart"
 	"net/http"
+	"net/url"
 	"os"
 	"path/filepath"
 	"strconv"
@@ -21,6 +22,7 @@ import (
 
 	"archivist/internal/app"
 	"archivist/internal/auth"
+	"archivist/internal/rag"
 	"archivist/internal/storage"
 	"github.com/yuin/goldmark"
 	"github.com/yuin/goldmark/extension"
@@ -43,15 +45,31 @@ type View struct {
 	Documents     []storage.Document
 	Users         []storage.User
 	Messages      []storage.Message
+	Sessions      []storage.ChatSession
+	Artifacts     []storage.StudyArtifact
+	Flashcard     storage.Flashcard
+	ReviewStats   storage.ReviewStats
+	SessionID     int64
 	Note          storage.Note
 	IndexStats    storage.IndexStats
 	SearchResults []storage.SearchResult
+	LLMSettings   storage.LLMSettings
 	Query         string
+	MaterialType  string
+	MaterialTag   string
+	ArtifactKind  string
+	ArtifactQuery string
 	ActiveTab     string
+	PersonalMode  bool
 	Error, Notice string
 }
 
 func New(a *app.App) *Server {
+	if a.Mode == app.ModePersonal {
+		if _, err := a.Store.EnsurePersonalUser(); err != nil {
+			panic(fmt.Sprintf("initialize personal study mode: %v", err))
+		}
+	}
 	t := template.Must(template.New("").Funcs(template.FuncMap{"initials": func(s string) string {
 		p := strings.Fields(s)
 		if len(p) == 0 {
@@ -138,6 +156,17 @@ func (s *Server) Handler() http.Handler { return s.logging(s.mux) }
 func (s *Server) routes() {
 	static, _ := fs.Sub(os.DirFS("web/static"), ".")
 	s.mux.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.FS(static))))
+	if s.personalMode() {
+		s.mux.HandleFunc("/", s.home)
+		s.mux.HandleFunc("/dashboard", s.home)
+		s.mux.HandleFunc("/ask", s.ask)
+		s.mux.HandleFunc("/search", s.search)
+		s.mux.HandleFunc("/settings", s.settings)
+		s.mux.HandleFunc("/workspaces", s.workspaces)
+		s.mux.HandleFunc("/workspaces/new", s.newWorkspace)
+		s.mux.HandleFunc("/workspaces/", s.workspaceRoutes)
+		return
+	}
 	s.mux.HandleFunc("/setup", s.setup)
 	s.mux.HandleFunc("/login", s.login)
 	s.mux.HandleFunc("/logout", s.logout)
@@ -145,6 +174,7 @@ func (s *Server) routes() {
 	s.mux.HandleFunc("/dashboard", s.requireAuth(s.home))
 	s.mux.HandleFunc("/ask", s.requireAuth(s.ask))
 	s.mux.HandleFunc("/search", s.requireAuth(s.search))
+	s.mux.HandleFunc("/settings", s.requireAdmin(s.settings))
 	s.mux.HandleFunc("/workspaces", s.requireAuth(s.workspaces))
 	s.mux.HandleFunc("/workspaces/new", s.requireAdmin(s.newWorkspace))
 	s.mux.HandleFunc("/workspaces/", s.requireAuth(s.workspaceRoutes))
@@ -152,17 +182,22 @@ func (s *Server) routes() {
 	s.mux.HandleFunc("/users/new", s.requireAdmin(s.newUser))
 }
 func (s *Server) render(w http.ResponseWriter, name string, v View) {
+	v.PersonalMode = s.personalMode()
 	if err := s.templates.ExecuteTemplate(w, name, v); err != nil {
 		log.Printf("render %s: %v", name, err)
 	}
 }
 func (s *Server) current(r *http.Request) (storage.User, error) {
+	if s.personalMode() {
+		return s.App.Store.EnsurePersonalUser()
+	}
 	c, err := r.Cookie("archivist_session")
 	if err != nil {
 		return storage.User{}, err
 	}
 	return s.App.Store.UserBySession(c.Value)
 }
+func (s *Server) personalMode() bool { return s.App.Mode == app.ModePersonal }
 func (s *Server) requireAuth(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if s.App.Store.UserCount() == 0 {
@@ -252,31 +287,98 @@ func (s *Server) search(w http.ResponseWriter, r *http.Request) {
 	if len(query) > 200 {
 		query = query[:200]
 	}
-	results, err := s.App.Store.SearchCourseContent(u, query, 40)
+	materialType := r.URL.Query().Get("material_type")
+	if !validMaterialType(materialType) {
+		materialType = ""
+	}
+	materialTag := strings.TrimSpace(r.URL.Query().Get("tag"))
+	if len(materialTag) > 120 {
+		materialTag = materialTag[:120]
+	}
+	results, err := s.App.Store.SearchCourseContentFiltered(u, query, materialType, materialTag, 40)
 	if err != nil {
 		log.Printf("global search: %v", err)
-		s.render(w, "search.html", View{Title: "Search", User: u, Query: query, Error: "Archivist could not search the course index. Please try again."})
+		s.render(w, "search.html", View{Title: "Search", User: u, Query: query, MaterialType: materialType, MaterialTag: materialTag, Error: "Archivist could not search the course index. Please try again."})
 		return
 	}
-	chatResults, err := s.App.Store.SearchChatHistory(u, query, 40)
-	if err != nil {
-		log.Printf("chat history search: %v", err)
-		s.render(w, "search.html", View{Title: "Search", User: u, Query: query, Error: "Archivist could not search your chat history. Please try again."})
-		return
+	if materialType == "" && materialTag == "" {
+		chatResults, err := s.App.Store.SearchChatHistory(u, query, 40)
+		if err != nil {
+			log.Printf("chat history search: %v", err)
+			s.render(w, "search.html", View{Title: "Search", User: u, Query: query, Error: "Archivist could not search your chat history. Please try again."})
+			return
+		}
+		results = append(chatResults, results...)
 	}
-	results = append(chatResults, results...)
 	if len(results) > 40 {
 		results = results[:40]
 	}
 	for index := range results {
 		results[index].Content = searchExcerpt(results[index].Content, query, 280)
 	}
-	view := View{Title: "Search", User: u, Query: query, SearchResults: results}
+	view := View{Title: "Search", User: u, Query: query, MaterialType: materialType, MaterialTag: materialTag, SearchResults: results}
 	if r.URL.Query().Get("partial") == "1" {
 		s.render(w, "search-results.html", view)
 		return
 	}
 	s.render(w, "search.html", view)
+}
+
+func validMaterialType(materialType string) bool {
+	switch materialType {
+	case "", "lecture", "reading", "assignment", "reference":
+		return true
+	default:
+		return false
+	}
+}
+
+func (s *Server) settings(w http.ResponseWriter, r *http.Request) {
+	u, err := s.current(r)
+	if err != nil {
+		http.Error(w, "Could not load settings", http.StatusInternalServerError)
+		return
+	}
+	if r.Method == http.MethodPost {
+		settings, err := validateLLMSettings(storage.LLMSettings{
+			BaseURL:    strings.TrimSpace(r.FormValue("ollama_base_url")),
+			ChatModel:  strings.TrimSpace(r.FormValue("chat_model")),
+			EmbedModel: strings.TrimSpace(r.FormValue("embed_model")),
+		})
+		if err != nil {
+			s.render(w, "settings.html", View{Title: "Settings", User: u, LLMSettings: settings, Error: err.Error()})
+			return
+		}
+		if err := s.App.UpdateLLMSettings(settings); err != nil {
+			http.Error(w, "Settings could not be saved.", http.StatusInternalServerError)
+			return
+		}
+		http.Redirect(w, r, "/settings?saved=1", http.StatusSeeOther)
+		return
+	}
+	notice := ""
+	if r.URL.Query().Get("saved") == "1" {
+		notice = "Model connection saved. New questions and indexing jobs will use it."
+	}
+	s.render(w, "settings.html", View{Title: "Settings", User: u, LLMSettings: s.App.LLMSettings, Notice: notice})
+}
+
+func validateLLMSettings(settings storage.LLMSettings) (storage.LLMSettings, error) {
+	if len(settings.BaseURL) == 0 || len(settings.BaseURL) > 200 {
+		return settings, fmt.Errorf("enter an Ollama server address under 200 characters")
+	}
+	endpoint, err := url.Parse(settings.BaseURL)
+	if err != nil || (endpoint.Scheme != "http" && endpoint.Scheme != "https") || endpoint.Host == "" || endpoint.User != nil || endpoint.RawQuery != "" || endpoint.Fragment != "" || (endpoint.Path != "" && endpoint.Path != "/") {
+		return settings, fmt.Errorf("use a complete Ollama URL such as http://host.docker.internal:11434")
+	}
+	settings.BaseURL = strings.TrimRight(settings.BaseURL, "/")
+	if len(settings.ChatModel) == 0 || len(settings.ChatModel) > 120 || strings.ContainsAny(settings.ChatModel, "\r\n") {
+		return settings, fmt.Errorf("enter a valid chat model name")
+	}
+	if len(settings.EmbedModel) == 0 || len(settings.EmbedModel) > 120 || strings.ContainsAny(settings.EmbedModel, "\r\n") {
+		return settings, fmt.Errorf("enter a valid embedding model name")
+	}
+	return settings, nil
 }
 
 func searchExcerpt(content, query string, limit int) string {
@@ -314,7 +416,7 @@ func (s *Server) workspaces(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, "Forbidden", 403)
 			return
 		}
-		pub := r.FormValue("published") == "on"
+		pub := r.FormValue("published") == "on" || s.personalMode()
 		if err := s.App.Store.CreateWorkspace(strings.TrimSpace(r.FormValue("name")), strings.ToUpper(strings.TrimSpace(r.FormValue("code"))), strings.TrimSpace(r.FormValue("description")), pub, u.ID); err != nil {
 			s.render(w, "workspace-new.html", View{Title: "New workspace", User: u, Error: "Use a unique course code and complete the required fields."})
 			return
@@ -364,6 +466,12 @@ func (s *Server) workspaceRoutes(w http.ResponseWriter, r *http.Request) {
 		s.chat(w, r, u, ws)
 	case "notes":
 		s.notes(w, r, u, ws, parts)
+	case "study":
+		s.study(w, r, u, ws)
+	case "review":
+		s.review(w, r, u, ws)
+	case "practice":
+		s.practice(w, r, u, ws)
 	case "source":
 		s.source(w, r, ws)
 	case "members":
@@ -431,6 +539,86 @@ func (s *Server) notes(w http.ResponseWriter, r *http.Request, u storage.User, w
 		notice = "Archivist’s response was added to your note."
 	}
 	s.render(w, "notes.html", View{Title: ws.Name + " notes", User: u, Workspace: ws, Note: note, ActiveTab: "notes", Notice: notice})
+}
+
+func (s *Server) study(w http.ResponseWriter, r *http.Request, u storage.User, ws storage.Workspace) {
+	if !s.personalMode() {
+		http.NotFound(w, r)
+		return
+	}
+	kind := r.URL.Query().Get("kind")
+	if !validArtifactKind(kind) {
+		kind = ""
+	}
+	query := strings.TrimSpace(r.URL.Query().Get("q"))
+	if len(query) > 120 {
+		query = query[:120]
+	}
+	artifacts, err := s.App.Store.StudyArtifactsFiltered(ws.ID, u.ID, kind, query)
+	if err != nil {
+		http.Error(w, "Saved study material could not be loaded.", http.StatusInternalServerError)
+		return
+	}
+	stats, _ := s.App.Store.ReviewStats(ws.ID, u.ID)
+	s.render(w, "study.html", View{Title: ws.Name + " saved study", User: u, Workspace: ws, Artifacts: artifacts, ReviewStats: stats, ArtifactKind: kind, ArtifactQuery: query, ActiveTab: "study"})
+}
+
+func validArtifactKind(kind string) bool {
+	switch kind {
+	case "", "guide", "practice", "flashcards":
+		return true
+	default:
+		return false
+	}
+}
+
+func (s *Server) review(w http.ResponseWriter, r *http.Request, u storage.User, ws storage.Workspace) {
+	if !s.personalMode() {
+		http.NotFound(w, r)
+		return
+	}
+	artifactID, _ := strconv.ParseInt(r.FormValue("artifact"), 10, 64)
+	if r.Method == http.MethodPost {
+		cardID, _ := strconv.ParseInt(r.FormValue("card_id"), 10, 64)
+		if cardID == 0 {
+			http.Error(w, "Card required", 422)
+			return
+		}
+		if err := s.App.Store.ReviewFlashcard(cardID, u.ID, r.FormValue("result") == "known"); err != nil {
+			http.Error(w, "Card could not be reviewed", 500)
+			return
+		}
+		http.Redirect(w, r, fmt.Sprintf("/workspaces/%d/review?artifact=%d", ws.ID, artifactID), 303)
+		return
+	}
+	card, err := s.App.Store.DueFlashcard(ws.ID, u.ID, artifactID)
+	if err == sql.ErrNoRows {
+		s.render(w, "review.html", View{Title: "Review", User: u, Workspace: ws, ActiveTab: "study"})
+		return
+	}
+	if err != nil {
+		http.Error(w, "Review could not be loaded", 500)
+		return
+	}
+	s.render(w, "review.html", View{Title: "Review", User: u, Workspace: ws, Flashcard: card, ActiveTab: "study"})
+}
+
+func (s *Server) practice(w http.ResponseWriter, r *http.Request, u storage.User, ws storage.Workspace) {
+	if !s.personalMode() || r.Method != http.MethodPost {
+		http.NotFound(w, r)
+		return
+	}
+	artifactID, _ := strconv.ParseInt(r.FormValue("artifact_id"), 10, 64)
+	outcome := r.FormValue("outcome")
+	if artifactID == 0 || (outcome != "got_it" && outcome != "partial" && outcome != "missed") {
+		http.Error(w, "Choose how the practice set went.", 422)
+		return
+	}
+	if err := s.App.Store.SavePracticeAttempt(artifactID, u.ID, outcome); err != nil {
+		http.Error(w, "Practice result could not be saved.", 500)
+		return
+	}
+	http.Redirect(w, r, fmt.Sprintf("/workspaces/%d/study?practiced=1", ws.ID), 303)
 }
 
 func (s *Server) courseIndex(w http.ResponseWriter, r *http.Request, u storage.User, ws storage.Workspace) {
@@ -513,6 +701,16 @@ func (s *Server) documents(w http.ResponseWriter, r *http.Request, u storage.Use
 	}
 	if r.Method == http.MethodPost && u.Role == "admin" {
 		err := r.ParseMultipartForm(128 << 20)
+		materialType := r.FormValue("material_type")
+		switch materialType {
+		case "lecture", "reading", "assignment", "reference":
+		default:
+			materialType = "reading"
+		}
+		tags := strings.TrimSpace(r.FormValue("tags"))
+		if len(tags) > 120 {
+			err = fmt.Errorf("keep tags under 120 characters")
+		}
 		var headers []*multipart.FileHeader
 		if r.MultipartForm != nil {
 			headers = r.MultipartForm.File["documents"]
@@ -527,7 +725,7 @@ func (s *Server) documents(w http.ResponseWriter, r *http.Request, u storage.Use
 				err = openErr
 				break
 			}
-			documentID, queueErr := s.App.Docs.QueueUpload(ws.ID, file, header)
+			documentID, queueErr := s.App.Docs.QueueUploadWithMetadata(ws.ID, file, header, materialType, tags)
 			_ = file.Close()
 			if queueErr != nil {
 				err = queueErr
@@ -555,24 +753,140 @@ func (s *Server) renderDocuments(w http.ResponseWriter, ws storage.Workspace) {
 	s.render(w, "document-list.html", View{Workspace: ws, Documents: docs})
 }
 func (s *Server) chat(w http.ResponseWriter, r *http.Request, u storage.User, ws storage.Workspace) {
+	sessions, err := s.App.Store.ChatSessions(ws.ID, u.ID)
+	if err != nil {
+		http.Error(w, "Conversations could not be loaded.", http.StatusInternalServerError)
+		return
+	}
+	if r.Method == http.MethodGet && r.URL.Query().Get("new") == "1" {
+		id, err := s.App.Store.CreateChatSession(ws.ID, u.ID)
+		if err != nil {
+			http.Error(w, "Conversation could not be created.", 500)
+			return
+		}
+		if len(sessions) == 0 {
+			_ = s.App.Store.AttachLegacyMessages(id, ws.ID, u.ID)
+		}
+		http.Redirect(w, r, fmt.Sprintf("/workspaces/%d/chat?session=%d", ws.ID, id), http.StatusSeeOther)
+		return
+	}
+	if len(sessions) == 0 {
+		id, err := s.App.Store.CreateChatSession(ws.ID, u.ID)
+		if err != nil {
+			http.Error(w, "Conversation could not be created.", 500)
+			return
+		}
+		if err := s.App.Store.AttachLegacyMessages(id, ws.ID, u.ID); err != nil {
+			http.Error(w, "Conversation history could not be migrated.", 500)
+			return
+		}
+		sessions = []storage.ChatSession{{ID: id, Title: "New conversation"}}
+	}
+	sessionID, _ := strconv.ParseInt(r.FormValue("session_id"), 10, 64)
+	if sessionID == 0 {
+		sessionID, _ = strconv.ParseInt(r.URL.Query().Get("session"), 10, 64)
+	}
+	if sessionID == 0 {
+		sessionID = sessions[0].ID
+	}
+	var session storage.ChatSession
+	found := false
+	for _, candidate := range sessions {
+		if candidate.ID == sessionID {
+			session = candidate
+			found = true
+			break
+		}
+	}
+	if !found {
+		http.NotFound(w, r)
+		return
+	}
 	if r.Method == http.MethodPost {
 		q := strings.TrimSpace(r.FormValue("question"))
 		if q == "" {
 			http.Error(w, "Question required", 422)
 			return
 		}
-		_ = s.App.Store.SaveMessage(ws.ID, u.ID, "user", q, "")
-		answer, sources, err := s.App.RAG.Answer(r.Context(), ws.ID, q)
+		task := rag.StudyTask(r.FormValue("study_task"))
+		if task != "" && (!s.personalMode() || !rag.ValidStudyTask(task)) {
+			http.Error(w, "Choose a valid study action.", http.StatusUnprocessableEntity)
+			return
+		}
+		filters := rag.RetrievalFilters{}
+		if s.personalMode() {
+			filters.MaterialType = r.FormValue("material_type")
+			if !validMaterialType(filters.MaterialType) {
+				http.Error(w, "Choose a valid material type.", http.StatusUnprocessableEntity)
+				return
+			}
+			filters.Tag = strings.TrimSpace(r.FormValue("tag"))
+			if len(filters.Tag) > 120 {
+				http.Error(w, "Keep the tag under 120 characters.", http.StatusUnprocessableEntity)
+				return
+			}
+		}
+		_ = s.App.Store.SaveSessionMessage(sessionID, ws.ID, u.ID, "user", q, "")
+		if session.Title == "New conversation" {
+			_ = s.App.Store.RenameChatSession(sessionID, u.ID, shortTitle(q, 60))
+		}
+		answer, sources, err := s.App.RAG.AnswerWithTaskAndFilters(r.Context(), ws.ID, q, task, filters)
 		if err != nil {
 			answer = "Archivist could not reach the local model. Confirm Ollama is running and both models are installed."
 		}
-		_ = s.App.Store.SaveMessage(ws.ID, u.ID, "assistant", answer, storage.EncodeSources(sources))
-		msgs, _ := s.App.Store.Messages(ws.ID, u.ID)
+		rawSources := storage.EncodeSources(sources)
+		_ = s.App.Store.SaveSessionMessage(sessionID, ws.ID, u.ID, "assistant", answer, rawSources)
+		if kind := artifactKind(task); kind != "" {
+			artifactID, _ := s.App.Store.CreateStudyArtifact(ws.ID, u.ID, kind, artifactTitle(task, q), answer, rawSources)
+			if kind == "flashcards" && artifactID > 0 {
+				_ = s.App.Store.CreateFlashcards(artifactID, ws.ID, u.ID, parseFlashcards(answer))
+			}
+		}
+		msgs, _ := s.App.Store.MessagesForSession(sessionID, ws.ID, u.ID)
 		s.render(w, "message-list.html", View{Workspace: ws, Messages: msgs})
 		return
 	}
-	msgs, _ := s.App.Store.Messages(ws.ID, u.ID)
-	s.render(w, "chat.html", View{Title: ws.Name + " chat", User: u, Workspace: ws, Messages: msgs, ActiveTab: "chat"})
+	msgs, _ := s.App.Store.MessagesForSession(sessionID, ws.ID, u.ID)
+	s.render(w, "chat.html", View{Title: ws.Name + " chat", User: u, Workspace: ws, Messages: msgs, Sessions: sessions, SessionID: sessionID, ActiveTab: "chat"})
+}
+
+func shortTitle(value string, limit int) string {
+	value = strings.Join(strings.Fields(value), " ")
+	if len([]rune(value)) > limit {
+		return string([]rune(value)[:limit-1]) + "…"
+	}
+	return value
+}
+func artifactKind(task rag.StudyTask) string {
+	switch task {
+	case rag.StudyTaskGuide, rag.StudyTaskPlan:
+		return "guide"
+	case rag.StudyTaskPractice:
+		return "practice"
+	case rag.StudyTaskFlashcards:
+		return "flashcards"
+	}
+	return ""
+}
+func artifactTitle(task rag.StudyTask, question string) string {
+	label := map[rag.StudyTask]string{rag.StudyTaskGuide: "Study guide", rag.StudyTaskPlan: "Study plan", rag.StudyTaskPractice: "Practice set", rag.StudyTaskFlashcards: "Flashcards"}[task]
+	return label + " — " + shortTitle(question, 60)
+}
+
+func parseFlashcards(content string) [][2]string {
+	parts := strings.Split(content, "**Front:**")
+	cards := make([][2]string, 0, len(parts)-1)
+	for _, part := range parts[1:] {
+		pair := strings.SplitN(part, "**Back:**", 2)
+		if len(pair) != 2 {
+			continue
+		}
+		front, back := strings.TrimSpace(pair[0]), strings.TrimSpace(pair[1])
+		if front != "" && back != "" {
+			cards = append(cards, [2]string{front, back})
+		}
+	}
+	return cards
 }
 func (s *Server) users(w http.ResponseWriter, r *http.Request) {
 	u, _ := s.current(r)

@@ -72,6 +72,23 @@ document.addEventListener("htmx:beforeRequest", (event) => {
   composer.closest(".chat-shell")?.querySelector(".chat-body")?.classList.add("is-thinking");
 });
 
+document.addEventListener("click", (event) => {
+  const button = event.target.closest("[data-study-task]");
+  if (!button) return;
+  const composer = button.closest(".composer");
+  const task = composer?.querySelector('input[name="study_task"]');
+  if (!composer || !task) return;
+
+  const selected = task.value === button.dataset.studyTask;
+  task.value = selected ? "" : button.dataset.studyTask;
+  composer.querySelectorAll("[data-study-task]").forEach((item) => {
+    const active = item.dataset.studyTask === task.value;
+    item.classList.toggle("is-selected", active);
+    item.setAttribute("aria-pressed", String(active));
+  });
+  composer.querySelector("textarea")?.focus();
+});
+
 document.addEventListener("htmx:afterRequest", (event) => {
   if (event.detail?.elt?.querySelector?.(".batch-dropzone")) {
     requestAnimationFrame(updateSelectedFiles);
@@ -85,7 +102,13 @@ document.addEventListener("htmx:afterRequest", (event) => {
     const question = composer.querySelector('textarea[name="question"]');
     if (question) question.value = composer.dataset.pendingQuestion || "";
   }
-  if (event.detail?.successful) composer.reset();
+  if (event.detail?.successful) {
+    composer.reset();
+    composer.querySelectorAll("[data-study-task]").forEach((item) => {
+      item.classList.remove("is-selected");
+      item.setAttribute("aria-pressed", "false");
+    });
+  }
   delete composer.dataset.pendingQuestion;
   renderMessageMath(document);
 });

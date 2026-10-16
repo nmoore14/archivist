@@ -118,7 +118,7 @@ html[data-theme="dark"] .message p,
 html[data-theme="dark"] .search-result-copy p {
   color: #d6ddda;
 }
-html[data-theme="dark"] .global-search-form > div {
+html[data-theme="dark"] .global-search-form > div:not(.search-filters) {
   border-color: #4a5558;
   background: #181f22;
 }

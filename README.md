@@ -29,6 +29,32 @@ To start Archivist locally:
 docker compose up --build -d
 ```
 
+### Use an external Ollama server
+
+Archivist can use any reachable Ollama API server. This is useful when a more
+powerful computer already runs Ollama and should provide inference for the
+app. Set the endpoint and model names, then start the external-service Compose
+file; it starts only Archivist, not the bundled Ollama container:
+
+```sh
+OLLAMA_BASE_URL=http://host.docker.internal:11434 \
+ARCHIVIST_DEFAULT_MODEL=gemma3:1b \
+ARCHIVIST_EMBED_MODEL=nomic-embed-text \
+docker compose -f docker-compose.external-ollama.yml up --build -d
+```
+
+On the host PC, configure Ollama to listen on a network-reachable interface
+(for example, `OLLAMA_HOST=0.0.0.0:11434`). `host.docker.internal` works with
+Docker Desktop and is mapped to the Docker host by the external Compose file
+on modern Linux Docker. For an Ollama server on another computer, replace the
+hostname with that machine’s reachable IP or DNS name. The target server must
+have both the configured chat and embedding models installed.
+
+After Archivist is running, administrators (or the personal-study owner) can
+also change the Ollama endpoint and model names from **Settings** in the left
+rail. Those saved choices take precedence over the deployment environment
+defaults and persist across restarts.
+
 Open the [Archivist web interface](http://localhost:8080). On a new data volume,
 Archivist displays **Create Admin Account**. Create the first administrator
 account, and then create a workspace, upload course sources, create student
@@ -70,6 +96,16 @@ go run ./cmd/archivist-server
 
 You can change the defaults with the variables in the [environment variable
 example](.env.example).
+
+### Personal study mode
+
+Set `ARCHIVIST_MODE=personal` to run Archivist as a login-free, single-user
+study helper. It creates one local owner automatically, removes account and
+people-management screens, and presents workspaces as private study spaces.
+Your source-grounded chat history and notes remain separated by study space.
+
+Because this mode has no access control, keep `ARCHIVIST_HOST_BIND=127.0.0.1`
+(the Compose default) and do not expose it to a LAN or the internet.
 
 ## Offline Linux deployment
 

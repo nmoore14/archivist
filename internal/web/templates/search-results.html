@@ -2,7 +2,7 @@
 {{define "search-results"}}
 {{if .Error}}<div class="alert error">{{.Error}}</div>{{end}}
 {{if .Query}}
-  <header class="search-results-head"><div><span class="eyebrow">Search results</span><h2>{{len .SearchResults}} matches for “{{.Query}}”</h2></div><span>Course sources + your chats</span></header>
+  <header class="search-results-head"><div><span class="eyebrow">Search results</span><h2>{{len .SearchResults}} matches for “{{.Query}}”</h2></div><span>{{if .MaterialType}}Filtered course sources{{else}}Course sources + your chats{{end}}</span></header>
   {{if .SearchResults}}<div class="global-search-results">{{range .SearchResults}}
     <article class="search-result-{{.Kind}}">
       <div class="search-result-course"><span>{{.WorkspaceCode}}</span><strong>{{.WorkspaceName}}</strong></div>

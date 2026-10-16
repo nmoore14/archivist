@@ -3,14 +3,14 @@
   {{template "course-sidebar" .}}
 
   <header class="chat-top">
-    <div><span class="course-code">{{.Workspace.Code}}</span><h1>Ask Archivist</h1></div>
-    <div class="local-badge"><i></i> Private history · {{.User.Name}}</div>
+    <div><span class="course-code">{{.Workspace.Code}}</span><h1>{{if .PersonalMode}}Study with Archivist{{else}}Ask Archivist{{end}}</h1></div>
+    <div class="local-badge"><i></i> {{if .PersonalMode}}Private study history{{else}}Private history · {{.User.Name}}{{end}}</div>
   </header>
 
   <div class="chat-body">
     {{template "message-list" .}}
     <div id="chat-thinking" class="chat-thinking htmx-indicator" role="status" aria-live="polite"><div class="message-role">A</div><div class="thinking-card"><span>Consulting the collection</span><span class="thinking-dots" aria-hidden="true"><i></i><i></i><i></i></span></div></div>
-    <aside class="source-map"><span class="eyebrow">Source context</span><h3>Grounded by design</h3><p>Answers use only the documents indexed in this course library. Select a citation to inspect its original location.</p><a href="/workspaces/{{.Workspace.ID}}/documents">{{.Workspace.DocCount}} sources available →</a><div class="source-map-shortcut"><kbd>Esc</kbd><span>Close source drawer</span></div></aside>
+    <aside class="source-map"><span class="eyebrow">Source context</span><h3>Grounded by design</h3><p>Answers use only the documents indexed in this {{if .PersonalMode}}study space{{else}}course library{{end}}. Select a citation to inspect its original location.</p><a href="/workspaces/{{.Workspace.ID}}/documents">{{.Workspace.DocCount}} sources available →</a><div class="source-map-shortcut"><kbd>Esc</kbd><span>Close source drawer</span></div></aside>
   </div>
 
   <div class="chat-compose-dock">
@@ -21,12 +21,26 @@
       <button type="button" data-copy-latest><span>Copy latest answer</span><kbd>Alt C</kbd></button>
     </nav>
     <form class="composer" hx-post="/workspaces/{{.Workspace.ID}}/chat" hx-target="#messages" hx-swap="outerHTML settle:120ms" hx-indicator="#chat-thinking">
-      <label for="question">Ask the course materials</label>
-      <div><textarea id="question" name="question" rows="2" required placeholder="Ask anything about this course collection…"></textarea><button class="button primary">Ask Archivist ↑</button></div>
+      <input type="hidden" name="session_id" value="{{.SessionID}}">
+      {{if .PersonalMode}}<div class="study-toolkit" role="group" aria-label="Study actions">
+        <span>Make this</span>
+        <button type="button" data-study-task="explain" aria-pressed="false">Explain simply</button>
+        <button type="button" data-study-task="summary" aria-pressed="false">Summary</button>
+        <button type="button" data-study-task="compare" aria-pressed="false">Compare</button>
+        <button type="button" data-study-task="guide" aria-pressed="false">Study guide</button>
+        <button type="button" data-study-task="plan" aria-pressed="false">Study plan</button>
+        <button type="button" data-study-task="practice" aria-pressed="false">Practice questions</button>
+        <button type="button" data-study-task="flashcards" aria-pressed="false">Flashcards</button>
+      </div>
+      <input type="hidden" name="study_task" value="">
+      <div class="study-source-filter"><span>Use sources from</span><label>Type<select name="material_type"><option value="">All materials</option><option value="lecture">Lecture notes</option><option value="reading">Readings</option><option value="assignment">Assignments</option><option value="reference">Reference</option></select></label><label>Tag<input name="tag" maxlength="120" placeholder="e.g. midterm"></label></div>
+      {{end}}
+      <label for="question">{{if .PersonalMode}}Ask your study materials{{else}}Ask the course materials{{end}}</label>
+      <div><textarea id="question" name="question" rows="2" required placeholder="{{if .PersonalMode}}Ask for an explanation, comparison, or review of these materials…{{else}}Ask anything about this course collection…{{end}}"></textarea><button class="button primary">{{if .PersonalMode}}Study with Archivist{{else}}Ask Archivist{{end}} ↑</button></div>
       <small><kbd>⌘</kbd>/<kbd>Ctrl</kbd> + <kbd>Enter</kbd> to send · <kbd>Enter</kbd> for a new line · <kbd>/</kbd> to focus</small>
     </form>
   </div>
 </div>
 <button type="button" class="source-drawer-scrim" data-source-close aria-label="Close source viewer"></button>
-<aside class="source-drawer" id="source-drawer" aria-hidden="true" aria-labelledby="source-drawer-title"><header><div><span class="eyebrow">Finding aid</span><h2 id="source-drawer-title">Course source</h2><p id="source-drawer-location">Original document</p></div><button type="button" class="drawer-close" data-source-close aria-label="Close source viewer">×</button></header><div class="source-frame-wrap"><div class="source-loading">Opening the cited location…</div><iframe id="source-frame" title="Course source document" sandbox></iframe></div><footer><span>Displayed from the private course library</span><a id="source-open-new" href="#" target="_blank" rel="noopener">Open separately ↗</a></footer></aside>
+<aside class="source-drawer" id="source-drawer" aria-hidden="true" aria-labelledby="source-drawer-title"><header><div><span class="eyebrow">Finding aid</span><h2 id="source-drawer-title">{{if .PersonalMode}}Study source{{else}}Course source{{end}}</h2><p id="source-drawer-location">Original document</p></div><button type="button" class="drawer-close" data-source-close aria-label="Close source viewer">×</button></header><div class="source-frame-wrap"><div class="source-loading">Opening the cited location…</div><iframe id="source-frame" title="{{if .PersonalMode}}Study{{else}}Course{{end}} source document" sandbox></iframe></div><footer><span>Displayed from the private {{if .PersonalMode}}study space{{else}}course library{{end}}</span><a id="source-open-new" href="#" target="_blank" rel="noopener">Open separately ↗</a></footer></aside>
 {{template "app-end" .}}{{end}}

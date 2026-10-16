@@ -109,6 +109,46 @@ func TestOpenAddsIndexVersionToExistingDocumentsTable(t *testing.T) {
 	}
 }
 
+func TestSearchCourseContentByTypeFiltersDocuments(t *testing.T) {
+	store, err := Open(filepath.Join(t.TempDir(), "archivist.db"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer store.DB.Close()
+	if err := store.CreateUser("Admin", "admin@filter.test", "hash", "admin"); err != nil {
+		t.Fatal(err)
+	}
+	admin, _ := store.UserByEmail("admin@filter.test")
+	if err := store.CreateWorkspace("Physics", "PHY1", "", true, admin.ID); err != nil {
+		t.Fatal(err)
+	}
+	workspaces, _ := store.Workspaces(admin)
+	for _, item := range []struct{ name, materialType, tags string }{{"lecture.md", "lecture", "week 4, midterm"}, {"chapter.md", "reading", "week 4"}} {
+		result, err := store.DB.Exec(`INSERT INTO documents(workspace_id,name,path,status,index_version,material_type,tags) VALUES(?,?,?,'ready',1,?,?)`, workspaces[0].ID, item.name, item.name, item.materialType, item.tags)
+		if err != nil {
+			t.Fatal(err)
+		}
+		documentID, _ := result.LastInsertId()
+		if _, err := store.DB.Exec(`INSERT INTO document_chunks(document_id,workspace_id,chunk_index,content,source_name,embedding) VALUES(?,?,?,?,?,'[]')`, documentID, workspaces[0].ID, 0, "Momentum depends on mass and velocity.", item.name); err != nil {
+			t.Fatal(err)
+		}
+	}
+	results, err := store.SearchCourseContentByType(admin, "momentum", "lecture", 40)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(results) != 1 || results[0].DocumentName != "lecture.md" {
+		t.Fatalf("expected only lecture source, got %#v", results)
+	}
+	results, err = store.SearchCourseContentFiltered(admin, "momentum", "", "midterm", 40)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(results) != 1 || results[0].DocumentName != "lecture.md" {
+		t.Fatalf("expected only midterm-tagged source, got %#v", results)
+	}
+}
+
 func TestMessagesArePrivateToUserWithinWorkspace(t *testing.T) {
 	store, err := Open(filepath.Join(t.TempDir(), "archivist.db"))
 	if err != nil {
@@ -231,5 +271,54 @@ func TestCourseNotesArePrivateAndCanIncludeArchivistResponses(t *testing.T) {
 	messages, _ = store.Messages(workspaceID, student.ID)
 	if err := store.AddMessageToNote(workspaceID, student.ID, messages[1].ID); err == nil {
 		t.Fatal("user-authored chat messages must not be accepted as Archivist responses")
+	}
+}
+
+func TestStudyArtifactsAndNamedSessionsStayWithTheirOwner(t *testing.T) {
+	store, err := Open(filepath.Join(t.TempDir(), "archivist.db"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer store.DB.Close()
+	if err := store.CreateUser("Owner", "owner@study.test", "hash", "admin"); err != nil {
+		t.Fatal(err)
+	}
+	owner, _ := store.UserByEmail("owner@study.test")
+	if err := store.CreateWorkspace("Review", "REV", "", true, owner.ID); err != nil {
+		t.Fatal(err)
+	}
+	spaces, _ := store.Workspaces(owner)
+	workspaceID := spaces[0].ID
+	sessionID, err := store.CreateChatSession(workspaceID, owner.ID)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if err := store.SaveSessionMessage(sessionID, workspaceID, owner.ID, "user", "Explain vectors", ""); err != nil {
+		t.Fatal(err)
+	}
+	if err := store.RenameChatSession(sessionID, owner.ID, "Explain vectors"); err != nil {
+		t.Fatal(err)
+	}
+	if err := store.SaveStudyArtifact(workspaceID, owner.ID, "flashcards", "Flashcards — vectors", "**Front:** What is a vector?", EncodeSources([]string{"notes.pdf, page 2"})); err != nil {
+		t.Fatal(err)
+	}
+	if err := store.SaveStudyArtifact(workspaceID, owner.ID, "guide", "Matrix study guide", "Review matrix multiplication.", ""); err != nil {
+		t.Fatal(err)
+	}
+	sessions, err := store.ChatSessions(workspaceID, owner.ID)
+	if err != nil || len(sessions) != 1 || sessions[0].Title != "Explain vectors" {
+		t.Fatalf("unexpected sessions: %#v, %v", sessions, err)
+	}
+	messages, err := store.MessagesForSession(sessionID, workspaceID, owner.ID)
+	if err != nil || len(messages) != 1 || messages[0].Content != "Explain vectors" {
+		t.Fatalf("unexpected session messages: %#v, %v", messages, err)
+	}
+	artifacts, err := store.StudyArtifacts(workspaceID, owner.ID)
+	if err != nil || len(artifacts) != 2 || artifacts[1].Kind != "flashcards" || len(artifacts[1].Sources) != 1 {
+		t.Fatalf("unexpected artifacts: %#v, %v", artifacts, err)
+	}
+	artifacts, err = store.StudyArtifactsFiltered(workspaceID, owner.ID, "flashcards", "vector")
+	if err != nil || len(artifacts) != 1 || artifacts[0].Title != "Flashcards — vectors" {
+		t.Fatalf("unexpected filtered artifacts: %#v, %v", artifacts, err)
 	}
 }

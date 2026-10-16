@@ -281,7 +281,7 @@
   background: color-mix(in srgb, var(--white) 58%, var(--architect-terracotta));
 }
 
-.global-search-form > div {
+.global-search-form > div:not(.search-filters) {
   border-color: var(--architect-line);
 }
 

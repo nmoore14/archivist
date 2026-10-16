@@ -1,0 +1,26 @@
+{{define "settings.html"}}{{template "app-start" .}}{{template "topbar" .}}
+<div class="content narrow settings-page">
+  <section class="settings-intro">
+    <span class="eyebrow">Model connection</span>
+    <h2>Choose where Archivist thinks.</h2>
+    <p>Connect to an Ollama server on this computer, your Docker host, or another machine you control. Saved changes apply to new questions and document indexing.</p>
+  </section>
+  {{if .Notice}}<div class="alert success">{{.Notice}}</div>{{end}}
+  {{if .Error}}<div class="alert error">{{.Error}}</div>{{end}}
+  <form class="settings-card" method="post" action="/settings">
+    <div class="connection-marker"><i></i><span>Ollama API</span></div>
+    <label for="ollama-base-url">Server address
+      <input id="ollama-base-url" name="ollama_base_url" type="url" required maxlength="200" value="{{.LLMSettings.BaseURL}}" placeholder="http://host.docker.internal:11434">
+      <small>Use <code>http://host.docker.internal:11434</code> for Ollama on the Docker host.</small>
+    </label>
+    <div class="split">
+      <label for="chat-model">Chat model
+        <input id="chat-model" name="chat_model" required maxlength="120" value="{{.LLMSettings.ChatModel}}" placeholder="gemma3:1b">
+      </label>
+      <label for="embed-model">Embedding model
+        <input id="embed-model" name="embed_model" required maxlength="120" value="{{.LLMSettings.EmbedModel}}" placeholder="nomic-embed-text">
+      </label>
+    </div>
+    <footer><p>Archivist uses Ollama’s local API. The selected server must provide both model names.</p><button class="button primary">Save model connection</button></footer>
+  </form>
+</div>{{template "app-end" .}}{{end}}
